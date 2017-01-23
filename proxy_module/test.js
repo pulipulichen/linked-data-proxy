@@ -9,8 +9,8 @@ var _options = {
         return _content;
     }
     */
-    //select_html: "#mw-content-text > p:first",
-    select_text: "#mw-content-text > p:first",
+    select_html: "#mw-content-text > p:first",
+    //select_text: "#mw-content-text > p:first",
 };
 
     web_crawler(_res, _options);
