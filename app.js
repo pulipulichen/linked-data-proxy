@@ -8,8 +8,8 @@ var app = express();
 require("./config/config.js");
 require("./config/database.js");
 require("./lib/show_error_page.js");
-require("./lib/http_getter.js");
-require("./lib/https_getter.js");
+require("./lib/web_crawler.js");
+require("./lib/jquery.js");
 
 app.get('/:module/:query', function (_req, _res) {
     var _module = _req.params.module;
