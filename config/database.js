@@ -26,6 +26,9 @@ tableCache = sequelize.define('cache', {
   },
   response: {
     type: Sequelize.TEXT
+  },
+  error: {
+      type: Sequelize.TEXT
   }
 }, {
   freezeTableName: true, // Model tableName will be the same as the model name

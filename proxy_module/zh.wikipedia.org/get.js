@@ -1,5 +1,7 @@
 proxy = function (_res, _query) {
     
+_query = encodeURI(_query);
+    
 var _options = {
     //url: "http://localhost/linked-data-proxy/proxy_module/zh.wikipedia.org/assert_true.html?q=" + _query,
     url: "http://localhost/linked-data-proxy/proxy_module/zh.wikipedia.org/assert_false.html?q=" + _query,
