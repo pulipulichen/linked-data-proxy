@@ -16,5 +16,8 @@ npm install universal-analytics --save
 
 # REFERENCE
 
-http://expressjs.com/zh-tw/guide/routing.html
-http://docs.sequelizejs.com/en/v3/docs/models-usage/
+- http://expressjs.com/zh-tw/guide/routing.html
+- http://docs.sequelizejs.com/en/v3/docs/models-usage/
+- universal-analytics: https://github.com/peaksandpies/universal-analytics
+- GA: https://analytics.google.com/analytics/web/#report/defaultid/a46464710w135478152p139632692/
+- GA即時: https://analytics.google.com/analytics/web/#realtime/rt-content/a46464710w135478152p139632692/

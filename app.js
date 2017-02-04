@@ -12,17 +12,15 @@ var app = express();
 // -----------------------------
 // 引用自訂的函式庫
 require("./config/config.js");
-
+require("./lib/show_error_page.js");
+require("./lib/web_crawler.js");
+require("./lib/cache.js");
+require("./lib/jquery.js");
+require("./lib/universal-analytics.js");
 // -----------------------------
 
 app.get('/:module/:query', function (_req, _res) {
-    // 一般時候，下面的引用應該放在外面
-    require("./lib/show_error_page.js");
-    require("./lib/web_crawler.js");
-    require("./lib/cache.js");
-    
-    // --------------------------------
-    
+        
     var _module = _req.params.module;
     var _query = _req.params.query;
 

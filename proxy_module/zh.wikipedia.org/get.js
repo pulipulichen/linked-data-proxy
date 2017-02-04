@@ -1,11 +1,12 @@
 proxy = function (_res, _query) {
     
-_query = encodeURI(_query);
-    
 var _options = {
-    //url: "http://localhost/linked-data-proxy/proxy_module/zh.wikipedia.org/assert_true.html?q=" + _query,
-    url: "http://localhost/linked-data-proxy/proxy_module/zh.wikipedia.org/assert_false.html?q=" + _query,
-    // url: "https://zh.wikipedia.org/w/index.php?title=" + _query + "&oldformat=true&printable=yes",
+    proxy: "zh.wikipedia.org",
+    query: _query,
+    
+    //url: "http://localhost/linked-data-proxy/proxy_module/zh.wikipedia.org/assert_true.html?q=" + encodeURI(_query),
+    url: "http://localhost/linked-data-proxy/proxy_module/zh.wikipedia.org/assert_false.html?q=" + encodeURI(_query),
+    // url: "https://zh.wikipedia.org/w/index.php?title=" + encodeURI(_query) + "&oldformat=true&printable=yes",
     encoding: "utf8",
     /*
     process: function (_content) {
