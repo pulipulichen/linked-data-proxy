@@ -1,5 +1,10 @@
 # linked-data-proxy
 
+# Instruction
+
+1. 執行 start_app.bat
+2. http://localhost:3000/zh.wikipedia.org/查詢
+
 # TODO
 - 加入GA模組 https://www.npmjs.com/package/universal-analytics
 - 找不到資料的案例: http://pulipulichen.github.io/blogger/posts/2017/01/wikipedia_fail.html

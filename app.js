@@ -1,29 +1,40 @@
+// ---------------------------
+// 引用固定的函式庫
+
 fs = require('fs');
 https = require('https');
+require("./lib/jquery.js");
 //util = require("util");
 
 var express = require('express');
 var app = express();
 
+// -----------------------------
+// 引用自訂的函式庫
 require("./config/config.js");
-require("./lib/show_error_page.js");
-require("./lib/web_crawler.js");
-require("./lib/jquery.js");
-require("./lib/cache.js");
+
+// -----------------------------
 
 app.get('/:module/:query', function (_req, _res) {
+    // 一般時候，下面的引用應該放在外面
+    require("./lib/show_error_page.js");
+    require("./lib/web_crawler.js");
+    require("./lib/cache.js");
+    
+    // --------------------------------
+    
     var _module = _req.params.module;
     var _query = _req.params.query;
 
     //res.send([_module, _query]);
 
-    var _path = "./proxy_module/" + _module + ".js";
+    var _path = "./proxy_module/" + _module + "/get.js";
     if (fs.existsSync(_path)) {
         require(_path);
         proxy(_res, _query);
     }
     else {
-        error_page(_res, "bad");
+        show_error_page(_res, "No proxy found.");
     }
 
     /*
