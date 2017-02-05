@@ -1,3 +1,7 @@
+/**
+ * http://docs.sequelizejs.com/en/v3/docs/models-usage/
+ * 欄位類型定義：http://docs.sequelizejs.com/en/v3/docs/models-definition/
+ */
 var Sequelize = require('sequelize');
 
 // ----------------
@@ -36,3 +40,28 @@ tableCache = sequelize.define('cache', {
 });
 
 tableCache.sync();
+
+// -----------------------------------
+
+tableVote = sequelize.define('vote', {
+  date: {
+    type: Sequelize.DATE
+  },
+  uuid: {
+    type: Sequelize.TEXT  
+  },
+  module: {
+    type: Sequelize.TEXT
+  },
+  query: {
+    type: Sequelize.TEXT
+  },
+  score: {
+    type: Sequelize.INTEGER
+  }
+}, {
+  freezeTableName: true, // Model tableName will be the same as the model name
+  timestamps: false
+});
+
+tableVote.sync();

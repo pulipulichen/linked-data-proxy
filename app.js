@@ -20,6 +20,7 @@ require("./lib/web_crawler.js");
 require("./lib/cache.js");
 require("./lib/jquery.js");
 require("./lib/universal-analytics.js");
+require("./lib/vote.js");
 // -----------------------------
 
 app.get('/:modules/:query', function (_req, _res) {
@@ -111,9 +112,9 @@ app.get('/:modules/:query', function (_req, _res) {
                 _response = null;
             }
             
-            if (_module === "zh.wikipedia.org.localhost") {
-                _priority = -1;
-            }
+            //if (_module === "zh.wikipedia.org.localhost") {
+            //    _priority = 1;
+            //}
             
             var _data = {
                 module: _module,
