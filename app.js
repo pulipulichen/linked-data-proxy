@@ -18,6 +18,7 @@ launch_proxy = {};
 require("./config/config.js");
 require("./lib/web_crawler.js");
 require("./lib/module_cache.js");
+require("./lib/query_cache.js");
 require("./lib/jquery.js");
 require("./lib/universal-analytics.js");
 require("./lib/vote.js");
@@ -60,6 +61,25 @@ var _modules_mapping = function (_modules) {
     return _modules;
 };
 
+var _get_callback = function (_req) {
+    var _callback = undefined;
+    if (typeof(_req.query.callback) === "string") {
+        _callback = _req.query.callback;
+    }
+    return _callback;
+};
+
+var _res_display = function (_res, _output_string, _callback) {
+    if (_callback !== undefined) {
+        _output_string = _callback + "(" + _output_string + ")";
+        _res.setHeader('content-type', 'text/javascript');
+    }
+    else {
+        _res.setHeader('content-type', 'text/plain');
+    }
+    _res.send(_output_string);
+};
+
 // -----------------------------
 
 app.get('/:modules/:query', function (_req, _res) {
@@ -75,14 +95,31 @@ app.get('/:modules/:query', function (_req, _res) {
     var _modules = _req.params.modules.split(",");
     _modules = _modules_mapping(_modules);
     
-    var _query = _req.params.query;
+    var _query = _req.params.query.trim();
     
-    var _callback = undefined;
-    if (typeof(_req.query.callback) === "string") {
-        _callback = _req.query.callback;
-    }
+    var _callback = _get_callback(_req);
+    
+    // 記錄一下
+    ua_pageview(_modules, _query);
+
+    // ---------------------------------
+    // 準備快取
+    query_cache_get(_modules, _query, function (_cache) {
+        if (_cache === false) {
+            // 沒有快取的情況
+            _app_query_no_cache(_req, _res, _modules, _query, _callback);
+        }
+        else {
+            // 有快取的情況
+            _res_display(_res, _cache, _callback);
+        }
+    });
     
     // ---------------------------------
+    
+});
+
+var _app_query_no_cache = function (_req, _res, _modules, _query, _callback) {
     
     var _output = {
         data: [],
@@ -103,14 +140,11 @@ app.get('/:modules/:query', function (_req, _res) {
             this.index++;
             if (this.index === this.limit) {
                 var _output_string = this._get_data();
-                if (_callback !== undefined) {
-                    _output_string = _callback + "(" + _output_string + ")";
-                    _res.setHeader('content-type', 'text/javascript');
-                }
-                else {
-                    _res.setHeader('content-type', 'text/plain');
-                }
-                _res.send(_output_string);
+                
+                // 記錄在快取中
+                query_cache_set(_modules, _query, _output_string, function () {
+                    _res_display(_res, _output_string, _callback);
+                });
             }
         },
         display_error: function (_module, _query, _error) {
@@ -145,8 +179,6 @@ app.get('/:modules/:query', function (_req, _res) {
     // ----------------------------
     // 準備查詢
     
-    ua_pageview(_modules, _query);
-
     for (var _i = 0; _i < _modules.length; _i++) {
         var _module = _modules[_i];
         
@@ -171,7 +203,8 @@ app.get('/:modules/:query', function (_req, _res) {
             _output.display_error(_module, _query, "No module found.");
         }
     }
-});
+};
+        
 
 // ------------------------------------------------------------
 
@@ -186,12 +219,9 @@ app.get('/:modules/:query/:vote', function (_req, _res) {
     var _modules = _req.params.modules.split(",");
     _modules = _modules_mapping(_modules);
     
-    var _query = _req.params.query;
+    var _query = _req.params.query.trim();
     
-    var _callback = undefined;
-    if (typeof(_req.query.callback) === "string") {
-        _callback = _req.query.callback;
-    }
+    var _callback = _get_callback(_req);
     
     // ----------------
     
@@ -216,14 +246,7 @@ app.get('/:modules/:query/:vote', function (_req, _res) {
     // 輸出
     
     var _output_string = "1";
-    if (_callback !== undefined) {
-        _output_string = _callback + "(" + _output_string + ")";
-        _res.setHeader('content-type', 'text/javascript');
-    }
-    else {
-        _res.setHeader('content-type', 'text/plain');
-    }
-    _res.send(_output_string);
+    _res_display(_res, _output_string, _callback);
 });
 
 // -------------------------------------------------------------

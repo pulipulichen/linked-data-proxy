@@ -4,7 +4,7 @@ CONFIG = {
     
     // 快取過期：單位是小時
     module_cache_expire_hour: 0.001, 
-    //module_cache_expire_hour: 0, 
+    query_cache_expire_hour: 0.001, 
     
     // 放行的白名單
     http_referer_allow_list: [
