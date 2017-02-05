@@ -1,4 +1,6 @@
-
+<!-- 
+    http://localhost/linked-data-proxy/usage-example.html
+-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,13 +14,19 @@
 <body>
     
 <a href="http://localhost:3000/zh.wikipedia.org/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A8">link</a>
+<a href="http://db1.ihp.sinica.edu.tw/cbdbc/ttsweb?@0:0:1:cbdbkm">CBDB</a>
+<a href="http://db1.ihp.sinica.edu.tw/cbdbc/ttsweb?@0:0:2:cbdbkm">CBDB</a>
+<a href="http://db1.ihp.sinica.edu.tw/cbdbc/ttsweb?@0:0:3:cbdbkm">CBDB</a>
+<a href="http://db1.ihp.sinica.edu.tw/cbdbc/ttsweb?@0:0:4:cbdbkm">CBDB</a>
 
 <div id="result"></div>
 
 <script type="text/javascript">
+/*
 $.getJSON("http://localhost:3000/zh.wikipedia.org/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A8?callback=?", function (_data) {
     $("#result").html(_data[0]["response"]);
 });
+*/
 </script>
     
 </body>

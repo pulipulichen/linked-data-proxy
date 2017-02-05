@@ -1,5 +1,8 @@
 /**
- * 查詢 www.moedict.tw
+ * 查詢 db1.ihp.sinica.edu.tw
+ * 
+ * 中國歷代人物傳記資料庫
+ * 
  * 查詢到多筆的頁面：
  * 
  * 查詢目標：http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@1990633754
@@ -17,14 +20,29 @@ launch_proxy["db1.ihp.sinica.edu.tw"] = function (_output, _query) {
 var _options = {
     module: "db1.ihp.sinica.edu.tw",
     query: _query,
+    // ----------------------------------------
+    
+    pre_build_options: function (_callback) {
+        _callback();
+    },
     
     // 正式查詢
-    //url: "http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@1539042013", //正式查詢
+    url: "http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@181083029", //正式查詢
     //url: "http://localhost/linked-data-proxy/proxy_module/db1.ihp.sinica.edu.tw/assert_false.html", //測試錯誤查詢
-    url: "http://localhost/linked-data-proxy/proxy_module/db1.ihp.sinica.edu.tw/assert_true.html", //測試正確查詢
+    //url: "http://localhost/linked-data-proxy/proxy_module/db1.ihp.sinica.edu.tw/assert_true.html", //測試正確查詢
+    
+    /**
+     * 指定來源網頁 referer (可省略)
+     */
+    //referer: "http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@707418221",
+    referer: "http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@12^8989153^100^^^@@1495783754",
+    
+    // ---------------------------------------------
     
     method: "post",
     post_query: {
+        "_TTS_ACTION": "2",
+        "_TTS_CONTROL": "66^2048123360^100",    // 這個比較麻煩
         "@KAA": _query,
         "@KTY_BIOG_MAIN": "checked",
         "@KTY_BIOG_ADDR_DATA": "checked",
@@ -42,18 +60,16 @@ var _options = {
         "@KDP.3.4": "1",
         "KDP.3.4": "",
         "@KDP.7.4": "1",
-        "KDP.7.4": ""
+        "KDP.7.4": "",
+        "DISPLAYCRL": "0",
+        "TYPE": "0",
+        "_TTS.INI": "cbdbkm"
     },
     
     /**
      * 指定use_agnet (可省略)
      */
     //user_agent: "Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.102011-10-16 20:23:10",
-    
-    /**
-     * 指定來源網頁 referer (可省略)
-     */
-    referer: "http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@707418221",
     
     encoding: "big5",
     
@@ -84,10 +100,13 @@ var _options = {
         _content = $(_content);
         _content.find("tbody > tr > th:first").remove();
         _content.find("tbody > tr > td:first").remove();
+        _content.find("a").each(function (_i, _ele) {
+            _ele.href = "http://db1.ihp.sinica.edu.tw/cbdbc/" + _ele.href;
+        });
         return get_outer_html(_content);
     },
     
-    base_url: "http://db1.ihp.sinica.edu.tw/cbdbc/",
+    //base_url: "http://db1.ihp.sinica.edu.tw/cbdbc/",
     
     // ------------------------
 };
