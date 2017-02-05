@@ -23,7 +23,50 @@ var _options = {
     // ----------------------------------------
     
     pre_build_options: function (_callback) {
-        _callback();
+        var _this = this;
+        var _o = clone_json(this);
+        _o.referer = "http://db1.ihp.sinica.edu.tw/cbdbc/ttsweb?@0:0:4:cbdbkm";
+        _o.url = "http://db1.ihp.sinica.edu.tw/cbdbc/ttsweb?@0:0:1:cbdbkm@@" + Math.random();
+        protocol_query(_o, function (_content) {
+            var _href = $(_content).find("td.menu:eq(3) > a").attr("href");
+            // cbdbkm?@66^2048123360^100^^^@@59546786
+            
+            var _tts_control = extract_string(_href, "cbdbkm?@", "^^^");
+            _this.post_query._TTS_CONTROL = _tts_control;
+            //console.log(_tts_control);
+            // 66^2048123360^100
+            
+            _href = "http://db1.ihp.sinica.edu.tw/cbdbc/" + _href;
+            _this.referer = _href;
+            //console.log(_href);
+            // http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@22^1973632183^100^^^@@59546786
+            
+            // 查詢 關鍵詞查詢的頁面
+            _o.referer = _o.url;
+            _o.url = _href;
+            protocol_query(_o, function (_content) {
+                //console.log(_content);
+                var _action = extract_string(_content, '<FORM METHOD=POST ACTION="', '" NAME=TTSWEB');
+                _action = "http://db1.ihp.sinica.edu.tw/cbdbc/" + _action;
+                _this.url = _action;
+                //console.log(_action);
+                // http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@757522267
+                
+                _callback();
+            });
+            
+            
+            //console.log(_content);
+            /*var _head_needle = 'window.open("';
+            var _foot_needle = '"+ss+"';
+            _content = extract_string(_content, _head_needle, _foot_needle);
+            //_content = $(_content).find("table").length;
+            _content = "http://db1.ihp.sinica.edu.tw" + _content + "@@" + Math.random();
+            console.log(_content);
+            */
+            
+        });
+        
     },
     
     // 正式查詢
@@ -40,19 +83,22 @@ var _options = {
     // ---------------------------------------------
     
     method: "post",
+    payload: true,
+    
     post_query: {
-        "_TTS_ACTION": "2",
+        "_TTS_ACTION": "5",
         "_TTS_CONTROL": "66^2048123360^100",    // 這個比較麻煩
         "@KAA": _query,
-        "@KTY_BIOG_MAIN": "checked",
-        "@KTY_BIOG_ADDR_DATA": "checked",
-        "@KTY_TEXTS": "checked",
-        "@KTY_POST": "checked",
-        "@KTY_ENTRY": "checked",
-        "@KTY_STATUS": "checked",
-        "@KTY_KIN": "checked",
-        "@KTY_ASSOC": "checked",
-        "@KTY_BIOG_INST_DATA": "checked",
+        //"@KAA": iconv_encode(_query, "big5"),
+        "@KTY_BIOG_MAIN": "on",
+        "@KTY_BIOG_ADDR_DATA": "on",
+        "@KTY_TEXTS": "on",
+        "@KTY_POST": "on",
+        "@KTY_ENTRY": "on",
+        "@KTY_STATUS": "on",
+        "@KTY_KIN": "on",
+        "@KTY_ASSOC": "on",
+        "@KTY_BIOG_INST_DATA": "on",
         "@KAB.3.4": "1",
         "KAB.3.4": "",
         "@KAB.7.4": "1",
@@ -117,3 +163,4 @@ web_crawler(_output, _options);
 // ----------------------------------------    
     
 };  // launch_proxy = function (_output, _query) {
+

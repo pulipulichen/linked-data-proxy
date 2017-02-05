@@ -27,6 +27,7 @@ CONFIG = {
     web_crawler_default_options: {
         module: "test",
         method: "get",
+        payload: false,
         url: "https://pulipulichen.github.io/blogger/posts/2017/01/wikipedia.html",
         encoding: "utf8",
         select_text: "#mw-content-text > p:first",
