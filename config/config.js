@@ -3,8 +3,10 @@ CONFIG = {
     port: 3000,
     
     // 快取過期：單位是小時
-    module_cache_expire_hour: 0.001, 
-    query_cache_expire_hour: 0.001, 
+    //module_cache_expire_hour: 0.001, 
+    //query_cache_expire_hour: 0.001, 
+    module_cache_expire_hour: 0, 
+    query_cache_expire_hour: 0, 
     
     // 放行的白名單
     http_referer_allow_list: [
@@ -14,7 +16,8 @@ CONFIG = {
     // 模組的別名
     module_alias: {
         "wiki": "zh.wikipedia.org",
-        "wiki.l": "zh.wikipedia.org.localhost"
+        "wiki.l": "zh.wikipedia.org.localhost",
+        "moedict": "www.moedict.tw",
     },
     
     // Google Analytics的編號

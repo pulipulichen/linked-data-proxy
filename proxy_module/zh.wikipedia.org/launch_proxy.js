@@ -22,7 +22,7 @@ var _options = {
     /**
      * 沒找到資料的選擇器
      */
-    content_not_found: "#mw-content-text > div.noarticletext",
+    content_not_found_selector: "#mw-content-text > div.noarticletext",
     
     /**
      * 指定處理元素的方法

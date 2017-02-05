@@ -80,6 +80,14 @@ var _res_display = function (_res, _output_string, _callback) {
     _res.send(_output_string);
 };
 
+app.get("/", function (_req, _res) {
+    _res.writeHead(302, {
+        'Location': 'https://github.com/pulipulichen/linked-data-proxy'
+        //add other headers here...
+    });
+    _res.end();
+});
+
 // -----------------------------
 
 app.get('/:modules/:query', function (_req, _res) {
@@ -134,6 +142,9 @@ var _app_query_no_cache = function (_req, _res, _modules, _query, _callback) {
                 return (_a.priority < _b.priority);
             });
             return JSON.stringify(this.data);
+        },
+        test_display: function (_data) {
+            _res_display(_res, _data, _callback);
         },
         display: function (_data) {
             this.data.push(_data);
@@ -255,6 +266,6 @@ app.get('/:modules/:query/:vote', function (_req, _res) {
 // -------------------------------------------------------------
 
 app.listen(CONFIG.port, function () {
-  console.log('app listening on port ' + CONFIG.port);
+    console.log('app listening on port ' + CONFIG.port + ". http://localhost:" + CONFIG.port + "/");
 });
 
