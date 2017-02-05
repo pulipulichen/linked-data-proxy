@@ -23,20 +23,16 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 ```
 
 # TODO
-- 查詢多個頁時，加分減分的做法？
-    - set_vote_score
-    - 在app後面加上set_vote_score
-    - 測試set_vote_score
-    - 加入event
-    - vote的快取
+- 區分ModuleCache跟QueryCache
+    - 建立query_cache
 - 查詢一個會擋人的資料庫
 - 查詢需要post的資料庫
 
 # npm
-npm install universal-analytics --save
-npm install follow-redirects --save
-npm install node-uuid --save
-npm install cookies --save
+- npm install universal-analytics --save
+- npm install follow-redirects --save
+- npm install node-uuid --save
+- npm install cookies --save
 
 # REFERENCE
 - https://github.com/pulipulichen/linked-data-proxy

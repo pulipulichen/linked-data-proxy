@@ -18,7 +18,7 @@ var sequelize = new Sequelize('database', 'username', 'password', {
 
 // --------------------------------
 
-tableCache = sequelize.define('cache', {
+tableModuleCache = sequelize.define('module_cache', {
   date: {
     type: Sequelize.DATE
   },
@@ -39,7 +39,7 @@ tableCache = sequelize.define('cache', {
   timestamps: false
 });
 
-tableCache.sync();
+tableModuleCache.sync();
 
 // -----------------------------------
 

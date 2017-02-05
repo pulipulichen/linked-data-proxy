@@ -17,7 +17,7 @@ launch_proxy = {};
 // 引用自訂的函式庫
 require("./config/config.js");
 require("./lib/web_crawler.js");
-require("./lib/cache.js");
+require("./lib/module_cache.js");
 require("./lib/jquery.js");
 require("./lib/universal-analytics.js");
 require("./lib/vote.js");
