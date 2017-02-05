@@ -7,6 +7,7 @@ require("./lib/jquery.js");
 //util = require("util");
 
 var express = require('express');
+Cookies = require( "cookies" )
 var app = express();
 
 // -----------------------------
@@ -20,6 +21,8 @@ require("./lib/universal-analytics.js");
 // -----------------------------
 
 app.get('/:modules/:query', function (_req, _res) {
+    
+    ua_set_headers(_req, _res);
         
     var _modules = _req.params.modules.split(",");
     var _query = _req.params.query;
@@ -62,6 +65,7 @@ app.get('/:modules/:query', function (_req, _res) {
                 error: _error
             };
             console.log("Error: " + _module + " (" + _query + "): " + _error);
+            ua_exception(_module, _query, _error);
             this.display(_data);
         },
         display_response: function (_module, _response) {
