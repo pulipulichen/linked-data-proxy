@@ -240,6 +240,9 @@ app.get('/:modules/:query/:vote', function (_req, _res) {
     for (var _i = 0; _i < _modules.length; _i++) {
         var _module = _modules[_i];
         set_vote_score(_module, _query, _score);
+        
+        // 刪除相關的query_cache
+        query_cache_remove(_module, _query);
     }
     
     // ---------------------------------

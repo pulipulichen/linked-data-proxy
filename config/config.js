@@ -36,6 +36,7 @@ CONFIG = {
     // ----------------------------------------------
     // 偵錯工具
     database: {
+        //logging: true
         logging: false
     }
 };
