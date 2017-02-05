@@ -18,6 +18,7 @@ CONFIG = {
         "wiki": "zh.wikipedia.org",
         "wiki.l": "zh.wikipedia.org.localhost",
         "moedict": "www.moedict.tw",
+        "cbdb": "db1.ihp.sinica.edu.tw"
     },
     
     // Google Analytics的編號
@@ -25,6 +26,7 @@ CONFIG = {
     
     web_crawler_default_options: {
         module: "test",
+        method: "get",
         url: "https://pulipulichen.github.io/blogger/posts/2017/01/wikipedia.html",
         encoding: "utf8",
         select_text: "#mw-content-text > p:first",
