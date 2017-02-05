@@ -6,10 +6,11 @@
 2. http://localhost:3000/zh.wikipedia.org/查詢
 
 # TODO
-- 加入GA模組 https://www.npmjs.com/package/universal-analytics
-- 找不到資料的案例: http://pulipulichen.github.io/blogger/posts/2017/01/wikipedia_fail.html
 - 查詢真的wikipedia: https://zh.wikipedia.org/w/index.php?title=%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A8&oldformat=true&printable=yes
 - 查詢一個會擋人的頁面
+- 白名單功能
+- 要讓GA記錄流量來源 https://analytics.google.com/analytics/web/#realtime/rt-traffic/a46464710w135478152p139632692/
+- 要讓GA取得來源IP跟國家？
 
 # npm
 npm install universal-analytics --save

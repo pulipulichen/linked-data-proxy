@@ -61,6 +61,7 @@ app.get('/:modules/:query', function (_req, _res) {
                 query: _query,
                 error: _error
             };
+            console.log("Error: " + _module + " (" + _query + "): " + _error);
             this.display(_data);
         },
         display_response: function (_module, _response) {
