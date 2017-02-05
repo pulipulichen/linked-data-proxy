@@ -72,6 +72,8 @@ var _options = {
     referer: "https://zh.wikipedia.org/wiki/Wikipedia:%E9%A6%96%E9%A1%B5",
     
     // ------------------------
+    
+    base_url: "https://zh.wikipedia.org"
 };
 
 web_crawler(_output, _options);

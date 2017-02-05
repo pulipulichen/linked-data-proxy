@@ -37,6 +37,7 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 - npm install node-uuid --save
 - npm install cookies --save
 - npm install http-post --save
+- npm install querystring --save
 - npm install iconv-lite --save
 
 # REFERENCE

@@ -1,6 +1,8 @@
 /**
  * 查詢 www.moedict.tw
- * 查詢到多筆的頁面：http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@1990633754
+ * 查詢到多筆的頁面：
+ * 
+ * 查詢目標：http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@1990633754
  * http://localhost:3000/cbdb/劉備
  * 
  * 成功查詢的頁面：https://www.moedict.tw/%E5%AE%8B
@@ -17,7 +19,10 @@ var _options = {
     query: _query,
     
     // 正式查詢
-    url: "http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@1539042013",
+    //url: "http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@1539042013", //正式查詢
+    //url: "http://localhost/linked-data-proxy/proxy_module/db1.ihp.sinica.edu.tw/assert_false.html", //測試錯誤查詢
+    url: "http://localhost/linked-data-proxy/proxy_module/db1.ihp.sinica.edu.tw/assert_true.html", //測試正確查詢
+    
     method: "post",
     post_query: {
         "@KAA": _query,
@@ -50,7 +55,7 @@ var _options = {
      */
     referer: "http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@707418221",
     
-    encoding: null,
+    encoding: "big5",
     
     // --------------------------------------------------
     /**
@@ -62,7 +67,7 @@ var _options = {
     /**
      * 取出指定元素的HTML程式碼
      */
-    html_selector: "body > form > table[bgcolor='white'] table table[bgcolor='white']",
+    html_selector: "table table table[bgcolor='white']:first",
     
     /**
      * 取出指定元素的純文字
@@ -70,6 +75,19 @@ var _options = {
     //text_selector: "#result p.definition",
     
     // ------------------------
+    
+    /**
+     * 取出資料之後的做法
+     * @param {string} _content
+     */
+    post_process: function (_content) {
+        _content = $(_content);
+        _content.find("tbody > tr > th:first").remove();
+        _content.find("tbody > tr > td:first").remove();
+        return get_outer_html(_content);
+    },
+    
+    base_url: "http://db1.ihp.sinica.edu.tw/cbdbc/",
     
     // ------------------------
 };
