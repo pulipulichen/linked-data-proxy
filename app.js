@@ -16,7 +16,6 @@ launch_proxy = {};
 // -----------------------------
 // 引用自訂的函式庫
 require("./config/config.js");
-require("./lib/show_error_page.js");
 require("./lib/web_crawler.js");
 require("./lib/cache.js");
 require("./lib/jquery.js");
@@ -68,14 +67,24 @@ app.get('/:modules/:query', function (_req, _res) {
     // ---------------------------------
     
     var _output = {
-        data: {},
+        data: [],
         index: 0,
         limit: _modules.length,
-        display: function (_module, _data) {
-            this.data[_module] = _data;
+        _get_data: function () {
+            //return JSON.stringify(this.data);
+            
+            // 要先將data重新排序
+            //var _output = {};
+            this.data.sort(function (_a, _b) {
+                return (_a.priority < _b.priority);
+            });
+            return JSON.stringify(this.data);
+        },
+        display: function (_data) {
+            this.data.push(_data);
             this.index++;
             if (this.index === this.limit) {
-                var _output_string = JSON.stringify(this.data);
+                var _output_string = this._get_data();
                 if (_callback !== undefined) {
                     _output_string = _callback + "(" + _output_string + ")";
                     _res.setHeader('content-type', 'text/javascript');
@@ -88,23 +97,30 @@ app.get('/:modules/:query', function (_req, _res) {
         },
         display_error: function (_module, _query, _error) {
             var _data = {
-                //module: _module,
+                module: _module,
                 query: _query,
-                error: _error
+                error: _error,
+                priority: -1
             };
             console.log("Error: " + _module + " (" + _query + "): " + _error);
             ua_exception(_module, _query, _error);
-            this.display(_module, _data);
+            this.display(_data);
         },
-        display_response: function (_module, _response) {
+        display_response: function (_module, _response, _priority) {
             if (_response === undefined) {
                 _response = null;
             }
+            
+            if (_module === "zh.wikipedia.org.localhost") {
+                _priority = -1;
+            }
+            
             var _data = {
-                //module: _module,
-                response: _response
+                module: _module,
+                response: _response,
+                priority: _priority
             };
-            this.display(_module, _data);
+            this.display(_data);
         }
     };
     
