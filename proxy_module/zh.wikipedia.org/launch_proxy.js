@@ -17,14 +17,61 @@ var _options = {
     url: "https://zh.wikipedia.org/w/index.php?title=" + encodeURI(_query) + "&oldformat=true&printable=yes",
     
     encoding: "utf8",
-    /*
+    
+    // --------------------------------------------------
+    /**
+     * 沒找到資料的選擇器
+     */
+    content_not_found: "#mw-content-text > div.noarticletext",
+    
+    /**
+     * 指定處理元素的方法
+     */
     process: function (_content) {
-        _content = $(_content).find("#mw-content-text > p:first").html();
+        var _output_array = [];
+        var _p = $(_content).find("#mw-content-text > p:first");
+        if (_p.length === 1) {
+            _output_array.push(_p);
+        }
+        while (true) {
+            _p = _p.next();
+            if (_p.length === 0 || _p.hasClass("toc")) {
+                break;
+            }
+            else {
+                if (_p.text().trim() !== "") {
+                    _output_array.push(_p);
+                }
+            }
+        }
+        _content = get_outer_html(_output_array);
+        //_content = $(_content).find("#mw-content-text > p:first").html();
         return _content;
-    }
-    */
-    select_html: "#mw-content-text > p:first",
-    //select_text: "#mw-content-text > p:first",
+    },
+    
+    /**
+     * 取出指定元素的HTML程式碼
+     */
+    //html_selector: "#mw-content-text > p:first",
+    
+    /**
+     * 取出指定元素的純文字
+     */
+    //text_selector: "#mw-content-text > p:first",
+    
+    // ------------------------
+    
+    /**
+     * 指定use_agnet (可省略)
+     */
+    //user_agent: "Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.102011-10-16 20:23:10",
+    
+    /**
+     * 指定來源網頁 referer (可省略)
+     */
+    referer: "https://zh.wikipedia.org/wiki/Wikipedia:%E9%A6%96%E9%A1%B5",
+    
+    // ------------------------
 };
 
 web_crawler(_output, _options);

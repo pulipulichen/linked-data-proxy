@@ -14,6 +14,7 @@
 
 # npm
 npm install universal-analytics --save
+npm install follow-redirects --save
 
 # REFERENCE
 
