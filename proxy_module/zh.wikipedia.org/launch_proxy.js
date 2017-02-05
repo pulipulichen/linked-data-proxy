@@ -35,7 +35,7 @@ var _options = {
         }
         while (true) {
             _p = _p.next();
-            if (_p.length === 0 || _p.hasClass("toc")) {
+            if (_p.length === 0 || _p.hasClass("toc") || _p.hasClass("dmbox-disambig")) {
                 break;
             }
             else {
@@ -71,6 +71,7 @@ var _options = {
      */
     referer: "https://zh.wikipedia.org/wiki/Wikipedia:%E9%A6%96%E9%A1%B5",
     
+    base_url: "https://zh.wikipedia.org"
     // ------------------------
 };
 

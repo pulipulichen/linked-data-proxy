@@ -10,7 +10,8 @@ CONFIG = {
     
     // 放行的白名單
     http_referer_allow_list: [
-        "localhost"
+        "localhost",
+        "yourserver",
     ],
     
     // 模組的別名

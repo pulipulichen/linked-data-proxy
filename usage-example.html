@@ -12,12 +12,9 @@
 </head>
 
 <body>
-    
-<a href="http://localhost:3000/zh.wikipedia.org/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A8">link</a>
-<a href="http://db1.ihp.sinica.edu.tw/cbdbc/ttsweb?@0:0:1:cbdbkm">CBDB</a>
-<a href="http://db1.ihp.sinica.edu.tw/cbdbc/ttsweb?@0:0:2:cbdbkm">CBDB</a>
-<a href="http://db1.ihp.sinica.edu.tw/cbdbc/ttsweb?@0:0:3:cbdbkm">CBDB</a>
-<a href="http://db1.ihp.sinica.edu.tw/cbdbc/ttsweb?@0:0:4:cbdbkm">CBDB</a>
+
+    <input type="text" name="query" id="query" value="劉備" />
+    <button type="button" id="submit">SUBMIT</button>
 
 <div id="result"></div>
 
@@ -27,6 +24,24 @@ $.getJSON("http://localhost:3000/zh.wikipedia.org/%E6%95%B8%E4%BD%8D%E5%9C%96%E6
     $("#result").html(_data[0]["response"]);
 });
 */
+$(function () {
+    $("#submit").click(function () {
+        var _query = $("#query").val().trim();
+        var _url = "http://localhost:3000/wiki,moedict,cbdb,tgaz/" + encodeURI(_query) + "?callback=?";
+        $.getJSON(_url, function (_data) {
+            
+            var _result = $("#result").empty();
+            for (var _i = 0; _i < _data.length; _i++) {
+                var _d = _data[_i];
+                var _module = _d.module;
+                if (typeof(_d.response) === "string") {
+                    var _response = _d.response;
+                    _result.append($("<fieldset><legend>" + _module + "</legend>" + _response + "</fieldset>"));
+                }
+            }
+        });
+    });
+});
 </script>
     
 </body>

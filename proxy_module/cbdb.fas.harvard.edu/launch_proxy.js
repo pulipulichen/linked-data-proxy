@@ -65,7 +65,15 @@ var _options = {
             _data.push(_d);
         }
         
-        _content = JSON.stringify(_data);
+        var _table = $('<table><thead><tr><th>姓名</th><th>朝代</th><th>別號</th></tr></thead><tbody></tbody></table>');
+        var _tbody = _table.find("tbody");
+        for (var _i = 0; _i < _data.length; _i++) {
+            var _d = _data[_i];
+            _tbody.append($("<tr><td>" + _d.Name + "</td><td>" + _d.Dynasty + "</td><td>" + _d.aliases + "</td></tr>"));
+        }
+        
+        //_content = JSON.stringify(_data);
+        _content = get_outer_html(_table);
         return _content;
         //_content = JSON.parse(_content);
         //return get_outer_html(_content);

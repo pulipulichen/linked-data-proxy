@@ -24,7 +24,11 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 
 # TODO
 - 更新usage-example，要展示wiki, 萌典, CBDB, tgaz同時查詢
+- Yahoo字典
+- 英英字典
+- 圖片庫？
 - 查詢一個會擋人的資料庫
+- 部屬到OpenVZ
 
 # npm
 - npm install universal-analytics --save
