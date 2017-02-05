@@ -47,14 +47,17 @@ tableVote = sequelize.define('vote', {
   date: {
     type: Sequelize.DATE
   },
-  uuid: {
-    type: Sequelize.TEXT  
+  referer_host: {
+    type: Sequelize.TEXT
   },
   module: {
     type: Sequelize.TEXT
   },
   query: {
     type: Sequelize.TEXT
+  },
+  uuid: {
+    type: Sequelize.TEXT  
   },
   score: {
     type: Sequelize.INTEGER
