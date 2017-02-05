@@ -19,35 +19,45 @@ require("./lib/jquery.js");
 require("./lib/universal-analytics.js");
 // -----------------------------
 
-app.get('/:module/:query', function (_req, _res) {
+app.get('/:modules/:query', function (_req, _res) {
         
-    var _module = _req.params.module;
+    var _modules = _req.params.modules.split(",");
     var _query = _req.params.query;
-
-    //res.send([_module, _query]);
-
-    var _path = "./proxy_module/" + _module + "/get.js";
-    if (fs.existsSync(_path)) {
-        require(_path);
-        proxy(_res, _query);
-    }
-    else {
-        show_error_page(_res, "No proxy found.");
-    }
-
-    /*
-    var _cache = {
-            date: Date.now(),
-            url: "http://blog.pulipuli.info",
-            response: "test"
+    
+    var _output = {
+        data: [],
+        index: 0,
+        limit: _modules.length,
+        display_error: function (_module, _query, _error) {
+            var _data = {
+                module: _module,
+                query: _query,
+                error: _error
+            };
+            this.display(_data);
+        },
+        display: function (_data) {
+            this.data.push(_data);
+            this.index++;
+            if (this.index === this.limit) {
+                _res.send(JSON.stringify(this.data));
+            }
+        }
     };
 
-    tableCache.create(_cache).then(function () {
-            res.send('Hello World!');
-    });
-    */
-    //res.send(CONFIG.http_referer_allow_list);
-
+    for (var _i = 0; _i < _modules.length; _i++) {
+        var _module = _modules[_i];
+        
+        var _path = "./proxy_module/" + _module + "/launch_proxy.js";
+        if (fs.existsSync(_path)) {
+            require(_path);
+            launch_proxy(_output, _query);
+        }
+        else {
+            //show_error_page(_res, "No proxy found.");
+            _output.display_error(_module, _query, "No module found.");
+        }
+    }
 });
 
 
