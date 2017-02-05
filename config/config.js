@@ -11,6 +11,13 @@ CONFIG = {
         "localhost"
     ],
     
+    // 模組的別名
+    module_alias: {
+        "wiki": "zh.wikipedia.org",
+        "wiki.l": "zh.wikipedia.org.localhost"
+    },
+    
+    // Google Analytics的編號
     ga_track_code: "UA-46464710-11",
     
     web_crawler_default_options: {

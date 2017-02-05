@@ -53,6 +53,12 @@ app.get('/:modules/:query', function (_req, _res) {
     var _m = [];
     for (var _i = 0; _i < _modules.length; _i++) {
         var _module = _modules[_i].trim();
+        
+        // 切換別名
+        if (typeof(CONFIG.module_alias[_module]) === "string") {
+            _module = CONFIG.module_alias[_module];
+        }
+        
         if ($.inArray(_module, _m) === -1) {
             _m.push((_module));
         }
@@ -62,11 +68,11 @@ app.get('/:modules/:query', function (_req, _res) {
     // ---------------------------------
     
     var _output = {
-        data: [],
+        data: {},
         index: 0,
         limit: _modules.length,
-        display: function (_data) {
-            this.data.push(_data);
+        display: function (_module, _data) {
+            this.data[_module] = _data;
             this.index++;
             if (this.index === this.limit) {
                 var _output_string = JSON.stringify(this.data);
@@ -82,23 +88,23 @@ app.get('/:modules/:query', function (_req, _res) {
         },
         display_error: function (_module, _query, _error) {
             var _data = {
-                module: _module,
+                //module: _module,
                 query: _query,
                 error: _error
             };
             console.log("Error: " + _module + " (" + _query + "): " + _error);
             ua_exception(_module, _query, _error);
-            this.display(_data);
+            this.display(_module, _data);
         },
         display_response: function (_module, _response) {
             if (_response === undefined) {
                 _response = null;
             }
             var _data = {
-                module: _module,
+                //module: _module,
                 response: _response
             };
-            this.display(_data);
+            this.display(_module, _data);
         }
     };
     
