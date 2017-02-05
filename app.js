@@ -11,6 +11,8 @@ var express = require('express');
 Cookies = require( "cookies" )
 var app = express();
 
+launch_proxy = {};
+    
 // -----------------------------
 // 引用自訂的函式庫
 require("./config/config.js");
@@ -25,7 +27,7 @@ app.get('/:modules/:query', function (_req, _res) {
     
     // 檢查白名單是否可以放行
     var _referer = _req.headers.referer;
-    console.log(_referer);
+    //console.log(_referer);
     if (_referer !== undefined) {
         var _url_options = url.parse(_referer);
         if ($.inArray(_url_options.host, CONFIG.http_referer_allow_list) === -1) {
@@ -99,14 +101,30 @@ app.get('/:modules/:query', function (_req, _res) {
             this.display(_data);
         }
     };
+    
+    // ----------------------------
+    // 準備查詢
+    
+    ua_pageview(_modules, _query);
 
     for (var _i = 0; _i < _modules.length; _i++) {
         var _module = _modules[_i];
         
         var _path = "./proxy_module/" + _module + "/launch_proxy.js";
         if (fs.existsSync(_path)) {
-            require(_path);
-            launch_proxy(_output, _query);
+            if (typeof(launch_proxy[_module]) !== "function") {
+                require(_path);
+                
+                if (typeof(launch_proxy[_module]) === "function") {
+                    launch_proxy[_module](_output, _query);
+                }
+                else {
+                    _output.display_error(_module, _query, "Module configuration error.");
+                }
+            }
+            else {
+                launch_proxy[_module](_output, _query);
+            }   
         }
         else {
             //show_error_page(_res, "No proxy found.");

@@ -4,11 +4,13 @@
 
 1. 執行 start_app.bat
 2. http://localhost:3000/zh.wikipedia.org/查詢
-3. http://localhost/linked-data-proxy/usage-example.php
+3. http://localhost/linked-data-proxy/usage-example.html
 
 # TODO
+- 查詢多個頁面時，集中多模組的ua
+- 短名字設定
+- 查詢多個頁面時，加分減分的做法？
 - 查詢一個會擋人的頁面
-- 加分減分的做法？
 
 # npm
 npm install universal-analytics --save
