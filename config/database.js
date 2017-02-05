@@ -40,6 +40,30 @@ tableModuleCache = sequelize.define('module_cache', {
 });
 
 tableModuleCache.sync();
+// --------------------------------
+
+tableQueryCache = sequelize.define('query_cache', {
+  date: {
+    type: Sequelize.DATE
+  },
+  modules: {
+    type: Sequelize.TEXT
+  },
+  query: {
+    type: Sequelize.TEXT
+  },
+  response: {
+    type: Sequelize.TEXT
+  },
+  error: {
+      type: Sequelize.TEXT
+  }
+}, {
+  freezeTableName: true, // Model tableName will be the same as the model name
+  timestamps: false
+});
+
+tableQueryCache.sync();
 
 // -----------------------------------
 
