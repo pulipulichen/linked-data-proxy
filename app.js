@@ -23,11 +23,38 @@ app.get('/:modules/:query', function (_req, _res) {
         
     var _modules = _req.params.modules.split(",");
     var _query = _req.params.query;
+    var _callback = undefined;
+    if (typeof(_req.query.callback) === "string") {
+        _callback = _req.query.callback;
+    }
+    
+    // ---------------------------------
+    var _m = [];
+    for (var _i = 0; _i < _modules.length; _i++) {
+        var _module = _modules[_i].trim();
+        if ($.inArray(_module, _m) === -1) {
+            _m.push((_module));
+        }
+    }
+    _modules = _m;
+    
+    // ---------------------------------
     
     var _output = {
         data: [],
         index: 0,
         limit: _modules.length,
+        display: function (_data) {
+            this.data.push(_data);
+            this.index++;
+            if (this.index === this.limit) {
+                var _output_string = JSON.stringify(this.data);
+                if (_callback !== undefined) {
+                    _output_string = _callback + "(" + _output_string + ")";
+                }
+                _res.send(_output_string);
+            }
+        },
         display_error: function (_module, _query, _error) {
             var _data = {
                 module: _module,
@@ -36,12 +63,15 @@ app.get('/:modules/:query', function (_req, _res) {
             };
             this.display(_data);
         },
-        display: function (_data) {
-            this.data.push(_data);
-            this.index++;
-            if (this.index === this.limit) {
-                _res.send(JSON.stringify(this.data));
+        display_response: function (_module, _response) {
+            if (_response === undefined) {
+                _response = null;
             }
+            var _data = {
+                module: _module,
+                response: _response
+            };
+            this.display(_data);
         }
     };
 
@@ -60,7 +90,17 @@ app.get('/:modules/:query', function (_req, _res) {
     }
 });
 
-
+Array.prototype.getUnique = function(){
+   var u = {}, a = [];
+   for(var i = 0, l = this.length; i < l; ++i){
+      if(u.hasOwnProperty(this[i])) {
+         continue;
+      }
+      a.push(this[i]);
+      u[this[i]] = 1;
+   }
+   return a;
+}
 
 
 // -------------------------------------------------------------

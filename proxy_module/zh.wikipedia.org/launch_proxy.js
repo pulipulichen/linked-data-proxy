@@ -1,11 +1,11 @@
-proxy = function (_res, _query) {
+launch_proxy = function (_output, _query) {
     
 var _options = {
-    proxy: "zh.wikipedia.org",
+    module: "zh.wikipedia.org",
     query: _query,
     
-    //url: "http://localhost/linked-data-proxy/proxy_module/zh.wikipedia.org/assert_true.html?q=" + encodeURI(_query),
-    url: "http://localhost/linked-data-proxy/proxy_module/zh.wikipedia.org/assert_false.html?q=" + encodeURI(_query),
+    url: "http://localhost/linked-data-proxy/proxy_module/zh.wikipedia.org/assert_true.html?q=" + encodeURI(_query),
+    //url: "http://localhost/linked-data-proxy/proxy_module/zh.wikipedia.org/assert_false.html?q=" + encodeURI(_query),
     // url: "https://zh.wikipedia.org/w/index.php?title=" + encodeURI(_query) + "&oldformat=true&printable=yes",
     encoding: "utf8",
     /*
@@ -18,9 +18,9 @@ var _options = {
     //select_text: "#mw-content-text > p:first",
 };
 
-web_crawler(_res, _options);
+web_crawler(_output, _options);
 
 //_res.send(_query);
 // ----------------------------------------    
     
-};  // proxy = function (_res, _query) {
+};  // launch_proxy = function (_output, _query) {
