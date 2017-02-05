@@ -21,6 +21,7 @@ require("./lib/cache.js");
 require("./lib/jquery.js");
 require("./lib/universal-analytics.js");
 require("./lib/vote.js");
+require("./lib/uuid.js");
 // -----------------------------
 
 app.get('/:modules/:query', function (_req, _res) {
@@ -41,6 +42,7 @@ app.get('/:modules/:query', function (_req, _res) {
     // ---------------------------------
     
     ua_set_headers(_req, _res);
+    setup_uuid(_req, _res);
         
     var _modules = _req.params.modules.split(",");
     var _query = _req.params.query;

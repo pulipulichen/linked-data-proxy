@@ -7,7 +7,11 @@
 3. http://localhost/linked-data-proxy/usage-example.html
 
 # TODO
-- 查詢多個頁面時，加分減分的做法？
+- 查詢多個頁時，加分減分的做法？
+    - set_vote_score
+    - 在app後面加上set_vote_score
+    - 測試set_vote_score
+    - 加入event
 - 查詢一個會擋人的資料庫
 - 查詢需要post的資料庫
 
