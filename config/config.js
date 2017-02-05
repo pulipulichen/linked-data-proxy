@@ -18,7 +18,7 @@ CONFIG = {
         "wiki": "zh.wikipedia.org",
         "wiki.l": "zh.wikipedia.org.localhost",
         "moedict": "www.moedict.tw",
-        "cbdb": "db1.ihp.sinica.edu.tw"
+        "cbdb": "cbdb.fas.harvard.edu"
     },
     
     // Google Analytics的編號
@@ -30,8 +30,10 @@ CONFIG = {
         payload: false,
         url: "https://pulipulichen.github.io/blogger/posts/2017/01/wikipedia.html",
         encoding: "utf8",
-        select_text: "#mw-content-text > p:first",
-        user_agent: "Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.102011-10-16 20:23:10"
+        //select_text: "#mw-content-text > p:first",
+        header: {
+            "User-Agent": "Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.102011-10-16 20:23:10"
+        }
     },
     
     vote_weight: {

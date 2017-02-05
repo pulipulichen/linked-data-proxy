@@ -27,7 +27,18 @@ var _options = {
         var _o = clone_json(this);
         _o.referer = "http://db1.ihp.sinica.edu.tw/cbdbc/ttsweb?@0:0:4:cbdbkm";
         _o.url = "http://db1.ihp.sinica.edu.tw/cbdbc/ttsweb?@0:0:1:cbdbkm@@" + Math.random();
+        
         protocol_query(_o, function (_content) {
+            _this.referer = _o.url;
+            console.log("referer", _this.referer);
+            var _action = extract_string(_content, '<FORM METHOD=POST ACTION="', '" NAME=TTSWEB');
+            _action = "http://db1.ihp.sinica.edu.tw/cbdbc/" + _action;
+            _this.url = _action;
+            console.log("action", _action);
+            // http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@757522267
+
+            _callback();
+            /*
             var _href = $(_content).find("td.menu:eq(3) > a").attr("href");
             // cbdbkm?@66^2048123360^100^^^@@59546786
             
@@ -38,7 +49,7 @@ var _options = {
             
             _href = "http://db1.ihp.sinica.edu.tw/cbdbc/" + _href;
             _this.referer = _href;
-            //console.log(_href);
+            console.log("referer", _href);
             // http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@22^1973632183^100^^^@@59546786
             
             // 查詢 關鍵詞查詢的頁面
@@ -49,28 +60,18 @@ var _options = {
                 var _action = extract_string(_content, '<FORM METHOD=POST ACTION="', '" NAME=TTSWEB');
                 _action = "http://db1.ihp.sinica.edu.tw/cbdbc/" + _action;
                 _this.url = _action;
-                //console.log(_action);
+                console.log("action", _action);
                 // http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@757522267
                 
                 _callback();
             });
-            
-            
-            //console.log(_content);
-            /*var _head_needle = 'window.open("';
-            var _foot_needle = '"+ss+"';
-            _content = extract_string(_content, _head_needle, _foot_needle);
-            //_content = $(_content).find("table").length;
-            _content = "http://db1.ihp.sinica.edu.tw" + _content + "@@" + Math.random();
-            console.log(_content);
             */
-            
         });
         
     },
     
     // 正式查詢
-    url: "http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@181083029", //正式查詢
+    url: "http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@350745915", //正式查詢
     //url: "http://localhost/linked-data-proxy/proxy_module/db1.ihp.sinica.edu.tw/assert_false.html", //測試錯誤查詢
     //url: "http://localhost/linked-data-proxy/proxy_module/db1.ihp.sinica.edu.tw/assert_true.html", //測試正確查詢
     
@@ -78,16 +79,16 @@ var _options = {
      * 指定來源網頁 referer (可省略)
      */
     //referer: "http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@@707418221",
-    referer: "http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@12^8989153^100^^^@@1495783754",
+    referer: "http://db1.ihp.sinica.edu.tw/cbdbc/cbdbkm?@43^1556440068^20^^^@@758790323",
     
     // ---------------------------------------------
     
     method: "post",
-    payload: true,
+    payload: false,
     
     post_query: {
         "_TTS_ACTION": "5",
-        "_TTS_CONTROL": "66^2048123360^100",    // 這個比較麻煩
+        "_TTS_CONTROL": "43^1556440068^100",    // 這個比較麻煩
         "@KAA": _query,
         //"@KAA": iconv_encode(_query, "big5"),
         "@KTY_BIOG_MAIN": "on",
@@ -112,10 +113,20 @@ var _options = {
         "_TTS.INI": "cbdbkm"
     },
     
-    /**
-     * 指定use_agnet (可省略)
-     */
-    //user_agent: "Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.102011-10-16 20:23:10",
+    headers: {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+        "Content-Length": 421,
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Host": "db1.ihp.sinica.edu.tw",
+        "Origin": "http://db1.ihp.sinica.edu.tw",
+        "Pragma": "no-cache",
+        "Upgrade-Insecure-Requests": 1,
+        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"
+    },
     
     encoding: "big5",
     
@@ -124,7 +135,7 @@ var _options = {
      * 沒找到資料的選擇器
      */
     //content_not_found_selector: "body",
-    content_not_found_string: '<font style="font-size:10pt;color:red">沒有查詢結果,或尚未開始查詢</font>',
+    content_not_found_string: '<div id=WordSection1>',
     
     /**
      * 取出指定元素的HTML程式碼
