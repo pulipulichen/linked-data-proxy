@@ -1,5 +1,5 @@
 /**
- * http://docs.sequelizejs.com/en/v3/docs/models-usage/
+ * 使用方法：http://docs.sequelizejs.com/en/v3/docs/models-usage/
  * 欄位類型定義：http://docs.sequelizejs.com/en/v3/docs/models-definition/
  */
 var Sequelize = require('sequelize');

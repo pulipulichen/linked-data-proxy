@@ -22,10 +22,10 @@ require("./lib/jquery.js");
 require("./lib/universal-analytics.js");
 require("./lib/vote.js");
 require("./lib/uuid.js");
+
 // -----------------------------
 
-app.get('/:modules/:query', function (_req, _res) {
-    
+var _check_white_list = function (_req, _res) {
     // 檢查白名單是否可以放行
     var _referer = _req.headers.referer;
     //console.log(_referer);
@@ -35,23 +35,13 @@ app.get('/:modules/:query', function (_req, _res) {
             _res.status(403).send({
                 message: 'Access Forbidden'
             });
-            return;
+            return false;
         }
     }
-    
-    // ---------------------------------
-    
-    ua_set_headers(_req, _res);
-    setup_uuid(_req, _res);
-        
-    var _modules = _req.params.modules.split(",");
-    var _query = _req.params.query;
-    var _callback = undefined;
-    if (typeof(_req.query.callback) === "string") {
-        _callback = _req.query.callback;
-    }
-    
-    // ---------------------------------
+    return true;
+};
+
+var _modules_mapping = function (_modules) {
     var _m = [];
     for (var _i = 0; _i < _modules.length; _i++) {
         var _module = _modules[_i].trim();
@@ -66,6 +56,31 @@ app.get('/:modules/:query', function (_req, _res) {
         }
     }
     _modules = _m;
+    
+    return _modules;
+};
+
+// -----------------------------
+
+app.get('/:modules/:query', function (_req, _res) {
+    if (_check_white_list(_req, _res) === false) {
+        return;
+    } 
+    
+    // ---------------------------------
+    
+    ua_set_headers(_req, _res);
+    setup_uuid(_req, _res);
+        
+    var _modules = _req.params.modules.split(",");
+    _modules = _modules_mapping(_modules);
+    
+    var _query = _req.params.query;
+    
+    var _callback = undefined;
+    if (typeof(_req.query.callback) === "string") {
+        _callback = _req.query.callback;
+    }
     
     // ---------------------------------
     
@@ -158,18 +173,58 @@ app.get('/:modules/:query', function (_req, _res) {
     }
 });
 
-Array.prototype.getUnique = function(){
-   var u = {}, a = [];
-   for(var i = 0, l = this.length; i < l; ++i){
-      if(u.hasOwnProperty(this[i])) {
-         continue;
-      }
-      a.push(this[i]);
-      u[this[i]] = 1;
-   }
-   return a;
-}
+// ------------------------------------------------------------
 
+app.get('/:modules/:query/:vote', function (_req, _res) {
+    if (_check_white_list(_req, _res) === false) {
+        return;
+    } 
+    
+    ua_set_headers(_req, _res);
+    setup_uuid(_req, _res);
+        
+    var _modules = _req.params.modules.split(",");
+    _modules = _modules_mapping(_modules);
+    
+    var _query = _req.params.query;
+    
+    var _callback = undefined;
+    if (typeof(_req.query.callback) === "string") {
+        _callback = _req.query.callback;
+    }
+    
+    // ----------------
+    
+    var _score = _req.params.vote;
+    if (_score === undefined || isNaN(_score)) {
+        _res.status(501).send({
+            message: 'Vote error'
+        });
+        return;
+    }
+    else {
+        _score = parseInt(_score, 10);
+    }
+    
+    // ---------------------------------
+    for (var _i = 0; _i < _modules.length; _i++) {
+        var _module = _modules[_i];
+        set_vote_score(_module, _query, _score);
+    }
+    
+    // ---------------------------------
+    // 輸出
+    
+    var _output_string = "1";
+    if (_callback !== undefined) {
+        _output_string = _callback + "(" + _output_string + ")";
+        _res.setHeader('content-type', 'text/javascript');
+    }
+    else {
+        _res.setHeader('content-type', 'text/plain');
+    }
+    _res.send(_output_string);
+});
 
 // -------------------------------------------------------------
 

@@ -1,10 +1,24 @@
 # linked-data-proxy
 
-# Instruction
+# Instruction: Server startup
 
-1. 執行 start_app.bat
-2. http://localhost:3000/zh.wikipedia.org/查詢
-3. http://localhost/linked-data-proxy/usage-example.html
+- 執行 start_app.bat
+
+# Instruction: Localhost test
+- http://localhost:3000/wiki.l/數位圖書館
+- 使用範例: http://localhost/linked-data-proxy/usage-example.html
+
+# Instruction: Client usage
+## 查詢資料
+```js
+$.getJSON("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A8?callback=?", function (_data) {
+    console.log(_data[0]["response"]);
+});
+```
+## 投票
+```js
+$.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A8/10?callback=?");
+```js
 
 # TODO
 - 查詢多個頁時，加分減分的做法？
@@ -12,6 +26,7 @@
     - 在app後面加上set_vote_score
     - 測試set_vote_score
     - 加入event
+    - vote的快取
 - 查詢一個會擋人的資料庫
 - 查詢需要post的資料庫
 
