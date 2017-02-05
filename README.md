@@ -4,13 +4,11 @@
 
 1. 執行 start_app.bat
 2. http://localhost:3000/zh.wikipedia.org/查詢
-3. http://localhost/linked-data-proxy/referer.php
+3. http://localhost/linked-data-proxy/usage-example.php
 
 # TODO
-- 查詢真的wikipedia: https://zh.wikipedia.org/w/index.php?title=%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A8&oldformat=true&printable=yes
 - 查詢一個會擋人的頁面
-- 白名單功能
-- 要讓ga記錄user-id
+- 加分減分的做法？
 
 # npm
 npm install universal-analytics --save

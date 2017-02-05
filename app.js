@@ -4,6 +4,7 @@
 fs = require('fs');
 https = require('https');
 require("./lib/jquery.js");
+url = require('url');
 //util = require("util");
 
 var express = require('express');
@@ -21,6 +22,21 @@ require("./lib/universal-analytics.js");
 // -----------------------------
 
 app.get('/:modules/:query', function (_req, _res) {
+    
+    // 檢查白名單是否可以放行
+    var _referer = _req.headers.referer;
+    console.log(_referer);
+    if (_referer !== undefined) {
+        var _url_options = url.parse(_referer);
+        if ($.inArray(_url_options.host, CONFIG.http_referer_allow_list) === -1) {
+            _res.status(403).send({
+                message: 'Access Forbidden'
+            });
+            return;
+        }
+    }
+    
+    // ---------------------------------
     
     ua_set_headers(_req, _res);
         

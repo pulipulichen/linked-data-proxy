@@ -8,7 +8,7 @@ CONFIG = {
     
     // 放行的白名單
     http_referer_allow_list: [
-        "aaa"
+        "localhost"
     ],
     
     ga_track_code: "UA-46464710-11",
