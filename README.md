@@ -10,15 +10,17 @@
 
 # Instruction: Client usage
 ## 查詢資料
+
 ```js
 $.getJSON("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A8?callback=?", function (_data) {
     console.log(_data[0]["response"]);
 });
 ```
 ## 投票
+
 ```js
 $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A8/10?callback=?");
-```js
+```
 
 # TODO
 - 查詢多個頁時，加分減分的做法？
@@ -37,7 +39,7 @@ npm install node-uuid --save
 npm install cookies --save
 
 # REFERENCE
-
+- https://github.com/pulipulichen/linked-data-proxy
 - http://expressjs.com/zh-tw/guide/routing.html
 - http://docs.sequelizejs.com/en/v3/docs/models-usage/
 - universal-analytics: https://github.com/peaksandpies/universal-analytics
