@@ -54,6 +54,10 @@ app.get('/:modules/:query', function (_req, _res) {
                 var _output_string = JSON.stringify(this.data);
                 if (_callback !== undefined) {
                     _output_string = _callback + "(" + _output_string + ")";
+                    _res.setHeader('content-type', 'text/javascript');
+                }
+                else {
+                    _res.setHeader('content-type', 'text/plain');
                 }
                 _res.send(_output_string);
             }
