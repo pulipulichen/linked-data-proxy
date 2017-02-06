@@ -19,8 +19,8 @@ var DEBUG = {
     //chunk: true,
     //content: true,
     //protocol_options: true,
-    //post_query: true
-    //display_content: true
+    //post_query: true,
+    //display_content: true,
 };
 
 web_crawler = function (_output, _options) {
