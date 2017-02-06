@@ -22,6 +22,7 @@ CONFIG = {
         "cbdb": "cbdb.fas.harvard.edu",
         "tgaz": "maps.cga.harvard.edu",
         "cdict": "cdict.net",
+        "pixabay": "pixabay.com",
     },
     
     // Google Analytics的編號
