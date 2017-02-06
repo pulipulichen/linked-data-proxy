@@ -1,1 +1,1 @@
-node app.js
+node /root/linked-data-proxy/app.js
