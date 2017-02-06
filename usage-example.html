@@ -21,7 +21,10 @@
     <form id="submit">
     <h1>查詢功能</h1>
         <label>
-            查詢單字: <input type="text" name="query" id="query" value="金陵" />
+            查詢單字: 
+            <button type="button" class="quick_query">金陵</button>
+            <button type="button" class="quick_query">臺灣</button>
+            <input type="text" name="query" id="query" value="金陵" />
         </label>
         <div>
             <label>
@@ -34,7 +37,16 @@
                 <input type="checkbox" name="module" value="cbdb" checked /> 中國古代人名 (cbdb)
             </label>
             <label>
-                <input type="checkbox" name="module" value="tgaz" checked /> 地理資料庫 (tgaz)
+                <input type="checkbox" name="module" value="tgaz" checked /> 
+                地理資料庫 (tgaz)
+            </label>
+            <label>
+                <input type="checkbox" name="module" value="cdict" checked /> 
+                英漢字典 (cdict)
+            </label>
+            <label>
+                <input type="checkbox" name="module" value="pixabay" checked /> 
+                圖片資料庫 (pixabay)
             </label>
         </div>
         <button type="submit">SUBMIT</button>
@@ -60,9 +72,11 @@
     
     <select name="vote_module" id="vote_module">
         <option value="wiki">維基百科 (wiki)</option>
-        <option value="moedict">字典 (moedict)</option>
+        <option value="moedict">中文字典 (moedict)</option>
         <option value="cbdb">中國古代人名 (cbdb)</option>
         <option value="tgaz">地理資料庫 (tgaz)</option>
+        <option value="cdict">英漢字典 (cdict)</option>
+        <option value="pixabay">圖片資料庫 (pixabay)</option>
     </select>
     <label>
         評分:
@@ -147,6 +161,12 @@ $(function () {
         });
         
         return false;
+    });
+    
+    $(".quick_query").click(function () {
+        var _query = this.innerHTML;
+        $("#query").val(_query);
+        $("#submit").submit();
     });
 });
 </script>

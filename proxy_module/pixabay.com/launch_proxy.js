@@ -32,6 +32,13 @@ var _options = {
     
     referer: "https://pixabay.com/",
     
+    post_process: function (_content) {
+        var _ele = $(_content);
+        _ele.find("div.item > div").remove();
+        _content = get_outer_html(_ele);
+        return _content;
+    },
+    
     // ------------------------
 };
 
