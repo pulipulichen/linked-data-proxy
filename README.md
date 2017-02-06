@@ -37,6 +37,8 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 - curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 - sudo apt-get install -y nodejs
 - npm設定請看npm_install.sh
+- apt-get install -y git
+- wget https://pulipulichen.github.io/linked-data-proxy/
 
 # GA
 - 要啟用User-ID
