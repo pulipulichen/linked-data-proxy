@@ -102,11 +102,6 @@
 <li><a href="https://analytics.google.com/analytics/web/#my-reports/cziTEwXxT16sF5D-JYeM1Q/a46464710w135478152p139632692/" target="_blank" rel="noopener noreferrer">Module Query</a></li>
 </ul>
 <script type="text/javascript">
-/*
-$.getJSON("http://localhost:3000/zh.wikipedia.org/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A8?callback=?", function (_data) {
-    $("#result").html(_data[0]["response"]);
-});
-*/
 $(function () {
     $("#submit").submit(function () {
         var _query = $("#query").val().trim();
@@ -116,7 +111,7 @@ $(function () {
             _modules.push(ele.value);
         });
         
-        var _url = "http://localhost:3000/" + _modules.join(",") + "/" + encodeURI(_query) + "?callback=?";
+        var _url = "/" + _modules.join(",") + "/" + encodeURI(_query) + "?callback=?";
         $("#url").val(_url);
         //window.alert(_url);
         //return;
@@ -143,7 +138,7 @@ $(function () {
         var _score = $("#vote_score").val().trim();
         _score = parseInt(_score, 10);
         
-        var _url = "http://localhost:3000/" + _module + "/" + encodeURI(_query) + "/" + _score + "?callback=?";
+        var _url = "/" + _module + "/" + encodeURI(_query) + "/" + _score + "?callback=?";
         $("#vote_url").val(_url);
         $("#vote_result").html("Loading...");
         $.getJSON(_url, function (_data) {

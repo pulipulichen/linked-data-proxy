@@ -11,6 +11,9 @@ CONFIG = {
     // 放行的白名單
     http_referer_allow_list: [
         "localhost",
+        "localhost:53000",
+        "192.168.11.118:3000",
+        "192.168.11.119:3000",
         "yourserver",
     ],
     
