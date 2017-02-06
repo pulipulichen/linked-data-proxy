@@ -8,8 +8,14 @@ npm install follow-redirects --save
 npm install node-uuid --save
 npm install cookies --save
 npm install http-post --save
-npm install querystring --save
+
 npm install iconv-lite --save
+
+
+# 繁簡轉換
+npm install node-opencc --save
+
+# POST相關功能，似乎用不到
+npm install querystring --save
 npm install request-promise --save
 npm install form-data --save
-npm install node-opencc --save

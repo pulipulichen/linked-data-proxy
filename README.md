@@ -25,6 +25,7 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 # TODO
 - 查詢現在的IP，加入白名單
 - 部屬到OpenVZ: 有點懶...
+    - 設定git
     - 重新啟動
     - 上傳到Google Drive 備份
 - 查詢一個會擋人的資料庫 (google跟cbdb都會擋人，過不去)
@@ -35,23 +36,7 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 - sudo apt-get install curl -y
 - curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 - sudo apt-get install -y nodejs
-
-# npm
-- npm install jsdom --save
-- npm install express --save
-- npm install sequelize --save
-- npm install sqlite3 --save
-- npm install jquery --save
-- npm install universal-analytics --save
-- npm install follow-redirects --save
-- npm install node-uuid --save
-- npm install cookies --save
-- npm install http-post --save
-- npm install querystring --save (用不到)
-- npm install iconv-lite --save : 繁簡轉換
-- npm install request-promise --save (用不到)
-- npm install form-data --save (用不到)
-- npm install node-opencc --save : https://www.npmjs.com/package/node-opencc
+- npm設定請看npm_install.sh
 
 # GA
 - 要啟用User-ID

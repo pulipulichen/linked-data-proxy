@@ -8,12 +8,11 @@ CONFIG = {
     module_cache_expire_hour: 0, 
     query_cache_expire_hour: 0, 
     
-    // 放行的白名單
-    http_referer_allow_list: [
+    /**
+     * 白名單：只有一下server可以使用
+     */ 
+    referer_allow_list: [
         "localhost",
-        "localhost:53000",
-        "192.168.11.118:3000",
-        "192.168.11.119:3000",
         "yourserver",
     ],
     

@@ -3,7 +3,6 @@
 
 fs = require('fs');
 https = require('https');
-require("./lib/jquery.js");
 url = require('url');
 //util = require("util");
 
@@ -15,14 +14,15 @@ launch_proxy = {};
     
 // -----------------------------
 // 引用自訂的函式庫
-require("./config/config.js");
-require("./lib/web_crawler.js");
+require("./config.js");
+require("./web_crawler.js");
 require("./lib/module_cache.js");
 require("./lib/query_cache.js");
 require("./lib/jquery.js");
 require("./lib/universal-analytics.js");
 require("./lib/vote.js");
 require("./lib/uuid.js");
+require("./lib/ip.js");
 
 // -----------------------------
 
@@ -32,13 +32,8 @@ var _check_white_list = function (_req, _res) {
     //console.log(_referer);
     if (_referer !== undefined) {
         var _url_options = url.parse(_referer);
-        var _list = CONFIG.http_referer_allow_list;
-        if ($.inArray("localhost", _list) > -1) {
-            _list.push("localhost:" + CONFIG.port);
-        }
-        if ($.inArray("127.0.0.1", _list) > -1) {
-            _list.push("127.0.0.1:" + CONFIG.port);
-        }
+        var _list = CONFIG.referer_allow_list;
+        //console.log(_list);
         if ($.inArray(_url_options.host, _list) === -1) {
             _res.status(403).send({
                 message: 'Access Forbidden'
@@ -272,6 +267,6 @@ app.get('/:modules/:query/:vote', function (_req, _res) {
 // -------------------------------------------------------------
 
 app.listen(CONFIG.port, function () {
-    console.log('app listening on port ' + CONFIG.port + ". http://localhost:" + CONFIG.port + "/");
+    console.log('Startup. Listening on port ' + CONFIG.port + ". http://localhost:" + CONFIG.port + "/");
 });
 
