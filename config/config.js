@@ -25,6 +25,8 @@ CONFIG = {
     
     // Google Analytics的編號
     ga_track_code: "UA-46464710-11",
+    // uuid建立維度方法：http://blog.pulipuli.info/2016/11/googleid-how-to-send-user-ids-to-google.html
+    ga_user_id_dimension: "dimension1",
     
     web_crawler_default_options: {
         module: "test",

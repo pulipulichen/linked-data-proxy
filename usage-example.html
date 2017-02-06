@@ -21,7 +21,7 @@
     <form id="submit">
     <h1>查詢功能</h1>
         <label>
-            查詢單字: <input type="text" name="query" id="query" value="劉備" />
+            查詢單字: <input type="text" name="query" id="query" value="金陵" />
         </label>
         <div>
             <label>
@@ -53,7 +53,7 @@
     <h1>投票功能</h1>
     <label>
         查詢單字: 
-        <input type="text" name="vote_query" id="vote_query" value="劉備" />
+        <input type="text" name="vote_query" id="vote_query" value="金陵" />
     </label>
     
     <br />
@@ -79,8 +79,14 @@
     <div id="vote_result"></div>
 </form>
 
-<h1><a href="https://analytics.google.com/analytics/web/#realtime/rt-content/a46464710w135478152p139632692/" target="_blank">Google分析</a></h1>
-
+<h1>Google分析</h1>
+<ul>
+<li><a href="https://analytics.google.com/analytics/web/#realtime/rt-content/a46464710w135478152p139632692/" target="_blank" rel="noopener noreferrer">即時內容 (對應查詢功能)</a></li>
+<li><a href="https://analytics.google.com/analytics/web/#realtime/rt-event/a46464710w135478152p139632692/" target="_blank" rel="noopener noreferrer">即時事件 (對應模組查詢功能)</a></li>
+<li><a href="https://analytics.google.com/analytics/web/#my-reports/tXjtgYhURyS5SGFYFGRC0g/a46464710w135478152p139632692/" target="_blank" rel="noopener noreferrer">UUID Query</a></li>
+<li><a href="https://analytics.google.com/analytics/web/#my-reports/JguWGLNaSHuea5YOfHW0EA/a46464710w135478152p139632692/" target="_blank" rel="noopener noreferrer">Vote</a></li>
+<li><a href="https://analytics.google.com/analytics/web/#my-reports/cziTEwXxT16sF5D-JYeM1Q/a46464710w135478152p139632692/" target="_blank" rel="noopener noreferrer">Module Query</a></li>
+</ul>
 <script type="text/javascript">
 /*
 $.getJSON("http://localhost:3000/zh.wikipedia.org/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A8?callback=?", function (_data) {
@@ -90,7 +96,7 @@ $.getJSON("http://localhost:3000/zh.wikipedia.org/%E6%95%B8%E4%BD%8D%E5%9C%96%E6
 $(function () {
     $("#submit").submit(function () {
         var _query = $("#query").val().trim();
-        
+        $("#vote_query").val(_query);
         var _modules = [];
         $("input[name='module']:checked").each(function (i, ele) {
             _modules.push(ele.value);
@@ -119,6 +125,7 @@ $(function () {
     $("#vote").submit(function () {
         var _module = $("#vote_module").val();
         var _query = $("#vote_query").val();
+        $("#query").val(_query);
         var _score = $("#vote_score").val().trim();
         _score = parseInt(_score, 10);
         

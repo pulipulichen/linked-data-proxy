@@ -106,6 +106,7 @@ app.get('/:modules/:query', function (_req, _res) {
     setup_uuid(_req, _res);
         
     var _modules = _req.params.modules.split(",");
+    var _ori_modules = _modules;
     _modules = _modules_mapping(_modules);
     
     var _query = _req.params.query.trim();
@@ -113,7 +114,7 @@ app.get('/:modules/:query', function (_req, _res) {
     var _callback = _get_callback(_req);
     
     // 記錄一下
-    ua_pageview(_modules, _query);
+    ua_pageview(_ori_modules, _query);
 
     // ---------------------------------
     // 準備快取

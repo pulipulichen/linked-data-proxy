@@ -43,22 +43,40 @@ var _options = {
         for (var _i = 0; _i < _persons.length; _i++) {
             var _d = {};
             var _p = _persons[_i];
-            _d.Name = _p.BasicInfo.ChName + " (" + _p.BasicInfo.EngName + ")";
-            _d.Dynasty = _p.BasicInfo.Dynasty;
+            _d.Name = "";
+            if (typeof(_p.BasicInfo) !== "undefined" 
+                    && typeof(_p.BasicInfo.ChName) === "string") {
+                _d.Name = _p.BasicInfo.ChName;
+            }
+            if (typeof(_p.BasicInfo) !== "undefined" 
+                    && typeof(_p.BasicInfo.EngName) === "string") {
+                if (_d.Name === "") {
+                    _d.Name = _p.BasicInfo.EngName;
+                }
+                else {
+                    _d.Name = _d.Name + " (" + _p.BasicInfo.EngName + ")";
+                }
+            }
             
+            _d.Dynasty = "";
+            if (typeof(_p.BasicInfo) !== "undefined" 
+                    && typeof(_p.BasicInfo.Dynasty) === "string") {
+                _d.Dynasty = _p.BasicInfo.Dynasty;
+            }
+            
+            _d.Aliases = [];
             if (typeof(_p.PersonAliases) === "object" && typeof(_p.PersonAliases.Alias) === "object") {
                 var _aliases = _p.PersonAliases.Alias;
                 if (typeof(_aliases.length) === "undefined") {
                     _aliases = [_aliases];
                 }
-                _d.aliases = [];
                 for (var _a = 0; _a < _aliases.length; _a++) {
                     var _alias = _aliases[_a];
                     var _aliasName = _alias.AliasName;
                     if (typeof(_alias.AliasType) === "string") {
                         _aliasName = _aliasName  + " (" + _alias.AliasType + ")";
                     }
-                    _d.aliases.push(_aliasName);
+                    _d.Aliases.push(_aliasName);
                 }
             }
             
@@ -69,7 +87,7 @@ var _options = {
         var _tbody = _table.find("tbody");
         for (var _i = 0; _i < _data.length; _i++) {
             var _d = _data[_i];
-            _tbody.append($("<tr><td>" + _d.Name + "</td><td>" + _d.Dynasty + "</td><td>" + _d.aliases + "</td></tr>"));
+            _tbody.append($("<tr><td>" + _d.Name + "</td><td>" + _d.Dynasty + "</td><td>" + _d.Aliases.join(", ") + "</td></tr>"));
         }
         
         //_content = JSON.stringify(_data);

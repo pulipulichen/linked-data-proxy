@@ -23,10 +23,6 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 ```
 
 # TODO
-- 更新usage-example，要展示wiki, 萌典, CBDB, tgaz同時查詢
-    - 選擇來源
-    - 展示網址
-    - 需要評分功能的
 - 正體字與簡體字轉換
 - Yahoo字典
 - 英英字典
@@ -44,6 +40,10 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 - npm install iconv-lite --save
 - npm install request-promise --save
 - npm install --save form-data
+
+# GA
+- 要啟用User-ID
+- 要自訂維度UUID
 
 # REFERENCE
 - https://github.com/pulipulichen/linked-data-proxy
