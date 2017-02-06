@@ -1,3 +1,6 @@
+var DEBUG = {
+    //display_error: true,
+};
 // ---------------------------
 // 引用固定的函式庫
 
@@ -166,7 +169,9 @@ var _app_query_no_cache = function (_req, _res, _modules, _query, _callback) {
                 error: _error,
                 priority: -1
             };
-            console.log("Error: " + _module + " (" + _query + "): " + _error);
+            if (typeof(DEBUG.display_error) === "boolean" && DEBUG.display_error === true) {
+                console.log("Error: " + _module + " (" + _query + "): " + _error);
+            }
             ua_exception(_module, _query, _error);
             this.display(_data);
         },
