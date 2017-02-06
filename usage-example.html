@@ -219,11 +219,15 @@ $(function () {
         };
         
         $("#check_result").html("Loading...");
-        $.post(_url, _data, function () {
+        //$.post(_url, _data, function () {
+        //    console.log(1);
             $.getJSON(_url, function (_result) {
+                console.log(2);
+                console.log(_result);
                 $("#check_result").html(_result);
             });
-        });
+        //});
+        return false;
     });
 });
 </script>

@@ -22,11 +22,17 @@ require("./lib/universal-analytics.js");
 require("./lib/vote.js");
 require("./lib/uuid.js");
 require("./lib/ip.js");
+require("./lib/session.js");
 
 // -----------------------------
 
+var bodyParser = require('body-parser');
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
 require("./app/lib.js");
 require("./app/index.js");
+require("./app/check.js");
 require("./app/query.js");
 require("./app/vote.js");
 

@@ -1,9 +1,16 @@
 npm install fs --save
 npm install jsdom --save
 npm install express --save
+npm install body-parser --save
+npm install express-session --save
+
+# 資料庫
 npm install sequelize --save
 npm install sqlite3 --save
+
 npm install jquery --save
+
+# GA
 npm install universal-analytics --save
 npm install follow-redirects --save
 npm install node-uuid --save

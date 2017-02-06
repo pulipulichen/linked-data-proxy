@@ -1,8 +1,6 @@
 # linked-data-proxy
 
 ## TODO
-- CONFIG.return_error
-- cache type
 - 批次查詢與確認的功能，快速建立快取
 - 查詢一個會擋人的資料庫 (google跟cbdb都會擋人，過不去)
 
