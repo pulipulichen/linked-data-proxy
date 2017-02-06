@@ -5,3 +5,5 @@ cd /root/
 git clone https://github.com/pulipulichen/linked-data-proxy.git
 cd $GIT_PATH
 git reset --hard origin/master
+
+bash npm_install.sh
