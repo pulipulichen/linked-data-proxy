@@ -33,13 +33,13 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 # OpenVZ的Node.js部屬教學
 - 範本 ubuntu-14.04-x86_64.tar.gz
 - sudo apt-get update
-- sudo apt-get install curl -y
-- curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
-- sudo apt-get install -y nodejs
-- npm設定請看npm_install.sh
 - apt-get install -y git
 - wget -N https://pulipulichen.github.io/linked-data-proxy/git_init.sh
 - bash git_init.sh
+    - sudo apt-get install curl -y
+    - curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+    - sudo apt-get install -y nodejs
+    - npm設定請看npm_install.sh
 - 在 /etc/rc.local 加上 bash /root/linked-data-proxy/start_app.sh
 
 # GA
