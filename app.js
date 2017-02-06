@@ -1,6 +1,4 @@
-var DEBUG = {
-    //display_error: true,
-};
+
 // ---------------------------
 // 引用固定的函式庫
 
@@ -13,8 +11,6 @@ var express = require('express');
 Cookies = require( "cookies" )
 app = express();
 
-launch_proxy = {};
-    
 // -----------------------------
 // 引用自訂的函式庫
 require("./config.js");
@@ -35,11 +31,14 @@ require("./app/query.js");
 require("./app/vote.js");
 
 // -----------------------------
-    
 
-
-
-        
+// 載入模組
+var _module_alisas = CONFIG.module_alias;
+launch_proxy = {};
+for (var _key in _module_alisas) {
+    var _module = _module_alisas[_key];
+    require("./proxy_module/"+_module+"/"+_module+".js");
+}
 
 // ------------------------------------------------------------
 

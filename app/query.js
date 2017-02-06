@@ -1,8 +1,11 @@
+var DEBUG = {
+    //display_error: true,
+};
+
 app.get('/:modules/:query', function (_req, _res) {
     if (check_white_list(_req, _res) === false) {
         return;
-    } 
-    
+    }
     // ---------------------------------
     
     ua_set_headers(_req, _res);
@@ -100,29 +103,14 @@ var _app_query_no_cache = function (_req, _res, _modules, _query, _callback) {
     
     // ----------------------------
     // 準備查詢
-    
     for (var _i = 0; _i < _modules.length; _i++) {
         var _module = _modules[_i];
         
-        var _path = "./proxy_module/" + _module + "/" + _module + ".js";
-        if (fs.existsSync(_path)) {
-            if (typeof(launch_proxy[_module]) !== "function") {
-                require(_path);
-                
-                if (typeof(launch_proxy[_module]) === "function") {
-                    launch_proxy[_module](_output, _query);
-                }
-                else {
-                    _output.display_error(_module, _query, "Module configuration error.");
-                }
-            }
-            else {
-                launch_proxy[_module](_output, _query);
-            }   
+        if (typeof(launch_proxy[_module]) === "function") {
+            launch_proxy[_module](_output, _query);
         }
         else {
-            //show_error_page(_res, "No proxy found.");
-            _output.display_error(_module, _query, "No module found.");
-        }
+            _output.display_error(_module, _query, "Module configuration error.");
+        }   
     }
 };
