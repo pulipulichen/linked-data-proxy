@@ -23,7 +23,6 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 ```
 
 # TODO
-- 正體字與簡體字轉換
 - Yahoo字典
 - 英英字典
 - 圖片庫？
@@ -39,7 +38,8 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 - npm install querystring --save
 - npm install iconv-lite --save
 - npm install request-promise --save
-- npm install --save form-data
+- npm install form-data --save 
+- npm install node-opencc --save : https://www.npmjs.com/package/node-opencc
 
 # GA
 - 要啟用User-ID

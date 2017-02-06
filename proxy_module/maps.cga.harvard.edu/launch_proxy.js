@@ -47,6 +47,8 @@ var _options = {
     
     base_url: "http://maps.cga.harvard.edu/tgaz/",
     
+    // 簡體轉繁體設定
+    zhs2zht: true,
     // ------------------------
 };
 
