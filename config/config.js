@@ -20,7 +20,8 @@ CONFIG = {
         "wiki.l": "zh.wikipedia.org.localhost",
         "moedict": "www.moedict.tw",
         "cbdb": "cbdb.fas.harvard.edu",
-        "tgaz": "maps.cga.harvard.edu"
+        "tgaz": "maps.cga.harvard.edu",
+        "cdict": "cdict.net",
     },
     
     // Google Analytics的編號
