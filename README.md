@@ -23,8 +23,7 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 ```
 
 # TODO
-- 部屬到OpenVZ: 有點懶...
-    - 上傳到Google Drive 備份
+- 虛擬機器上傳到Google Drive 備份
 - 查詢一個會擋人的資料庫 (google跟cbdb都會擋人，過不去)
 
 # OpenVZ的Node.js部屬教學
