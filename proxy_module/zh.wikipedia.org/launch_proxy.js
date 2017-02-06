@@ -30,12 +30,15 @@ var _options = {
     process: function (_content) {
         var _output_array = [];
         var _p = $(_content).find("#mw-content-text > p:first");
-        if (_p.length === 1) {
+        if (_p.length === 1 && _p.find("#coordinates").length === 0) {
             _output_array.push(_p);
         }
         while (true) {
             _p = _p.next();
-            if (_p.length === 0 || _p.hasClass("toc") || _p.hasClass("dmbox-disambig")) {
+            if (_p.hasClass("infobox") || _p.find("#coordinates").length > 0) {
+                continue;
+            }
+            else if (_p.length === 0 || _p.hasClass("toc") || _p.hasClass("dmbox-disambig")) {
                 break;
             }
             else {

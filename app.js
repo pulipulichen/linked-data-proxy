@@ -32,7 +32,14 @@ var _check_white_list = function (_req, _res) {
     //console.log(_referer);
     if (_referer !== undefined) {
         var _url_options = url.parse(_referer);
-        if ($.inArray(_url_options.host, CONFIG.http_referer_allow_list) === -1) {
+        var _list = CONFIG.http_referer_allow_list;
+        if ($.inArray("localhost", _list) > -1) {
+            _list.push("localhost:" + CONFIG.port);
+        }
+        if ($.inArray("127.0.0.1", _list) > -1) {
+            _list.push("127.0.0.1:" + CONFIG.port);
+        }
+        if ($.inArray(_url_options.host, _list) === -1) {
             _res.status(403).send({
                 message: 'Access Forbidden'
             });
@@ -81,11 +88,9 @@ var _res_display = function (_res, _output_string, _callback) {
 };
 
 app.get("/", function (_req, _res) {
-    _res.writeHead(302, {
-        'Location': 'https://github.com/pulipulichen/linked-data-proxy'
-        //add other headers here...
+    fs.readFile("usage-example.html", 'utf8', function (err, data) {
+        _res.send(data);
     });
-    _res.end();
 });
 
 // -----------------------------

@@ -7,16 +7,79 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
+    <style>
+        input[type="text"] {
+            width: calc(100% - 5em);
+        }
+    </style>
 <!-- <link rel="icon" href="icon.png" type="image/png"> -->
 <title>usage example</title>
 </head>
 
 <body>
 
-    <input type="text" name="query" id="query" value="劉備" />
-    <button type="button" id="submit">SUBMIT</button>
+    <form id="submit">
+    <h1>查詢功能</h1>
+        <label>
+            查詢單字: <input type="text" name="query" id="query" value="劉備" />
+        </label>
+        <div>
+            <label>
+                <input type="checkbox" name="module" value="wiki" checked /> 維基百科 (wiki)
+            </label>
+            <label>
+                <input type="checkbox" name="module" value="moedict" checked /> 字典 (moedict)
+            </label>
+            <label>
+                <input type="checkbox" name="module" value="cbdb" checked /> 中國古代人名 (cbdb)
+            </label>
+            <label>
+                <input type="checkbox" name="module" value="tgaz" checked /> 地理資料庫 (tgaz)
+            </label>
+        </div>
+        <button type="submit">SUBMIT</button>
+        <br />
+        <label>
+            查詢網址:
+            <input type="text" name="url" id="url" onfocus="this.select()" />
+        </label>
+    </form>
 
 <div id="result"></div>
+
+<hr />
+
+<form id="vote">
+    <h1>投票功能</h1>
+    <label>
+        查詢單字: 
+        <input type="text" name="vote_query" id="vote_query" value="劉備" />
+    </label>
+    
+    <br />
+    
+    <select name="vote_module" id="vote_module">
+        <option value="wiki">維基百科 (wiki)</option>
+        <option value="moedict">字典 (moedict)</option>
+        <option value="cbdb">中國古代人名 (cbdb)</option>
+        <option value="tgaz">地理資料庫 (tgaz)</option>
+    </select>
+    <label>
+        評分:
+        <input type="number" name="vote_score" id="vote_score" value="1" />
+    </label>
+    
+    <button type="submit">SUBMIT</button>
+    
+    <br />
+    <label>
+        查詢網址:
+        <input type="text" name="vote_url" id="vote_url" onfocus="this.select()" />
+    </label>
+    <div id="vote_result"></div>
+</form>
+
+<h1><a href="https://analytics.google.com/analytics/web/#realtime/rt-content/a46464710w135478152p139632692/" target="_blank">Google分析</a></h1>
 
 <script type="text/javascript">
 /*
@@ -25,12 +88,22 @@ $.getJSON("http://localhost:3000/zh.wikipedia.org/%E6%95%B8%E4%BD%8D%E5%9C%96%E6
 });
 */
 $(function () {
-    $("#submit").click(function () {
+    $("#submit").submit(function () {
         var _query = $("#query").val().trim();
-        var _url = "http://localhost:3000/wiki,moedict,cbdb,tgaz/" + encodeURI(_query) + "?callback=?";
+        
+        var _modules = [];
+        $("input[name='module']:checked").each(function (i, ele) {
+            _modules.push(ele.value);
+        });
+        
+        var _url = "http://localhost:3000/" + _modules.join(",") + "/" + encodeURI(_query) + "?callback=?";
+        $("#url").val(_url);
+        //window.alert(_url);
+        //return;
+        var _result = $("#result").empty();
+        _result.html("Loading...");
         $.getJSON(_url, function (_data) {
-            
-            var _result = $("#result").empty();
+            $("#result").empty();
             for (var _i = 0; _i < _data.length; _i++) {
                 var _d = _data[_i];
                 var _module = _d.module;
@@ -40,6 +113,33 @@ $(function () {
                 }
             }
         });
+        return false;
+    });
+    
+    $("#vote").submit(function () {
+        var _module = $("#vote_module").val();
+        var _query = $("#vote_query").val();
+        var _score = $("#vote_score").val().trim();
+        _score = parseInt(_score, 10);
+        
+        var _url = "http://localhost:3000/" + _module + "/" + encodeURI(_query) + "/" + _score + "?callback=?";
+        $("#vote_url").val(_url);
+        $("#vote_result").html("Loading...");
+        $.getJSON(_url, function (_data) {
+            if (_score > 0) {
+                _score = "+" + _score;
+            }
+            else if (_score === 0) {
+                _score = "=0";
+            }
+            else {
+                _score = _score + "";
+            }
+            
+            $("#vote_result").html(_module + ": " + _query + " " + _score);
+        });
+        
+        return false;
     });
 });
 </script>
