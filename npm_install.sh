@@ -1,3 +1,4 @@
+npm install fs --save
 npm install jsdom --save
 npm install express --save
 npm install sequelize --save
