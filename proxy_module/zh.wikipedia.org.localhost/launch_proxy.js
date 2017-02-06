@@ -83,6 +83,7 @@ var _options = {
     base_url: "https://zh.wikipedia.org"
 };
 
+// 執行檢索
 web_crawler(_output, _options);
 
 //_res.send(_query);

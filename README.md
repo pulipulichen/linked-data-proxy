@@ -42,6 +42,9 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 - 要啟用User-ID
 - 要自訂維度UUID
 
+# 建立新的Module
+請參考/proxy_module/zh.wikipedia.org/裡面的檔案設置
+
 # REFERENCE
 - https://github.com/pulipulichen/linked-data-proxy
 - http://expressjs.com/zh-tw/guide/routing.html
