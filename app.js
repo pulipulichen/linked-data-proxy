@@ -194,7 +194,7 @@ var _app_query_no_cache = function (_req, _res, _modules, _query, _callback) {
     for (var _i = 0; _i < _modules.length; _i++) {
         var _module = _modules[_i];
         
-        var _path = "./proxy_module/" + _module + "/launch_proxy.js";
+        var _path = "./proxy_module/" + _module + "/" + _module + ".js";
         if (fs.existsSync(_path)) {
             if (typeof(launch_proxy[_module]) !== "function") {
                 require(_path);

@@ -23,7 +23,7 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 ```
 
 # TODO
-- 查詢現在的IP，加入白名單
+- 找不到的類型與資料庫
 - 部屬到OpenVZ: 有點懶...
     - 設定git
     - 重新啟動
