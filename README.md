@@ -23,9 +23,7 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 ```
 
 # TODO
-- 找不到的類型與資料庫加入GA記錄
 - 部屬到OpenVZ: 有點懶...
-    - git 更新
     - 上傳到Google Drive 備份
 - 查詢一個會擋人的資料庫 (google跟cbdb都會擋人，過不去)
 
@@ -40,9 +38,10 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
     - sudo apt-get install -y nodejs
     - npm設定請看npm_install.sh
 - 開機時啟動
-    - chmod +x /root/linked-data-proxy/start_app.sh
+    - chmod +x /root/linked-data-proxy/*.sh
     - /etc/rc.local
     - /root/linked-data-proxy/start_app.sh
+完成的虛擬機器下載：
 
 # GA
 - 要啟用User-ID

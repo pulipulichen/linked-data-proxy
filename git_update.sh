@@ -10,3 +10,5 @@ git --git-dir="$GIT_PATH"/.git reset --hard "$GIT_BRANCH"
 git --git-dir="$GIT_PATH"/.git pull --force origin
 
 git --git-dir="$GIT_PATH"/.git merge "$GIT_BRANCH" --no-commit
+
+chmod +x "$GIT_PATH"/*.sh
