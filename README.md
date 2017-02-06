@@ -1,7 +1,12 @@
 # linked-data-proxy
 
-# Instruction: Server startup
+## TODO
+- CONFIG.return_error
+- cache type
+- 批次查詢與確認的功能，快速建立快取
+- 查詢一個會擋人的資料庫 (google跟cbdb都會擋人，過不去)
 
+# Instruction: Server startup
 - 執行 start_app.bat
 
 # Instruction: Localhost test
@@ -21,9 +26,6 @@ $.getJSON("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%
 ```js
 $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A8/10?callback=?");
 ```
-
-# TODO
-- 查詢一個會擋人的資料庫 (google跟cbdb都會擋人，過不去)
 
 # OpenVZ的Node.js部屬教學
 - 範本 ubuntu-14.04-x86_64.tar.gz

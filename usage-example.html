@@ -93,6 +93,44 @@
     <div id="vote_result"></div>
 </form>
 
+<hr/>
+
+<form id="check">
+    <h1>批次確認文字</h1>
+    
+    <label>
+        要確認的文字
+        <input type="text" id="check_query" value="劉備 關羽 張飛 劉關張" />
+    </label>
+    <div>
+            <label>
+                <input type="checkbox" name="check_module" value="wiki" checked /> 維基百科 (wiki)
+            </label>
+            <label>
+                <input type="checkbox" name="check_module" value="moedict" checked /> 字典 (moedict)
+            </label>
+            <label>
+                <input type="checkbox" name="check_module" value="cbdb" checked /> 中國古代人名 (cbdb)
+            </label>
+            <label>
+                <input type="checkbox" name="check_module" value="tgaz" checked /> 
+                地理資料庫 (tgaz)
+            </label>
+            <label>
+                <input type="checkbox" name="check_module" value="cdict" checked /> 
+                英漢字典 (cdict)
+            </label>
+            <label>
+                <input type="checkbox" name="check_module" value="pixabay" checked /> 
+                圖片資料庫 (pixabay)
+            </label>
+        </div>
+    <button type="submit">SUBMIT</button>
+    <div id="check_result"></div>
+</form>
+
+<hr/>
+
 <h1>Google分析</h1>
 <ul>
 <li><a href="https://analytics.google.com/analytics/web/#realtime/rt-content/a46464710w135478152p139632692/" target="_blank" rel="noopener noreferrer">即時內容 (對應查詢功能)</a></li>
@@ -131,6 +169,14 @@ $(function () {
         return false;
     });
     
+    $(".quick_query").click(function () {
+        var _query = this.innerHTML;
+        $("#query").val(_query);
+        $("#submit").submit();
+    });
+    
+    // ---------------------
+    
     $("#vote").submit(function () {
         var _module = $("#vote_module").val();
         var _query = $("#vote_query").val();
@@ -158,10 +204,26 @@ $(function () {
         return false;
     });
     
-    $(".quick_query").click(function () {
-        var _query = this.innerHTML;
-        $("#query").val(_query);
-        $("#submit").submit();
+    // -------------------------
+    
+    $("#check").submit(function () {
+        var _query = $("#check_query").val().trim();
+        var _modules = [];
+        $("input[name='check_module']:checked").each(function (i, ele) {
+            _modules.push(ele.value);
+        });
+        
+        var _url = "/check/" + _modules.join(",") + "?callback=?";
+        var _data = {
+            "query": _query
+        };
+        
+        $("#check_result").html("Loading...");
+        $.post(_url, _data, function () {
+            $.getJSON(_url, function (_result) {
+                $("#check_result").html(_result);
+            });
+        });
     });
 });
 </script>
