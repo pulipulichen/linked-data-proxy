@@ -23,7 +23,6 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
 ```
 
 # TODO
-- 虛擬機器上傳到Google Drive 備份
 - 查詢一個會擋人的資料庫 (google跟cbdb都會擋人，過不去)
 
 # OpenVZ的Node.js部屬教學
@@ -40,7 +39,7 @@ $.get("http://localhost:3000/wiki.l/%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8%E9%A4%A
     - chmod +x /root/linked-data-proxy/*.sh
     - /etc/rc.local
     - /root/linked-data-proxy/start_app.sh
-完成的虛擬機器下載：
+完成的虛擬機器下載 (Google Drive)：https://goo.gl/xbsf3e
 
 # GA
 - 要啟用User-ID
