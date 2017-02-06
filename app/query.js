@@ -73,10 +73,12 @@ var _app_query_no_cache = function (_req, _res, _modules, _query, _callback) {
         display_error: function (_module, _query, _error) {
             var _data = {
                 module: _module,
-                query: _query,
-                error: _error,
                 priority: -1
             };
+            if (CONFIG.query_return_error === true) {
+                _data.query = _query;
+                _data.error = _error;
+            }
             if (typeof(DEBUG.display_error) === "boolean" && DEBUG.display_error === true) {
                 console.log("Error: " + _module + " (" + _query + "): " + _error);
             }

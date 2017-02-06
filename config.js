@@ -8,6 +8,8 @@ CONFIG = {
     //module_cache_expire_hour: 24, 
     //query_cache_expire_hour: 24, 
     
+    query_return_error: false,
+    
     /**
      * 白名單：只有一下server可以使用
      */ 
