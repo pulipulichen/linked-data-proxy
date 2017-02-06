@@ -10,17 +10,26 @@ app.post('/check/:modules', function (_req, _res) {
     var _ori_modules = _modules;
     _modules = modules_mapping(_modules);
     
-    var _query = _req.body.query.trim();
+    var _query = _req.body.query.trim().split(" ");
+    var _query2 = [];
+    for (var _i = 0; _i < _query.length; _i++) {
+        var _q = _query[_i].trim();
+        if (_q !== "" && $.inArray(_q, _query2) === -1) {
+            _query2.push(_q);
+        }
+    }
+    _query = _query2;
+    
+    _req.session.check_result = _query.join(" ");
+    _res.send(_query.join(" "));
+    return;
     
     // 記錄一下
     ua_pageview_check(_ori_modules, _query);
     
-    var sess = _req.session;
-    sess.query = _query;
-    _res.send(_query);
+    var _callback = undefined;
     
     // 準備快取
-    /*
     query_cache_get("check", _modules, _query, function (_cache) {
         if (_cache === false) {
             // 沒有快取的情況
@@ -31,7 +40,6 @@ app.post('/check/:modules', function (_req, _res) {
             res_display(_res, _cache, _callback);
         }
     });
-    */
 });
 
 // --------------------
@@ -123,8 +131,8 @@ app.get('/check/:modules', function (_req, _res) {
     
     var _callback = get_callback(_req);
     
-    var sess = _req.session;
-    var _output_string = sess.query;
+    var _output_string = _req.session.check_result;
+    //delete _req.session.check_result;
     res_display(_res, _output_string, _callback);
     //_res.send(_callback + "(OK)");
 });

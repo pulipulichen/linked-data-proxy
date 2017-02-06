@@ -9,6 +9,7 @@ CONFIG = {
     //query_cache_expire_hour: 24, 
     
     query_return_error: false,
+    secret: 's3Cur3',
     
     /**
      * 白名單：只有一下server可以使用

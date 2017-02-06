@@ -2,7 +2,8 @@ npm install fs --save
 npm install jsdom --save
 npm install express --save
 npm install body-parser --save
-npm install express-session --save
+#npm install express-session --save
+npm install cookie-sessions --save
 
 # 資料庫
 npm install sequelize --save
@@ -24,6 +25,6 @@ npm install iconv-lite --save
 npm install node-opencc --save
 
 # POST相關功能，似乎用不到
-npm install querystring --save
-npm install request-promise --save
-npm install form-data --save
+#npm install querystring --save
+#npm install request-promise --save
+#npm install form-data --save

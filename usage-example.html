@@ -100,7 +100,7 @@
     
     <label>
         要確認的文字
-        <input type="text" id="check_query" value="劉備 關羽 張飛 劉關張" />
+        <input type="text" id="check_query" value="劉備 關羽  劉備 張飛 劉關張" />
     </label>
     <div>
             <label>
@@ -219,14 +219,14 @@ $(function () {
         };
         
         $("#check_result").html("Loading...");
-        //$.post(_url, _data, function () {
+        $.post(_url, _data, function () {
         //    console.log(1);
             $.getJSON(_url, function (_result) {
-                console.log(2);
-                console.log(_result);
+                //console.log(2);
+                //console.log(_result);
                 $("#check_result").html(_result);
             });
-        //});
+        });
         return false;
     });
 });
