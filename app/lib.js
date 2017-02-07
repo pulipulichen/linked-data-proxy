@@ -51,7 +51,9 @@ get_callback = function (_req) {
 
 res_display = function (_res, _output_string, _callback) {
     if (_callback !== undefined) {
-        _output_string = JSON.stringify(_output_string);
+        if (_output_string.substr(0,1) !== "{" || _output_string.substr(0,1) !== "[") {
+            //_output_string = JSON.stringify(_output_string);
+        }
         _output_string = _callback + '(' + _output_string + ')';
         _res.setHeader('content-type', 'text/javascript');
     }
