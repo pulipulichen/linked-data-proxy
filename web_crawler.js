@@ -193,7 +193,7 @@ web_crawler = function (_output, _options) {
         //_res.send(_cache_response);
         //var _priority = 0;
         get_vote_score(_module, _query, function (_priority) {
-            _output.display_response(_options.module, _cache_response, _priority);
+            _output.display_response(_options.module, _cache_response, _priority, _query);
         });
     };
     
@@ -342,7 +342,8 @@ web_crawler = function (_output, _options) {
             //_res.send(_content);
             //var _priority = 0;
             get_vote_score(_module, _query, function (_priority) {
-                _output.display_response(_module, _content, _priority);
+                //console.log("_set_moudle_cache", _query, _content);
+                _output.display_response(_module, _content, _priority, _query);
             });
         });
     };
