@@ -2,7 +2,7 @@ npm install fs --save
 npm install jsdom --save
 npm install express --save
 npm install body-parser --save
-#npm install express-session --save
+npm install express-session --save
 npm install cookie-sessions --save
 
 # 資料庫
