@@ -7,8 +7,9 @@ check_white_list = function (_req, _res) {
         var _list = CONFIG.referer_allow_list;
         //console.log(_list);
         if ($.inArray(_url_options.host, _list) === -1) {
+            console.log('Access Forbidden: ' + _url_options.host);
             _res.status(403).send({
-                message: 'Access Forbidden'
+                message: 'Access Forbidden: ' + _url_options.host
             });
             return false;
         }
