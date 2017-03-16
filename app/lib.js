@@ -50,9 +50,26 @@ get_callback = function (_req) {
 
 // -----------------
 
-res_display = function (_res, _output_string, _callback) {
+res_display = function (_res, _output_stringaaa, _callback) {
+    var _type = typeof(_output_stringaaa);
+    if (!(_type === "string" || _type === "number" || _type === "object")) {
+        //console.log("No data: " + _type + " (" + _output_stringaaa + ")");
+        if (_callback !== undefined) {
+            _res.setHeader('content-type', 'text/javascript');
+            _res.send(_callback + '()');
+        }
+        else {
+            _res.setHeader('content-type', 'text/plain');
+            _res.send("");
+        }
+        return ;
+    }
+    
+    var _output_string = _output_stringaaa;
+    
     if (_callback !== undefined) {
-        if (_output_string.substr(0,1) !== "{" && _output_string.substr(0,1) !== "[") {
+        if (_output_string.substr(0,1) !== "{" 
+                && _output_string.substr(0,1) !== "[") {
             _output_string = JSON.stringify(_output_string);
         }
         _output_string = _callback + '(' + _output_string + ')';

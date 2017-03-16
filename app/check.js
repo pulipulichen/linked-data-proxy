@@ -6,6 +6,7 @@ app.post('/check/:modules', function (_req, _res) {
     if (check_white_list(_req, _res) === false) {
         return;
     } 
+    //console.log("check post");
     
     ua_set_headers(_req, _res);
     setup_uuid(_req, _res);
@@ -23,11 +24,6 @@ app.post('/check/:modules', function (_req, _res) {
         }
     }
     var _queries = _query2;
-    //console.log(_queries);
-    
-    //_req.session.check_result = _query.join(" ");
-    //_res.send(_query.join(" "));
-    //return;
     
     // 記錄一下
     ua_pageview_check(_ori_modules, _queries);
@@ -51,6 +47,8 @@ app.post('/check/:modules', function (_req, _res) {
 
 var _app_query_no_cache = function (_req, _res, _modules, _queries, _callback) {
     
+    
+    //console.log("4 記錄在快取中: ");
     var _output = {
         data: [],
         index: 0,
@@ -64,15 +62,18 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _callback) {
         display: function (_data) {
             if (_data !== undefined 
                     && $.inArray(_data, this.data) === -1) {
-                //console.log(_data);
+                console.log(_data);
                 this.data.push(_data);
             }
             this.index++;
+            //console.log("3 記錄在快取中: " + _output_string);
             if (this.index === this.limit) {
                 var _output_string = this._get_data();
                 
                 // 記錄在快取中
+                //console.log("2 記錄在快取中: " + _output_string);
                 query_cache_set("check", _modules, _queries, _output_string, function () {
+                    //console.log("記錄在快取中: " + _output_string);
                     _req.session.check_result = _output_string;
                     res_display(_res, _output_string, _callback);
                 });
@@ -102,6 +103,7 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _callback) {
             var _module = _modules[_i];
             
             if ($.inArray(_query, _output.data) === -1) {
+                console.log();
                 launch_proxy[_module](_output, _query);
             }
         }
@@ -114,7 +116,7 @@ app.get('/check/:modules', function (_req, _res) {
     if (check_white_list(_req, _res) === false) {
         return;
     } 
-    
+    //console.log("check get");
     var _callback = get_callback(_req);
     
     var _output_string = _req.session.check_result;
