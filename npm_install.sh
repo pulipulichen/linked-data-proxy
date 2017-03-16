@@ -8,6 +8,7 @@ npm install cookie-sessions --save
 # 資料庫
 npm install sequelize --save
 npm install sqlite3 --save
+npm install pg --save
 
 npm install jquery --save
 
