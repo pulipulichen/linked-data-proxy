@@ -34,10 +34,21 @@ app.post('/check/:modules', function (_req, _res) {
     query_cache_get("check", _modules, _queries, function (_cache) {
         if (_cache === false) {
             // 沒有快取的情況
-            _app_query_no_cache(_req, _res, _modules, _queries, _callback);
+            
+            //console.log("準備建立");
+            setTimeout(function () {
+                tableCheckResponse.create({"response": "false"}).then(function (_response) {
+                    var _response_id = _response.get("id");
+                    //console.log("response id: " + _response_id);
+                    _req.session.response_id = _response_id + "";
+                    res_display(_res, undefined, _callback);
+                    _app_query_no_cache(_req, _res, _modules, _queries, _response_id, _callback);
+                });
+            }, 0);
         }
         else {
             // 有快取的情況
+            _req.session.response_id = _cache;
             res_display(_res, _cache, _callback);
         }
     });
@@ -45,9 +56,7 @@ app.post('/check/:modules', function (_req, _res) {
 
 // --------------------
 
-var _app_query_no_cache = function (_req, _res, _modules, _queries, _callback) {
-    
-    
+var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id, _callback) {
     //console.log("4 記錄在快取中: ");
     var _output = {
         data: [],
@@ -60,9 +69,10 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _callback) {
             res_display(_res, _data, _callback);
         },
         display: function (_data) {
+            console.log(this.index + ": " + _data);
             if (_data !== undefined 
                     && $.inArray(_data, this.data) === -1) {
-                console.log(_data);
+                
                 this.data.push(_data);
             }
             this.index++;
@@ -73,9 +83,14 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _callback) {
                 // 記錄在快取中
                 //console.log("2 記錄在快取中: " + _output_string);
                 query_cache_set("check", _modules, _queries, _output_string, function () {
-                    //console.log("記錄在快取中: " + _output_string);
-                    _req.session.check_result = _output_string;
-                    res_display(_res, _output_string, _callback);
+                    
+                    //_req.session.check_result = _output_string;
+                    //res_display(_res, _output_string, _callback);
+                    
+                    //console.log("準備記錄在快取中: " + _output_string);
+                    tableCheckResponse.update({"response": _output_string}, {where: {id: _response_id}}).then(function () {
+                        console.log("記錄在快取中: " + _output_string);
+                    });
                 });
             }
         },
@@ -103,7 +118,7 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _callback) {
             var _module = _modules[_i];
             
             if ($.inArray(_query, _output.data) === -1) {
-                console.log();
+                //console.log();
                 launch_proxy[_module](_output, _query);
             }
         }
@@ -119,8 +134,27 @@ app.get('/check/:modules', function (_req, _res) {
     //console.log("check get");
     var _callback = get_callback(_req);
     
-    var _output_string = _req.session.check_result;
-    //delete _req.session.check_result;
-    res_display(_res, _output_string, _callback);
-    //_res.send(_callback + "(OK)");
+    var _response_id = _req.session.response_id;
+    var _output_string = 'false';
+    //console.log([_response_id, isNaN(_response_id)]);
+    if (typeof (_response_id) === "number" || isNaN(_response_id) === false) {
+        tableCheckResponse.findOne({where: {id: _response_id}}).then(function (_response) {
+            if (_response !== null) {
+                var _output_string = _response.get("response");
+            }
+
+            if (_output_string !== 'false') {
+                // 表示有資料，準備刪除
+                _response.destroy({force: true});
+            }
+
+            //delete _req.session.check_result;
+            res_display(_res, _output_string, _callback);
+            //_res.send(_callback + "(OK)");
+        });
+    }
+    else {
+        _output_string = _response_id;
+        res_display(_res, _output_string, _callback);
+    }
 });
