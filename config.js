@@ -58,6 +58,10 @@ CONFIG = {
     // 偵錯工具
     database: {
         //logging: true
+        database: 'linked_data_proxy',
+        user: 'linked_data_proxy',
+        password: 'password',
+        host: 'localhost',
         logging: false
     }
 };
