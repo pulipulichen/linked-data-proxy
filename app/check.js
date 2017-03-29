@@ -32,7 +32,7 @@ app.post('/check/:modules', function (_req, _res) {
     
     // 準備快取
     query_cache_get("check", _modules, _queries, function (_cache) {
-        if (_cache === false) {
+        
             // 沒有快取的情況
             
             //console.log("準備建立");
@@ -42,15 +42,18 @@ app.post('/check/:modules', function (_req, _res) {
                     //console.log("response id: " + _response_id);
                     _req.session.response_id = _response_id + "";
                     res_display(_res, undefined, _callback);
-                    _app_query_no_cache(_req, _res, _modules, _queries, _response_id, _callback);
+                    if (_cache === false) {
+                        _app_query_no_cache(_req, _res, _modules, _queries, _response_id, _callback);
+                    }
+                    else {
+                        // 有快取的情況
+                        //_req.session.response_id = _cache;
+                        //console.log(["有快取", _cache]);
+                        //res_display(_res, _cache, _callback);
+                    }
                 });
             }, 0);
-        }
-        else {
-            // 有快取的情況
-            _req.session.response_id = _cache;
-            res_display(_res, _cache, _callback);
-        }
+                    
     });
 });
 
@@ -136,7 +139,7 @@ app.get('/check/:modules', function (_req, _res) {
     
     var _response_id = _req.session.response_id;
     var _output_string = 'false';
-    //console.log([_response_id, isNaN(_response_id)]);
+    console.log([_response_id, isNaN(_response_id)]);
     if (typeof (_response_id) === "number" || isNaN(_response_id) === false) {
         tableCheckResponse.findOne({where: {id: _response_id}}).then(function (_response) {
             if (_response !== null) {
