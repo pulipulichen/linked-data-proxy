@@ -8,7 +8,7 @@ url = require('url');
 //util = require("util");
 
 var express = require('express');
-Cookies = require( "cookies" )
+
 app = express();
 
 // -----------------------------
@@ -24,6 +24,12 @@ require("./lib/uuid.js");
 require("./lib/ip.js");
 require("./lib/session.js");
 
+
+Cookies = require( "cookies" );
+//var cookieParser = require('cookie-parser');
+//app.use(cookieParser());
+
+
 // -----------------------------
 
 var bodyParser = require('body-parser');
@@ -35,6 +41,7 @@ require("./app/index.js");
 require("./app/check.js");
 require("./app/query.js");
 require("./app/vote.js");
+require("./app/test_cookie.js");
 
 // -----------------------------
 

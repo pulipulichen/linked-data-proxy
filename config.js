@@ -19,6 +19,7 @@ CONFIG = {
         "yourserver",
         "exp-linked-data-proxy-2017.dlll.nccu.edu.tw",
         "exp-linked-data-proxy-2017.dlll.nccu.edu.tw:32580",
+        "pc.pulipuli.info:3000",
     ],
     
     // 模組的別名
