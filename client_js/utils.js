@@ -8,8 +8,6 @@ LINK_DATA_PROXY.get_host = function () {
         return LINK_DATA_PROXY.host;
     }
     
-    return "http://pc.pulipuli.info:3000/";
-    
     var _scripts = $("script#link_data_proxy_utils");
     var _needle = "/utils.js";
     for (var _i = 0; _i < _scripts.length; _i++) {
