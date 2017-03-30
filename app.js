@@ -23,6 +23,7 @@ require("./lib/vote.js");
 require("./lib/uuid.js");
 require("./lib/ip.js");
 require("./lib/session.js");
+require("./lib/cors.js");
 
 
 Cookies = require( "cookies" );
@@ -41,7 +42,7 @@ require("./app/index.js");
 require("./app/check.js");
 require("./app/query.js");
 require("./app/vote.js");
-require("./app/test_cookie.js");
+require("./app/uuid.js");
 
 // -----------------------------
 

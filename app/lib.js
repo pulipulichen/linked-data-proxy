@@ -51,12 +51,18 @@ get_callback = function (_req) {
 // -----------------
 
 res_display = function (_res, _output_string, _callback) {
-    var _type = typeof(_output_string);
+    
     
     _res.header("Access-Control-Allow-Credentials", "true");
     _res.header("Access-Control-Allow-Origin", "*");
     _res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authorization");
     _res.header("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT,OPTIONS");
+    
+    if (typeof(_callback) === "object") {
+        _callback = get_callback(_callback);
+    }
+    
+    var _type = typeof(_output_string);
     
     if (!(_type === "string" || _type === "number" || _type === "object"|| _type === "boolean")) {
         //console.log("No data: " + _type + " (" + _output_stringaaa + ")");

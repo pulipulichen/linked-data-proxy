@@ -12,7 +12,7 @@ app.get("/favicon.ico", function (_req, _res) {
 });
 
 app.get("/utils.js", function (_req, _res) {
-    fs.readFile("app/utils.js", 'utf8', function (err, data) {
+    fs.readFile("client_js/utils.js", 'utf8', function (err, data) {
         _res.setHeader('content-type', 'text/javascript');
         _res.send(data);
     });
