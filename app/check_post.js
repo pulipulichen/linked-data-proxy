@@ -1,13 +1,13 @@
-var DEBUG = {
-    
-};
 
-app.post('/check/:modules', function (_req, _res) {
+// -------------------------------
+
+app.post('/check_post/:modules', function (_req, _res) {
     if (check_white_list(_req, _res) === false) {
         return;
     } 
     //console.log("check post");
-    var cookies = new Cookies( _req, _res );
+    
+    //var cookies = new Cookies( _req, _res );
     
     ua_set_headers(_req, _res);
     setup_uuid(_req, _res);
@@ -42,18 +42,23 @@ app.post('/check/:modules', function (_req, _res) {
                     var _response_id = _response.get("id");
                     //console.log("response id: " + _response_id);
                     //_req.session.response_id = _response_id + "";
-                    cookies.set("response_id", escape(_response_id + ""));
-                    res_display(_res, undefined, _callback);
+                    //_req.session.response_cache = undefined;
+                    //res_display(_res, undefined, _callback);
                     _app_query_no_cache(_req, _res, _modules, _queries, _response_id, _callback);
                 });
             }, 0);
         }
         else {
             // 有快取的情況
-            //_cache = JSON.stringify(_cache);
-            //console.log(["post有快取", _cache]);
-            //_req.session.response_id = _cache;
-            cookies.set("response_id", escape(_cache));
+            //console.log(["post", JSON.stringify(_cache), typeof(_cache)], _cache, JSON.parse(_cache).join(" "));
+            //_req.session.response_id = JSON.stringify(_cache);
+            //cookies.set("response_cache", JSON.parse(_cache).join(","));
+            //cookies.set("response_cache", escape(_cache));
+            //_req.cookies.response_cache = _cache;
+            //console.log('Cookies: ', _req.cookies);
+            //console.log(["post", cookies.get("response_cache"), escape(_cache)]);
+            //console.log(_req.session);
+            
             res_display(_res, _cache, _callback);
         }
     });
@@ -61,7 +66,7 @@ app.post('/check/:modules', function (_req, _res) {
 
 // --------------------
 
-var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id, _callback) {
+var _app_query_no_cache_post = function (_req, _res, _modules, _queries, _response_id, _callback) {
     //console.log("4 記錄在快取中: ");
     var _output = {
         data: [],
@@ -90,7 +95,7 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id
                 query_cache_set("check", _modules, _queries, _output_string, function () {
                     
                     //_req.session.check_result = _output_string;
-                    //res_display(_res, _output_string, _callback);
+                    res_display(_res, _output_string, _callback);
                     
                     //console.log("準備記錄在快取中: " + _output_string);
                     tableCheckResponse.update({"response": _output_string}, {where: {id: _response_id}}).then(function () {
@@ -129,43 +134,3 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id
         }
     }
 };
-
-// -------------------------------
-
-app.get('/check/:modules', function (_req, _res) {
-    if (check_white_list(_req, _res) === false) {
-        return;
-    } 
-    //console.log("check get");
-    var _callback = get_callback(_req);
-    
-    //var _response_id = _req.session.response_id;
-    var cookies = new Cookies( _req, _res );
-    var _response_id = cookies.get("response_id");
-    _response_id = unescape(_response_id);
-    
-    var _output_string = 'false';
-    //console.log([_response_id, isNaN(_response_id)]);
-    if (typeof (_response_id) === "number" || isNaN(_response_id) === false) {
-        _response_id = parseInt(_response_id, 10);
-        tableCheckResponse.findOne({where: {id: _response_id}}).then(function (_response) {
-            //console.log(_response);
-            if (_response !== null) {
-                var _output_string = _response.get("response");
-            }
-
-            if (_output_string !== 'false') {
-                // 表示有資料，準備刪除
-                _response.destroy({force: true});
-            }
-            
-            //delete _req.session.check_result;
-            res_display(_res, _output_string, _callback);
-            //_res.send(_callback + "(OK)");
-        });
-    }
-    else {
-        _output_string = _response_id;
-        res_display(_res, _output_string, _callback);
-    }
-});

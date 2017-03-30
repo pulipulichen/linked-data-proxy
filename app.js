@@ -40,6 +40,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 require("./app/lib.js");
 require("./app/index.js");
 require("./app/check.js");
+require("./app/check_post.js");
 require("./app/query.js");
 require("./app/vote.js");
 require("./app/uuid.js");

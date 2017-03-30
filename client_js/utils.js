@@ -75,6 +75,8 @@ LINK_DATA_PROXY.check_uuid = function (_callback) {
 
 LINK_DATA_PROXY.iframe_post = function (_url, _data, _callback) {
     
+    var _DEBUG = false;
+    
     if (typeof(_data) === "function" && typeof(_callback) === "undefined") {
         _callback = _data;
         _data = {};
@@ -89,6 +91,9 @@ LINK_DATA_PROXY.iframe_post = function (_url, _data, _callback) {
             .hide().appendTo(_body);
     var _iframe = $('<iframe name="' + _id + '"></iframe>')
             .hide().appendTo(_body);
+    if (_DEBUG === true) {
+        _iframe.show();
+    }
     
     for (var _key in _data) {
         var _value = _data[_key];
@@ -99,7 +104,10 @@ LINK_DATA_PROXY.iframe_post = function (_url, _data, _callback) {
     
     _iframe.load(function () {
         setTimeout(function () {
-            _iframe.remove();
+            if (_DEBUG !== true) {
+                _iframe.remove();
+            }
+            
             if (typeof(_callback) === "function") {
                 _callback();
             }

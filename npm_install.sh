@@ -5,6 +5,7 @@ npm install body-parser --save
 npm install express-session --save
 npm install cookie-sessions --save
 npm install cookie-parser --save
+npm install cors --save
 
 # 資料庫
 npm install sequelize --save
