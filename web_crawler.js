@@ -439,13 +439,15 @@ var _prepend_base_url = function (_content, _base_url) {
     }
     
     _content.find("a[href]").each(function (_i, _ele) {
-        if (!strStartsWith(_ele.href, "http://") && !strStartsWith(_ele.href, "https://")) {
+        if (!strStartsWith(_ele.href, "http://") && !strStartsWith(_ele.href, "https://") && !strStartsWith(_ele.href, "//")) {
             _ele.href = _base_url + _ele.href;
         }
         _ele.target = "_blank";
     });
     _content.find("img[src]").each(function (_i, _ele) {
-        _ele.src = _base_url + _ele.src;
+        if (!strStartsWith(_ele.src, "http://") && !strStartsWith(_ele.src, "https://") && !strStartsWith(_ele.src, "//")) {
+            _ele.src = _base_url + _ele.src;
+        }
     });
     return get_outer_html(_content);
 };
