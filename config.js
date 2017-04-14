@@ -16,6 +16,7 @@ CONFIG = {
      */ 
     referer_allow_list: [
         "localhost",
+        "localhost:8005",
         "yourserver",
         "exp-linked-data-proxy-2017.dlll.nccu.edu.tw",
         "exp-linked-data-proxy-2017.dlll.nccu.edu.tw:32580",
