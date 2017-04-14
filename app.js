@@ -44,6 +44,7 @@ require("./app/check_post.js");
 require("./app/query.js");
 require("./app/vote.js");
 require("./app/uuid.js");
+require("./app/add_term.js");
 
 // -----------------------------
 
