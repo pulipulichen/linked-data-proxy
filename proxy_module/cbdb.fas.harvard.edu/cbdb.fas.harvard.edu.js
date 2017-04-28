@@ -33,6 +33,9 @@ var _options = {
      * @param {string} _content
      */
     post_process: function (_content) {
+        console.log("[post_process]");
+        console.log(_content);
+        console.log("[END]");
         _content = JSON.parse(_content);
         var _persons = _content.Package.PersonAuthority.PersonInfo.Person;
         if (typeof(_persons.length) === "undefined") {

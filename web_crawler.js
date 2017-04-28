@@ -173,6 +173,10 @@ web_crawler = function (_output, _options) {
             _content = _extract_string(_content);
         }
         //console.log(content);
+        
+        if (_content === undefined || _content === "Too many connections") {
+            _content = "";
+        }
 
         _content = _content.trim();
 
