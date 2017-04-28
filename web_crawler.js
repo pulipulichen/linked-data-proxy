@@ -142,6 +142,16 @@ web_crawler = function (_output, _options) {
             });
             return;
         }
+        else if (typeof(_options.content_found_string) === "string" 
+                && _content.indexOf(_options.content_found_string) === -1) {
+            _content = null;
+            var _error = "Result not found: " + _options.content_found_string;
+            module_cache_set(_options.url, _content, _error, function () {
+                ua_event(_module, _query, false, false);
+                _output.display_error(_module, _query, _error);
+            });
+            return;
+        }
 
         // -------------------------
         // 正式開始找資料

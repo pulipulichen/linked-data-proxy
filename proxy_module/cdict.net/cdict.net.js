@@ -24,7 +24,7 @@ var _options = {
      * 沒找到資料的選擇器
      */
     //content_not_found_selector: "body",
-    content_not_found_string: '沒有發現關於 [',
+    content_found_string: '來源(1)',
     
     /**
      * 從字串前後抽取
