@@ -174,7 +174,9 @@ web_crawler = function (_output, _options) {
         }
         //console.log(content);
         
-        if (_content === undefined || _content === "Too many connections") {
+        if (_content === undefined 
+                || _content === "Too many connections"
+                || _content.indexOf("Lost connection to MySQL server at") > -1) {
             _content = "";
         }
 
