@@ -26,6 +26,10 @@ app.post('/check_post/:modules', function (_req, _res) {
     }
     var _queries = _query2;
     
+    if (_queries.length === 0) {
+        return "";
+    }
+    
     // 記錄一下
     ua_pageview_check(_ori_modules, _queries);
     
@@ -45,6 +49,7 @@ app.post('/check_post/:modules', function (_req, _res) {
                     //_req.session.response_cache = undefined;
                     //res_display(_res, undefined, _callback);
                     _app_query_no_cache(_req, _res, _modules, _queries, _response_id, _callback);
+                    res_display(_res, undefined, _callback);
                 });
             }, 0);
         }
