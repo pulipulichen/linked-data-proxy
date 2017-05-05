@@ -2,11 +2,104 @@ var DEBUG = {
     
 };
 
+
+// --------------------
+
+var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id, _callback) {
+    //console.log("4 記錄在快取中: ");
+    
+    var _limit = 0;
+    
+    
+    var _output = {
+        data: [],
+        index: 0,
+        limit: _modules.length*_queries.length,
+        _get_data: function () {
+            return JSON.stringify(this.data);
+        },
+        test_display: function (_data) {
+            res_display(_res, _data, _callback);
+        },
+        display: function (_data) {
+            console.log(this.index + ": " + _data);
+            if (_data !== undefined 
+                    && $.inArray(_data, this.data) === -1) {
+                
+                this.data.push(_data);
+            }
+            this.index++;
+            //console.log("3 記錄在快取中: " + _output_string);
+            if (this.index === _limit) {
+                var _output_string = this._get_data();
+                
+                // 記錄在快取中
+                //console.log("2 記錄在快取中: " + _output_string);
+                query_cache_set("check", _modules, _queries, _output_string, function () {
+                    
+                    //_req.session.check_result = _output_string;
+                    //res_display(_res, _output_string, _callback);
+                    
+                    //console.log("準備記錄在快取中: " + _output_string);
+                    tableCheckResponse.update({"response": _output_string}, {where: {id: _response_id}}).then(function () {
+                        console.log("記錄在快取中: " + _output_string);
+                    });
+                });
+            }
+        },
+        display_error: function (_module, _query, _error) {
+            if (typeof(DEBUG.display_error) === "boolean" && DEBUG.display_error === true) {
+                console.log("Error: " + _module + " (" + _query + "): " + _error);
+            }
+            ua_exception(_module, _query, _error);
+            this.display();
+        },
+        display_response: function (_module, _response, _priority, _query) {
+            if (_response === undefined) {
+                _response = null;
+            }
+            //console.log("display_response", _query);
+            this.display(_query);
+        }
+    };
+    
+    // ----------------------------
+    // 準備查詢
+    for (var _q = 0; _q < _queries.length; _q++) {
+        var _query = _queries[_q];
+        
+        if (_query !== undefined && CONFIG.stopword.indexOf(_query) === -1) {
+            for (var _i = 0; _i < _modules.length; _i++) {
+                if ($.inArray(_query, _output.data) === -1) {
+                    _limit++;
+                }
+            }
+        }
+    }
+    
+    for (var _q = 0; _q < _queries.length; _q++) {
+        var _query = _queries[_q];
+        
+        if (_query !== undefined && CONFIG.stopword.indexOf(_query) === -1) {
+            for (var _i = 0; _i < _modules.length; _i++) {
+                var _module = _modules[_i];
+
+                if ($.inArray(_query, _output.data) === -1) {
+                    //console.log();
+                    launch_proxy[_module](_output, _query);
+                }
+            }
+        }
+    }
+};
+
 app.post('/check/:modules', function (_req, _res) {
     if (check_white_list(_req, _res) === false) {
+        //console.log("check false");
         return;
     } 
-    //console.log("check post");
+    //console.log("check");
+    
     var cookies = new Cookies( _req, _res );
     
     ua_set_headers(_req, _res);
@@ -59,76 +152,6 @@ app.post('/check/:modules', function (_req, _res) {
     });
 });
 
-// --------------------
-
-var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id, _callback) {
-    //console.log("4 記錄在快取中: ");
-    var _output = {
-        data: [],
-        index: 0,
-        limit: _modules.length*_queries.length,
-        _get_data: function () {
-            return JSON.stringify(this.data);
-        },
-        test_display: function (_data) {
-            res_display(_res, _data, _callback);
-        },
-        display: function (_data) {
-            console.log(this.index + ": " + _data);
-            if (_data !== undefined 
-                    && $.inArray(_data, this.data) === -1) {
-                
-                this.data.push(_data);
-            }
-            this.index++;
-            //console.log("3 記錄在快取中: " + _output_string);
-            if (this.index === this.limit) {
-                var _output_string = this._get_data();
-                
-                // 記錄在快取中
-                //console.log("2 記錄在快取中: " + _output_string);
-                query_cache_set("check", _modules, _queries, _output_string, function () {
-                    
-                    //_req.session.check_result = _output_string;
-                    //res_display(_res, _output_string, _callback);
-                    
-                    //console.log("準備記錄在快取中: " + _output_string);
-                    tableCheckResponse.update({"response": _output_string}, {where: {id: _response_id}}).then(function () {
-                        console.log("記錄在快取中: " + _output_string);
-                    });
-                });
-            }
-        },
-        display_error: function (_module, _query, _error) {
-            if (typeof(DEBUG.display_error) === "boolean" && DEBUG.display_error === true) {
-                console.log("Error: " + _module + " (" + _query + "): " + _error);
-            }
-            ua_exception(_module, _query, _error);
-            this.display();
-        },
-        display_response: function (_module, _response, _priority, _query) {
-            if (_response === undefined) {
-                _response = null;
-            }
-            //console.log("display_response", _query);
-            this.display(_query);
-        }
-    };
-    
-    // ----------------------------
-    // 準備查詢
-    for (var _q = 0; _q < _queries.length; _q++) {
-        var _query = _queries[_q];
-        for (var _i = 0; _i < _modules.length; _i++) {
-            var _module = _modules[_i];
-            
-            if ($.inArray(_query, _output.data) === -1) {
-                //console.log();
-                launch_proxy[_module](_output, _query);
-            }
-        }
-    }
-};
 
 // -------------------------------
 

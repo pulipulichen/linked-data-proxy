@@ -1,8 +1,12 @@
+var DEBUG = {
+    
+};
 
 // -------------------------------
 
 app.post('/check_post/:modules', function (_req, _res) {
     if (check_white_list(_req, _res) === false) {
+        //console.log("check post false");
         return;
     } 
     //console.log("check post");
@@ -48,7 +52,7 @@ app.post('/check_post/:modules', function (_req, _res) {
                     //_req.session.response_id = _response_id + "";
                     //_req.session.response_cache = undefined;
                     //res_display(_res, undefined, _callback);
-                    _app_query_no_cache(_req, _res, _modules, _queries, _response_id, _callback);
+                    _app_query_no_cache_post(_req, _res, _modules, _queries, _response_id, _callback);
                     res_display(_res, undefined, _callback);
                 });
             }, 0);
@@ -73,6 +77,9 @@ app.post('/check_post/:modules', function (_req, _res) {
 
 var _app_query_no_cache_post = function (_req, _res, _modules, _queries, _response_id, _callback) {
     //console.log("4 記錄在快取中: ");
+    
+    var _limit = 0;
+    
     var _output = {
         data: [],
         index: 0,
@@ -92,7 +99,7 @@ var _app_query_no_cache_post = function (_req, _res, _modules, _queries, _respon
             }
             this.index++;
             //console.log("3 記錄在快取中: " + _output_string);
-            if (this.index === this.limit) {
+            if (this.index === _limit) {
                 var _output_string = this._get_data();
                 
                 // 記錄在快取中
@@ -129,12 +136,38 @@ var _app_query_no_cache_post = function (_req, _res, _modules, _queries, _respon
     // 準備查詢
     for (var _q = 0; _q < _queries.length; _q++) {
         var _query = _queries[_q];
-        for (var _i = 0; _i < _modules.length; _i++) {
-            var _module = _modules[_i];
-            
-            if ($.inArray(_query, _output.data) === -1) {
-                //console.log();
-                launch_proxy[_module](_output, _query);
+        
+        if (_query !== undefined && CONFIG.stopword.indexOf(_query) === -1) {
+            for (var _i = 0; _i < _modules.length; _i++) {
+                if ($.inArray(_query, _output.data) === -1) {
+                    _limit++;
+                }
+            }
+        }
+    }
+    
+    for (var _q = 0; _q < _queries.length; _q++) {
+        var _query = _queries[_q];
+        
+        var _pass = true;
+        if (_query === undefined) {
+            _pass = false;
+        }
+        else if (CONFIG.stopword.indexOf(_query) > -1) {
+            _pass = false;
+        }
+        else if (_query.length > 1 && CONFIG.stopword.indexOf(_query.substr(0.1)) > -1 ) {
+            _pass = false;
+        }
+        
+        if (_pass) {
+            for (var _i = 0; _i < _modules.length; _i++) {
+                var _module = _modules[_i];
+
+                if ($.inArray(_query, _output.data) === -1) {
+                    //console.log();
+                    launch_proxy[_module](_output, _query);
+                }
             }
         }
     }

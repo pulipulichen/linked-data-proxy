@@ -52,44 +52,48 @@ get_callback = function (_req) {
 
 res_display = function (_res, _output_string, _callback) {
     
-    
-    _res.header("Access-Control-Allow-Credentials", "true");
-    _res.header("Access-Control-Allow-Origin", "*");
-    _res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authorization");
-    _res.header("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT,OPTIONS");
-    
-    if (typeof(_callback) === "object") {
-        _callback = get_callback(_callback);
-    }
-    
-    var _type = typeof(_output_string);
-    
-    if (!(_type === "string" || _type === "number" || _type === "object"|| _type === "boolean")) {
-        //console.log("No data: " + _type + " (" + _output_stringaaa + ")");
+    try {
+        _res.header("Access-Control-Allow-Credentials", "true");
+        _res.header("Access-Control-Allow-Origin", "*");
+        _res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authorization");
+        _res.header("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT,OPTIONS");
+
+        if (typeof(_callback) === "object") {
+            _callback = get_callback(_callback);
+        }
+
+        var _type = typeof(_output_string);
+
+        if (!(_type === "string" || _type === "number" || _type === "object"|| _type === "boolean")) {
+            //console.log("No data: " + _type + " (" + _output_stringaaa + ")");
+            if (_callback !== undefined) {
+                _res.setHeader('content-type', 'text/javascript');
+                _res.send(_callback + '()');
+            }
+            else {
+                _res.setHeader('content-type', 'text/plain');
+                _res.send("");
+            }
+            return ;
+        }
+
         if (_callback !== undefined) {
+            if (_type === "string" 
+                    && _output_string.substr(0,1) !== "{" 
+                    && _output_string.substr(0,1) !== "[") {
+                _output_string = JSON.stringify(_output_string);
+            }
+            _output_string = _callback + '(' + _output_string + ')';
             _res.setHeader('content-type', 'text/javascript');
-            _res.send(_callback + '()');
         }
         else {
             _res.setHeader('content-type', 'text/plain');
-            _res.send("");
         }
-        return ;
+        _res.send(_output_string);
     }
-    
-    if (_callback !== undefined) {
-        if (_type === "string" 
-                && _output_string.substr(0,1) !== "{" 
-                && _output_string.substr(0,1) !== "[") {
-            _output_string = JSON.stringify(_output_string);
-        }
-        _output_string = _callback + '(' + _output_string + ')';
-        _res.setHeader('content-type', 'text/javascript');
+    catch (_e) {
+        
     }
-    else {
-        _res.setHeader('content-type', 'text/plain');
-    }
-    _res.send(_output_string);
 };
 
 // -----------------
