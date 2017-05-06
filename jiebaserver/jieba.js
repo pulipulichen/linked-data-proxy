@@ -1,4 +1,4 @@
-require('/jiebaserver/scripts/main.js');
+require('./scripts/main.js');
 require("jsdom").env("", function(err, window) {
     if (err) {
         console.error(err);
@@ -8,7 +8,7 @@ require("jsdom").env("", function(err, window) {
 });
 
 //var express = require('express');
-var GENERAL_DICT = require('/jiebaserver/scripts/data/dictionary.js');
+var GENERAL_DICT = require('./scripts/data/dictionary.js');
 
 var request = require("request");
 
@@ -21,7 +21,7 @@ var sub_result;         //各個check_result_array轉為string
 var URL = "http://pc.pulipuli.info:3000/check_post/wiki,moedict,cbdb,tgaz,cdict,pixabay/";
 var fs = require('fs');
 
-var DIR_LJL='/jiebaserver/ljlarticle';
+var DIR_LJL='../jiebaserver/ljlarticle';
 
 /*var _modules = ["wiki","moedict","cbdb","tgaz","pixabay"];*/
 //app=express();
@@ -36,58 +36,58 @@ Cookies = require( "cookies" );
 require('./database.js');
 //--------------------------------------------------------------------------------------------
 app.get("/client/js/linked-data-proxy-lib.js", function (_req, _res) {
-    fs.readFile("/jiebaserver/client_js/linked-data-proxy-lib.js", 'utf8', function (err, data) {
+    fs.readFile("./client_js/linked-data-proxy-lib.js", 'utf8', function (err, data) {
         _res.setHeader('content-type', 'text/javascript');
         _res.send(data);
     });
 });
 
 app.get("/client/css/style.css", function (_req, _res) {
-    fs.readFile("/jiebaserver/client_css/style.css", 'utf8', function (err, data) {
+    fs.readFile("./client_css/style.css", 'utf8', function (err, data) {
         _res.setHeader('content-type', 'text/css');
         _res.send(data);
     });
 });
 app.get("/client/css/tooltipster.bundle.min.css", function (_req, _res) {
-    fs.readFile("/jiebaserver/client_css/tooltipster.bundle.min.css", 'utf8', function (err, data) {
+    fs.readFile("./client_css/tooltipster.bundle.min.css", 'utf8', function (err, data) {
         _res.setHeader('content-type', 'text/css');
         _res.send(data);
     });
 });
 app.get("/client/css/tooltipster-sideTip-noir.min.css", function (_req, _res) {
-    fs.readFile("/jiebaserver/client_css/tooltipster-sideTip-noir.min.css", 'utf8', function (err, data) {
+    fs.readFile("./client_css/tooltipster-sideTip-noir.min.css", 'utf8', function (err, data) {
         _res.setHeader('content-type', 'text/css');
         _res.send(data);
     });
 });
 
 app.get("/client/js/jquery.js", function (_req, _res) {
-    fs.readFile("/jiebaserver/client_js/jquery.js", 'utf8', function (err, data) {
+    fs.readFile("./client_js/jquery.js", 'utf8', function (err, data) {
         _res.setHeader('content-type', 'text/javascript');
         _res.send(data);
     });
 });
 app.get("/client/js/rangy-core.js", function (_req, _res) {
-    fs.readFile("/jiebaserver/client_js/rangy-core.js", 'utf8', function (err, data) {
+    fs.readFile("./client_js/rangy-core.js", 'utf8', function (err, data) {
         _res.setHeader('content-type', 'text/javascript');
         _res.send(data);
     });
 });
 app.get("/client/js/utils.js", function (_req, _res) {
-    fs.readFile("/jiebaserver/client_js/utils.js", 'utf8', function (err, data) {
+    fs.readFile("./client_js/utils.js", 'utf8', function (err, data) {
         _res.setHeader('content-type', 'text/javascript');
         _res.send(data);
     });
 });
 app.get("/client/js/tooltipster.bundle.min.js", function (_req, _res) {
-    fs.readFile("/jiebaserver/client_js/tooltipster.bundle.min.js", 'utf8', function (err, data) {
+    fs.readFile("./client_js/tooltipster.bundle.min.js", 'utf8', function (err, data) {
         _res.setHeader('content-type', 'text/javascript');
         _res.send(data);
     });
 });
 
 app.get("/client/js/loading.gif", function (_req, _res) {
-    fs.readFile("/jiebaserver/client_js/loading.gif", function (err, data) {
+    fs.readFile("./client_js/loading.gif", function (err, data) {
         _res.setHeader('content-type', 'image/gif');
         _res.send(data);
     });
@@ -95,7 +95,7 @@ app.get("/client/js/loading.gif", function (_req, _res) {
 
 //----------------------------------------------------------------------------------------------
 app.get("/article",function(req, res){
-	fs.readFile("/jiebaserver/template/article.html", 'utf8',function(err, data){
+	fs.readFile("./template/article.html", 'utf8',function(err, data){
 		res.setHeader('content-type', 'text/html');
 
 		//var _title = "title";
@@ -122,7 +122,7 @@ app.get("/article",function(req, res){
 
 
 app.get("/directory",function(req, res){
-	fs.readFile("/jiebaserver/template/directory.html", 'utf8',function(err, data){
+	fs.readFile("./template/directory.html", 'utf8',function(err, data){
 		res.setHeader('content-type', 'text/html');
 		
 
@@ -225,7 +225,7 @@ app.get("/add_term",function (req, res){
 	var cache_id = req.query.cache_id;
 	var dict_string="";
 	// 1. 取得dict_custom.js
-	var dict_custom='/jiebaserver/scripts/data/dict_custom.json';
+	var dict_custom='./scripts/data/dict_custom.json';
 	var foo=fs.openSync(dict_custom,'r+');
 	fs.readFile(dict_custom, "utf-8" ,function(err,data){
 		if(err){
@@ -286,9 +286,9 @@ app.get("/add_term",function (req, res){
 
 var _custom_dict = undefined;
 var _load_custom_dict = function () {
-	var json = JSON.parse(fs.readFileSync('/jiebaserver/scripts/data/dict_custom.json', 'utf8'));
-	_custom_dict=json;
-	node_jieba_reset();
+    var json = JSON.parse(fs.readFileSync('./jiebaserver/scripts/data/dict_custom.json', 'utf8'));
+    _custom_dict=json;
+    node_jieba_reset();
 };
 
 _load_custom_dict();
