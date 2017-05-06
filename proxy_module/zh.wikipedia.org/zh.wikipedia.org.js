@@ -6,7 +6,7 @@
  * 失敗查詢的頁面：https://zh.wikipedia.org/w/index.php?title=%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8111%E9%A4%A8&oldformat=true&printable=yes
  * http://localhost:3000/wiki/數位沒有圖書館
  */
-launch_proxy["zh.wikipedia.org"] = function (_output, _query) {
+launch_proxy["zh.wikipedia.org"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "zh.wikipedia.org",
@@ -84,7 +84,7 @@ var _options = {
     // ------------------------
 };
 
-web_crawler(_output, _options);
+web_crawler(_output, _options, _mode);
 
 //_res.send(_query);
 // ----------------------------------------    

@@ -9,7 +9,7 @@
  * 查詢目標：http://cbdb.fas.harvard.edu/cbdbapi/person.php?name=%E7%8E%8B%E5%AE%89%E7%9F%B3
  * http://localhost:3000/cbdb/劉備
  */
-launch_proxy["cbdb.fas.harvard.edu"] = function (_output, _query) {
+launch_proxy["cbdb.fas.harvard.edu"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "cbdb.fas.harvard.edu",
@@ -105,7 +105,7 @@ var _options = {
     // ------------------------
 };
 
-web_crawler(_output, _options);
+web_crawler(_output, _options, _mode);
 
 //_res.send(_query);
 // ----------------------------------------    

@@ -8,7 +8,7 @@
  * 查詢目標：http://maps.cga.harvard.edu/tgaz/placename?fmt=html&n=%E5%8C%97%E4%BA%AC&yr=&ftyp=&src=
  * http://localhost:3000/tgaz/北京
  */
-launch_proxy["maps.cga.harvard.edu"] = function (_output, _query) {
+launch_proxy["maps.cga.harvard.edu"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "maps.cga.harvard.edu",
@@ -52,7 +52,7 @@ var _options = {
     // ------------------------
 };
 
-web_crawler(_output, _options);
+web_crawler(_output, _options, _mode);
 
 //_res.send(_query);
 // ----------------------------------------    

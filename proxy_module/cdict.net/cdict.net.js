@@ -8,7 +8,7 @@
  * 錯誤查詢的頁面：https://cdict.net/?q=test111
  * http://localhost:3000/cdict/test111
  */
-launch_proxy["cdict.net"] = function (_output, _query) {
+launch_proxy["cdict.net"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "cdict.net",
@@ -48,7 +48,7 @@ var _options = {
     // ------------------------
 };
 
-web_crawler(_output, _options);
+web_crawler(_output, _options, _mode);
 
 //_res.send(_query);
 // ----------------------------------------    

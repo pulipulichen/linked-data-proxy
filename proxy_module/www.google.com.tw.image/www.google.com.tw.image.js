@@ -6,7 +6,7 @@
  * 成功查詢 https://www.google.com.tw/search?q=%E5%8A%89%E5%82%99&source=lnms&tbm=isch&sa=X
  * http://localhost:3000/goo.img/劉備
  */
-launch_proxy["www.google.com.tw.image"] = function (_output, _query) {
+launch_proxy["www.google.com.tw.image"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "www.google.com.tw.image",
@@ -32,7 +32,7 @@ var _options = {
     // ------------------------
 };
 
-web_crawler(_output, _options);
+web_crawler(_output, _options, _mode);
 
 //_res.send(_query);
 // ----------------------------------------    

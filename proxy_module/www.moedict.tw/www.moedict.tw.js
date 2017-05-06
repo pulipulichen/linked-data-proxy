@@ -10,7 +10,7 @@
  * http://localhost:3000/moedict/不萌
  *
  */
-launch_proxy["www.moedict.tw"] = function (_output, _query) {
+launch_proxy["www.moedict.tw"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "www.moedict.tw",
@@ -53,7 +53,7 @@ var _options = {
     // ------------------------
 };
 
-web_crawler(_output, _options);
+web_crawler(_output, _options, _mode);
 
 //_res.send(_query);
 // ----------------------------------------    

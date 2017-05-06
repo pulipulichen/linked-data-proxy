@@ -15,7 +15,7 @@
  * http://localhost:3000/moedict/不萌
  *
  */
-launch_proxy["db1.ihp.sinica.edu.tw"] = function (_output, _query) {
+launch_proxy["db1.ihp.sinica.edu.tw"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "db1.ihp.sinica.edu.tw",
@@ -168,7 +168,7 @@ var _options = {
     // ------------------------
 };
 
-web_crawler(_output, _options);
+web_crawler(_output, _options, _mode);
 
 //_res.send(_query);
 // ----------------------------------------    

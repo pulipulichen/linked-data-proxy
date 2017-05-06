@@ -23,7 +23,15 @@ var DEBUG = {
     //display_content: true,
 };
 
-web_crawler = function (_output, _options) {
+web_crawler = function (_output, _options, _mode) {
+    
+    if (_mode === undefined) {
+        _mode = "";
+    }
+    else {
+        _mode = ";" + _mode;
+    }
+    
     for (var _key in _default_options) {
         if (typeof(_options[_key]) === "undefined") {
             _options[_key] = _default_options[_key];
@@ -48,9 +56,9 @@ web_crawler = function (_output, _options) {
             _error = "Status code error: " + res.statusCode;
             module_cache_set(_options.url, _content, _error, function () {
                 //console.log(2);
-                ua_event(_options.module, _options.query, false, false);
+                ua_event(_options.module + _mode, _options.query, false, false);
                 //_res.send(null);
-                _output.display_error(_options.module, _options.query, _error);
+                _output.display_error(_options.module + _mode, _options.query, _error);
             });
             return;
             // return show_error_page(_res, "Status code error: " + res.statusCode);
@@ -86,9 +94,9 @@ web_crawler = function (_output, _options) {
         var _content = null;
         var _error = "get request error: " + e.message;
         module_cache_set(_options.url, _content, _error, function () {
-            ua_event(_options.module, _options.query, false, false);
+            ua_event(_options.module + _mode, _options.query, false, false);
             //_res.send(null);
-            _output.display_error(_module, _query, _error);
+            _output.display_error(_module + _mode, _query, _error);
         });
         return;
     };
@@ -127,8 +135,8 @@ web_crawler = function (_output, _options) {
             _content = null;
             var _error = "No result: " + _options.content_not_found_selector;
             module_cache_set(_options.url, _content, _error, function () {
-                ua_event(_module, _query, false, false);
-                _output.display_error(_module, _query, _error);
+                ua_event(_module + _mode, _query, false, false);
+                _output.display_error(_module + _mode, _query, _error);
             });
             return;
         }
@@ -137,8 +145,8 @@ web_crawler = function (_output, _options) {
             _content = null;
             var _error = "No result: " + _options.content_not_found_string;
             module_cache_set(_options.url, _content, _error, function () {
-                ua_event(_module, _query, false, false);
-                _output.display_error(_module, _query, _error);
+                ua_event(_module + _mode, _query, false, false);
+                _output.display_error(_module + _mode, _query, _error);
             });
             return;
         }
@@ -147,8 +155,8 @@ web_crawler = function (_output, _options) {
             _content = null;
             var _error = "Result not found: " + _options.content_found_string;
             module_cache_set(_options.url, _content, _error, function () {
-                ua_event(_module, _query, false, false);
-                _output.display_error(_module, _query, _error);
+                ua_event(_module + _mode, _query, false, false);
+                _output.display_error(_module + _mode, _query, _error);
             });
             return;
         }
@@ -354,7 +362,7 @@ web_crawler = function (_output, _options) {
     
     var _set_moudle_cache = function (_content) {
         module_cache_set(_options.url, _content, function () {
-            ua_event(_module, _query, true, false);
+            ua_event(_module + _mode, _query, true, false);
             //_res.send(_content);
             //var _priority = 0;
             get_vote_score(_module, _query, function (_priority) {
@@ -374,8 +382,8 @@ web_crawler = function (_output, _options) {
             _error = _error + ": " + _options.text_selector;
         }
         module_cache_set(_options.url, _content, _error, function () {
-            ua_event(_module, _query, false, false);
-            _output.display_error(_module, _query, _error);
+            ua_event(_module + _mode, _query, false, false);
+            _output.display_error(_module + _mode, _query, _error);
         });
     };
     

@@ -9,7 +9,7 @@
  * 失敗查詢 https://pixabay.com/zh/photos/?image_type=&cat=&min_width=&min_height=&q=%E5%8A%89%E5%82%99&order=popular
  * http://localhost:3000/pixabay/劉備
  */
-launch_proxy["pixabay.com"] = function (_output, _query) {
+launch_proxy["pixabay.com"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "pixabay.com",
@@ -42,7 +42,7 @@ var _options = {
     // ------------------------
 };
 
-web_crawler(_output, _options);
+web_crawler(_output, _options, _mode);
 
 //_res.send(_query);
 // ----------------------------------------    

@@ -86,7 +86,7 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id
 
                 if ($.inArray(_query, _output.data) === -1) {
                     //console.log();
-                    launch_proxy[_module](_output, _query);
+                    launch_proxy[_module](_output, _query, "check");
                 }
             }
         }
