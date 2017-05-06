@@ -193,7 +193,12 @@ web_crawler = function (_output, _options, _mode) {
         if (_content !== "") {
             
             if (typeof(_options.post_process) === "function") {
-                _content = _options.post_process(_content);
+                try {
+                    _content = _options.post_process(_content);
+                }
+                catch (_e) {
+                    console.log("post_process error: " + _e);
+                }
             }
             if (typeof(_options.base_url) === "string") {
                 _content = _prepend_base_url(_content, _options.base_url);
@@ -456,7 +461,17 @@ strStartsWith = function (str, prefix) {
 };
 
 var _prepend_base_url = function (_content, _base_url) {
-    _content = $(_content);
+    try {
+        if (_content.substr(0, 1) === "<") {
+            _content = $(_content);
+        }
+        else {
+            _content = $('<div>' + _content + '</div>');
+        }
+    }
+    catch (_e) {
+        _content = $('<div>' + _content + '</div>');
+    }
     if (_content.length > 1) {
         var _c = $("<div></div>").append(_content);
         _content = _c;
