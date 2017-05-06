@@ -21,6 +21,7 @@ CONFIG = {
         "yourserver",
         "exp-linked-data-proxy-2017.dlll.nccu.edu.tw",
         "exp-linked-data-proxy-2017.dlll.nccu.edu.tw:32580",
+        "exp-linked-data-proxy-2017.dlll.nccu.edu.tw:32543",
     ],
     
     // 模組的別名
