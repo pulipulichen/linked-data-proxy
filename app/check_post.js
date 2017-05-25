@@ -20,7 +20,17 @@ app.post('/check_post/:modules', function (_req, _res) {
     var _ori_modules = _modules;
     _modules = modules_mapping(_modules);
     
-    var _query = _req.body.query.trim().split(" ");
+    var _query = _req.body.query;
+    if (_query === undefined) {
+        _query = _req.query;
+    }
+    
+    if (typeof(_query) === "string") {
+        _query = _query.trim().split(" ");
+    }
+    else {
+        _query = [];
+    }
     var _query2 = [];
     for (var _i = 0; _i < _query.length; _i++) {
         var _q = _query[_i].trim();
