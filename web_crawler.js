@@ -245,6 +245,10 @@ web_crawler = function (_output, _options, _mode) {
     var _no_cache = function () {
         _url_options = url.parse(_options.url);
         
+        if (typeof(_options.method) === "undefined") {
+            _options.method = "GET";
+        }
+        
         var _protocol_options = {
             host: _url_options.host,
             port: _url_options.port,
@@ -252,6 +256,17 @@ web_crawler = function (_output, _options, _mode) {
             method: _options.method.toUpperCase(),
             headers: {}
         };
+        
+        if (_protocol_options.host === null) {
+            _protocol_options.host = "localhost";
+        }
+        if (_protocol_options.host.indexOf(":") > -1) {
+            _protocol_options.host = _protocol_options.host.split(":")[0];
+        } 
+
+        if (_protocol_options.port === null) {
+            _protocol_options.port = 80;
+        }
         
         if (typeof(_options.user_agent) === "string") {
             _protocol_options.headers["User-Agent"] = _options.user_agent;
@@ -509,12 +524,26 @@ var _prepend_base_url = function (_content, _base_url) {
 
 // --------------------
 
+/**
+ * 
+ * @param {type} _options = {
+ *      "url": "", // 網址
+ *      
+ * }
+ * @param {type} _retrieve_callback
+ * @param {type} _retrieve_error_callback
+ * @returns {protocol_query}
+ */
 protocol_query = function(_options, _retrieve_callback, _retrieve_error_callback) {
     if (_retrieve_error_callback === undefined) {
         _retrieve_error_callback = function () {};
     }
     
     var _url_options = url.parse(_options.url);
+
+    if (typeof(_options.method) === "undefined") {
+        _options.method = "GET";
+    }
 
     var _protocol_options = {
         host: _url_options.host,
@@ -523,6 +552,17 @@ protocol_query = function(_options, _retrieve_callback, _retrieve_error_callback
         method: _options.method.toUpperCase(),
         headers: {}
     };
+    
+    if (_protocol_options.host === null) {
+        _protocol_options.host = "localhost";
+    }
+    if (_protocol_options.host.indexOf(":") > -1) {
+        _protocol_options.host = _protocol_options.host.split(":")[0];
+    } 
+    
+    if (_protocol_options.port === null) {
+        _protocol_options.port = 80;
+    }
 
     if (typeof(_options.user_agent) === "string") {
         _protocol_options.headers["User_Agent"] = _options.user_agent;
@@ -538,7 +578,7 @@ protocol_query = function(_options, _retrieve_callback, _retrieve_error_callback
     if (_url_options.protocol === "https:") {
         _protocol = https;
     }
-    _content = "";
+    var _content = "";
 
     // -------------------------
     

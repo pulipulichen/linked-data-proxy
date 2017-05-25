@@ -44,7 +44,7 @@ app.post('/check_post/:modules', function (_req, _res) {
         if (_cache === false) {
             // 沒有快取的情況
             
-            //console.log("準備建立");
+            console.log("沒快取，準備建立資料");
             setTimeout(function () {
                 tableCheckResponse.create({"response": "false"}).then(function (_response) {
                     var _response_id = _response.get("id");
@@ -67,6 +67,8 @@ app.post('/check_post/:modules', function (_req, _res) {
             //console.log('Cookies: ', _req.cookies);
             //console.log(["post", cookies.get("response_cache"), escape(_cache)]);
             //console.log(_req.session);
+            
+            console.log("有快取");
             
             res_display(_res, _cache, _callback);
         }
