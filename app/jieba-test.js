@@ -111,8 +111,8 @@ var protocol_query = function(_options, _retrieve_callback, _retrieve_error_call
 };  //protocol_query
 
 app.get('/jieba-test', function (_req, _res) {
-    var URL = "http://localhost:3000/check_post/wiki,moedict,cbdb,tgaz,cdict";
-    var sub_result = (["三四", "三"]).join(" ");
+    var URL = "http://127.0.0.1:3000/check_post/wiki,moedict,cbdb,tgaz,cdict";
+    var sub_result = (["三四", "三",  "測試"]).join(" ");
     
     console.log("預備傳吧");
     //var _request = new _protocol.ClientRequest(_protocol_options, _retrieve_process);
