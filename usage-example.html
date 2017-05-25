@@ -270,7 +270,9 @@ $(function () {
         });
         
         LINK_DATA_PROXY.check(_query, _modules, function (_result) {
-            if (_result !== null) {
+            if (_result !== null 
+                    && typeof(_result) !== "string" 
+                    && _result !== undefined) {
                 _result = _result.join(" ");
             }
             $("#check_result").html(_result);
