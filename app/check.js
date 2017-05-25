@@ -77,6 +77,16 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id
         }
     }
     
+    if (_limit === 0) {
+        tableCheckResponse.update({"response": null}, {where: {id: _response_id}}).then(function () {
+            console.log("記錄空字串在快取中");
+        });
+        return;
+    }
+    else {
+        console.log("記錄空字串在快取中2 " + _limit);
+    }
+    
     for (var _q = 0; _q < _queries.length; _q++) {
         var _query = _queries[_q];
         
@@ -177,7 +187,7 @@ app.get('/check/:modules', function (_req, _res) {
                 var _output_string = _response.get("response");
             }
 
-            if (_output_string !== 'false') {
+            if (_output_string !== 'false' && _response !== null) {
                 // 表示有資料，準備刪除
                 _response.destroy({force: true});
             }

@@ -146,6 +146,13 @@ var _app_query_no_cache_post = function (_req, _res, _modules, _queries, _respon
         }
     }
     
+    if (_limit === 0) {
+        tableCheckResponse.update({"response": null}, {where: {id: _response_id}}).then(function () {
+            console.log("記錄空字串在快取中");
+        });
+        return;
+    }
+    
     for (var _q = 0; _q < _queries.length; _q++) {
         var _query = _queries[_q];
         
