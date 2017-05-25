@@ -78,7 +78,7 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id
     }
     
     if (_limit === 0) {
-        tableCheckResponse.update({"response": '["nodata"]'}, {where: {id: _response_id}}).then(function () {
+        tableCheckResponse.update({"response": 'nodata nodata2'}, {where: {id: _response_id}}).then(function () {
             console.log("記錄空字串在快取中");
         });
         return;
