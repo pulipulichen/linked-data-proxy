@@ -82,6 +82,16 @@ var _options = {
     // 簡體轉繁體設定
     zhs2zht: true,
     // ------------------------
+    
+    /**
+     * 參考來源網頁的名稱
+     */
+    referer_name: "維基百科",
+    
+    /**
+     * 參考來源網頁
+     */
+    referer_source: "https://zh.wikipedia.org/w/index.php?title=" + encodeURI(_query) + "&oldformat=true"
 };
 
 web_crawler(_output, _options, _mode);

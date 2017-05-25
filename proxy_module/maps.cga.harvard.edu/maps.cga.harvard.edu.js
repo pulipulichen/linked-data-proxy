@@ -50,6 +50,19 @@ var _options = {
     // 簡體轉繁體設定
     zhs2zht: true,
     // ------------------------
+    
+    
+    // ------------------------
+    
+    /**
+     * 參考來源網頁的名稱
+     */
+    referer_name: "TAGZ",
+    
+    /**
+     * 參考來源網頁
+     */
+    //referer_source: "http://cbdb.fas.harvard.edu/cbdbapi/person.php?name=" + encodeURI(_query), //正式查詢
 };
 
 web_crawler(_output, _options, _mode);

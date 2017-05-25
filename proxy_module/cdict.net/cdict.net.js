@@ -46,6 +46,12 @@ var _options = {
     base_url: "https://cdict.net",
     
     // ------------------------
+    
+    /**
+     * 參考來源網頁的名稱
+     */
+    referer_name: "線上英漢字典",
+    
 };
 
 web_crawler(_output, _options, _mode);

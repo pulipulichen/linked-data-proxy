@@ -103,6 +103,16 @@ var _options = {
     //base_url: "http://db1.ihp.sinica.edu.tw/cbdbc/",
     
     // ------------------------
+    
+    /**
+     * 參考來源網頁的名稱
+     */
+    referer_name: "CBDB",
+    
+    /**
+     * 參考來源網頁
+     */
+    referer_source: "http://cbdb.fas.harvard.edu/cbdbapi/person.php?name=" + encodeURI(_query), //正式查詢
 };
 
 web_crawler(_output, _options, _mode);

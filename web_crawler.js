@@ -200,16 +200,32 @@ web_crawler = function (_output, _options, _mode) {
                     console.log("post_process error: " + _e);
                 }
             }
+            
             if (typeof(_options.base_url) === "string") {
                 _content = _prepend_base_url(_content, _options.base_url);
             }
+            
+            // 加入參考網頁
+            if (typeof(_options.referer_source) === "string" || typeof(_options.referer_name) === "string") {
+                var _name = _options.module;
+                if (typeof(_options.referer_name) === "string") {
+                    _name = _options.referer_name;
+                }
+                var _referer_source = _options.url;
+                if (typeof(_options.referer_source) === "string") {
+                    _referer_source = _options.referer_source;
+                }
+                _content = _content + '<div>Reference: <a href="' + _referer_source + '" target="_blank">' + _name + '</a></div>';
+            }
+            
+            
             if (typeof(_options.zhs2zht) === "boolean" && _options.zhs2zht === true) {
                 opencc.simplifiedToTraditional(_content).then(function (_content) {
-                    _set_moudle_cache(_content);
+                    _set_module_cache(_content);
                 });
-            }
+            }            
             else {
-                _set_moudle_cache(_content);
+                _set_module_cache(_content);
             }
         }
         else {
@@ -365,13 +381,13 @@ web_crawler = function (_output, _options, _mode) {
         }
     };
     
-    var _set_moudle_cache = function (_content) {
+    var _set_module_cache = function (_content) {
         module_cache_set(_options.url, _content, function () {
             ua_event(_module + _mode, _query, true, false);
             //_res.send(_content);
             //var _priority = 0;
             get_vote_score(_module, _query, function (_priority) {
-                //console.log("_set_moudle_cache", _query, _content);
+                //console.log("_set_module_cache", _query, _content);
                 _output.display_response(_module, _content, _priority, _query);
             });
         });

@@ -40,6 +40,11 @@ var _options = {
     },
     
     // ------------------------
+    
+    /**
+     * 參考來源網頁的名稱
+     */
+    referer_name: "Pixabay",
 };
 
 web_crawler(_output, _options, _mode);

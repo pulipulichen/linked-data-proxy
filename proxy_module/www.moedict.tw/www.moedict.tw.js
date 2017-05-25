@@ -51,6 +51,15 @@ var _options = {
     //referer: "https://zh.wikipedia.org/wiki/Wikipedia:%E9%A6%96%E9%A1%B5",
     
     // ------------------------
+    /**
+     * 參考來源網頁的名稱
+     */
+    referer_name: "萌典",
+    
+    /**
+     * 參考來源網頁
+     */
+    //referer_source: "https://zh.wikipedia.org/w/index.php?title=" + encodeURI(_query) + "&oldformat=true"
 };
 
 web_crawler(_output, _options, _mode);
