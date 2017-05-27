@@ -294,7 +294,7 @@ var _node_jieba_parsing_callback = function (_result, callback) {
             }
         }
 
-        REQUEST_COUNT--;
+        
         if (!error
                 && response.statusCode === 200
                 && typeof (body) !== "undefined"
@@ -310,6 +310,7 @@ var _node_jieba_parsing_callback = function (_result, callback) {
         }
         else {
             setTimeout(function () {
+                REQUEST_COUNT--;
                 _do_loop(_i);
             }, 5 * 1000);
         }
@@ -401,3 +402,7 @@ var _parse_check_result_array = function (sub_array, check_result_array) {
     return sub_result;
 
 };  //end of var _parse_check_result_array = function (sub_array, check_result_array)
+
+getRandomArbitrary = function(min, max) {
+    return Math.random() * (max - min) + min;
+};
