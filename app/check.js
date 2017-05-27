@@ -68,7 +68,7 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id
     for (var _q = 0; _q < _queries.length; _q++) {
         var _query = _queries[_q];
         
-        if (_query !== undefined && CONFIG.stopword.indexOf(_query) === -1) {
+        if (_query !== undefined && match_stopword(_query) === false) {
             for (var _i = 0; _i < _modules.length; _i++) {
                 if ($.inArray(_query, _output.data) === -1) {
                     _limit++;
@@ -90,7 +90,7 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id
     for (var _q = 0; _q < _queries.length; _q++) {
         var _query = _queries[_q];
         
-        if (_query !== undefined && CONFIG.stopword.indexOf(_query) === -1) {
+        if (_query !== undefined && match_stopword(_query) === false) {
             for (var _i = 0; _i < _modules.length; _i++) {
                 var _module = _modules[_i];
 
@@ -102,6 +102,8 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id
         }
     }
 };
+
+// ---------------------------------------------------------
 
 app.post('/check/:modules', function (_req, _res) {
     if (check_white_list(_req, _res) === false) {
@@ -162,7 +164,6 @@ app.post('/check/:modules', function (_req, _res) {
     });
 });
 
-
 // -------------------------------
 
 app.get('/check/:modules', function (_req, _res) {
@@ -198,6 +199,7 @@ app.get('/check/:modules', function (_req, _res) {
         });
     }
     else {
+        console.log("沒有response_id");
         _output_string = _response_id;
         res_display(_res, _output_string, _callback);
     }

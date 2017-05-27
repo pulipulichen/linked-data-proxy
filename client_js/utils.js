@@ -98,7 +98,8 @@ LINK_DATA_PROXY.iframe_post = function (_url, _data, _callback) {
     for (var _key in _data) {
         var _value = _data[_key];
         
-        $('<input type="hidden" name="' + _key + '" value="' + _value + '" />')
+        $('<input type="hidden" name="' + _key + '"/>')
+                .val(_value)
                 .appendTo(_form);
     }
     

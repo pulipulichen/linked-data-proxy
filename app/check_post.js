@@ -149,7 +149,7 @@ var _app_query_no_cache_post = function (_req, _res, _modules, _queries, _respon
     for (var _q = 0; _q < _queries.length; _q++) {
         var _query = _queries[_q];
         
-        if (_query !== undefined && CONFIG.stopword.indexOf(_query) === -1) {
+        if (_query !== undefined && match_stopword(_query) === false) {
             for (var _i = 0; _i < _modules.length; _i++) {
                 if ($.inArray(_query, _output.data) === -1) {
                     _limit++;
@@ -173,10 +173,10 @@ var _app_query_no_cache_post = function (_req, _res, _modules, _queries, _respon
         if (_query === undefined) {
             _pass = false;
         }
-        else if (CONFIG.stopword.indexOf(_query) > -1) {
+        else if (match_stopword(_query) === false) {
             _pass = false;
         }
-        else if (_query.length > 1 && CONFIG.stopword.indexOf(_query.substr(0.1)) > -1 ) {
+        else if (_query.length > 1 && match_stopword(_query) === false ) {
             _pass = false;
         }
         

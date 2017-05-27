@@ -97,3 +97,21 @@ res_display = function (_res, _output_string, _callback) {
 };
 
 // -----------------
+
+match_stopword = function (_query) {
+    _query = _query.trim();
+    var _count = _query.length;
+    var _match_count = 0;
+    
+    for (var _i = 0; _i < _count; _i++) {
+        var _char = _query.substr(_i, 1).trim();
+        if (_char === "") {
+            _match_count++;
+        }
+        else if (CONFIG.stopword.indexOf(_char) > -1) {
+            _match_count++;
+        }
+    }
+    
+    return (_count === _match_count);
+};
