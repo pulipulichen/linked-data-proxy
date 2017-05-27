@@ -75,7 +75,7 @@ var _options = {
     /**
      * 指定來源網頁 referer (可省略)
      */
-    referer: "https://zh.wikipedia.org/wiki/Wikipedia:%E9%A6%96%E9%A1%B5",
+    //referer: "https://zh.wikipedia.org/wiki/Wikipedia:%E9%A6%96%E9%A1%B5",
     
     base_url: "https://zh.wikipedia.org",
     

@@ -41,7 +41,7 @@ web_crawler = function (_output, _options, _mode) {
     var _module = _options.module;
     var _query = _options.query;
     var _url_options;
-    var _content;
+    var _content = "";
     
     // -----------------------
     
@@ -67,6 +67,8 @@ web_crawler = function (_output, _options, _mode) {
         if (_options.encoding !== null && _options.encoding !== "big5") {
             res.setEncoding(_options.encoding);
         }
+        
+        //console.log(res.body);
 
         res.on("data", _retrieve_data);
         res.on("end", _retrieve_end); //res.on("end", function () {
@@ -90,15 +92,18 @@ web_crawler = function (_output, _options, _mode) {
     // ---------------------------
 
     var _retrieve_error_callback = function(e) {
-        //console.log("Got error: " + e.message);
+        console.log("Got error: " + e.message);
         //show_error_page(_res, e.message);
 
-        var _content = null;
+        _content = null;
         var _error = "get request error: " + e.message;
         module_cache_set(_options.url, _content, _error, function () {
             ua_event(_options.module + _mode, _options.query, false, false);
             //_res.send(null);
             _output.display_error(_module + _mode, _query, _error);
+            WEB_CRAWLER_LOCK = false;
+            
+            //_no_cache();
         });
         return;
     };  // var _retrieve_error_callback = function(e) {
@@ -119,6 +124,9 @@ web_crawler = function (_output, _options, _mode) {
     // ---------------------------
 
     var _retrieve_end = function () {
+        WEB_CRAWLER_LOCK = false;
+        
+        
         //var _head_pos = _content.indexOf("<BODY");
         //var _foot_pos = _content.lastIndexOf("</BODY>") + 7;
         //_content = _content.substring(_head_pos, _foot_pos);
@@ -127,7 +135,17 @@ web_crawler = function (_output, _options, _mode) {
         //console.log($(_content).find("table table table[bgcolor='white']:first").length + "a");
         //_output.test_display($(_content).find("table table table[bgcolor='white']:first").text());
         //_output.test_display(_content);
-        //console.log($(_content).find("BODY").length + "a");
+        //console.log("!" + _content.substr(0, 100));
+        if (typeof(_content) === "string") {
+            if (_content.indexOf("</body>") > -1) {
+                _content = _content.substring(_content.indexOf("<body"), _content.lastIndexOf("</body>") + 7);
+            }
+            else if (_content.indexOf("</BODY>") > -1) {
+                _content = _content.substring(_content.indexOf("<BODY"), _content.lastIndexOf("</BODY>") + 7);
+            }
+        }
+        //console.log("v: " + _content);
+        //console.log("找完了：" + $(_content).find("a").length + "a");
         //return;
         
         if (typeof(DEBUG.display_content) !== "undefined") {
@@ -184,20 +202,21 @@ web_crawler = function (_output, _options, _mode) {
             _content = text_selector(_content, _options.text_selector);
         }
         else if (typeof(_options.extract_string) === "object") {
-            _content = web_crawler_extract_string(_content, _options.extract_string);
+            _content = extract_string(_content, _options.extract_string);
         }
         //console.log(content);
         
         if (_content === undefined 
                 || _content === "Too many connections"
                 || _content.indexOf("Lost connection to MySQL server at") > -1) {
+            console.log("ERROR: " + _content);
             _content = "";
         }
 
         _content = _content.trim();
 
         if (_content !== "") {
-            _retrieve_end_process_content(_content)
+            _retrieve_end_process_content(_content);
         }
         else {
             _selector_not_fount();
@@ -258,6 +277,14 @@ web_crawler = function (_output, _options, _mode) {
     // ----------------
     
     var _no_cache = function () {
+        if (WEB_CRAWLER_LOCK === true) {
+            setTimeout(function () {
+                _no_cache();
+            }, 1000 * getRandomArbitrary(1,5));
+            return;
+        }
+        WEB_CRAWLER_LOCK = true;
+        
         var _protocol_options = build_protocol_options(_options);
                 
         var _protocol = http;
@@ -274,9 +301,25 @@ web_crawler = function (_output, _options, _mode) {
         
         console.log(["準備要搜尋了", JSON.stringify(_protocol_options)]);
         if (_options.method === "get") {
-            //console.log("get");
-            _protocol.get(_protocol_options, _retrieve_callback)
-                    .on('error', _retrieve_error_callback);
+            
+            console.log("get " + _options.url);
+            if (typeof(_options.enable_follow_redirects) && _options.enable_follow_redirects === true) {
+                _protocol.get(_protocol_options, _retrieve_callback)
+                        .on('error', _retrieve_error_callback);
+            }
+            else {
+                
+                request.get(_options.url, function (_error, _response, _body) {
+                    if (!_error) {
+                        //console.log('v' + _body);
+                        _content = _body;
+                        _retrieve_end();
+                    }
+                    else {
+                        _retrieve_error_callback(_error);
+                    }
+                });
+            }
         }
         else {
             if (typeof(DEBUG.post_query) !== "undefined") {
@@ -342,5 +385,7 @@ web_crawler = function (_output, _options, _mode) {
     }); //cache_get(_options.url, function (_cache_response) {
     
 };  //web_crawler = function (_res, _options) {
+
+WEB_CRAWLER_LOCK = false;
 
 // ---------------------------

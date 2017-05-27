@@ -7,7 +7,10 @@
  * 最後是靠API
  * 
  * 查詢目標：http://cbdb.fas.harvard.edu/cbdbapi/person.php?name=%E7%8E%8B%E5%AE%89%E7%9F%B3
- * http://localhost:3000/cbdb/劉備
+ * http://localhost:3000/cbdb/王安石
+ * 
+ * 失敗查詢 http://cbdb.fas.harvard.edu/cbdbapi/person.php?name=北京&o=json
+ * http://localhost:3000/cbdb/北京
  */
 launch_proxy["cbdb.fas.harvard.edu"] = function (_output, _query, _mode) {
     
@@ -17,14 +20,17 @@ var _options = {
     // ----------------------------------------
     
     // 正式查詢
-    url: "http://cbdb.fas.harvard.edu/cbdbapi/person.php?name=" + encodeURI(_query) + "&o=json", //正式查詢
+    url: "http://cbdb.fas.harvard.edu/cbdbapi/person.php?name=" + encodeURI(_query) + "", //正式查詢
     
     // --------------------------------------------------
     /**
      * 沒找到資料的選擇器
      */
     //content_not_found_selector: "body",
-    content_not_found_string: '"PersonInfo" : ""',
+    //content_not_found_string: '"PersonInfo" : ""',
+    content_not_found_string: 'No result.',
+    
+    html_selector: 'table[width="98%"] td',
     
     // ------------------------
     
@@ -33,6 +39,8 @@ var _options = {
      * @param {string} _content
      */
     post_process: function (_content) {
+        return _content.split('" style="display:none;">').join('" style="display:inline;">');
+        /*
         //console.log("[post_process]");
         //console.log(_content);
         //console.log("[END]");
@@ -98,6 +106,7 @@ var _options = {
         return _content;
         //_content = JSON.parse(_content);
         //return get_outer_html(_content);
+        */
     },
     
     //base_url: "http://db1.ihp.sinica.edu.tw/cbdbc/",
@@ -113,6 +122,12 @@ var _options = {
      * 參考來源網頁
      */
     referer_source: "http://cbdb.fas.harvard.edu/cbdbapi/person.php?name=" + encodeURI(_query), //正式查詢
+    
+    
+    /**
+     * 使用原本的連接器
+     */
+    enable_follow_redirects: true,
 };
 
 web_crawler(_output, _options, _mode);

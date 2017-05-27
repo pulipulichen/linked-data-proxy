@@ -26,7 +26,7 @@ var _options = {
     //content_not_found_selector: "body",
     content_not_found_string: '抱歉，我们没找到相关信息。',
     
-    html_selector: "#photo_grid",
+    html_selector: ".flex_grid.credits",
     
     base_url: "https://pixabay.com",
     

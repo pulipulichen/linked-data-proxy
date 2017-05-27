@@ -7,6 +7,9 @@
  * 
  * 查詢目標：http://maps.cga.harvard.edu/tgaz/placename?fmt=html&n=%E5%8C%97%E4%BA%AC&yr=&ftyp=&src=
  * http://localhost:3000/tgaz/北京
+ * 
+ * 失敗查詢 http://maps.cga.harvard.edu/tgaz/placename?fmt=html&n=%E5%8A%89%E5%82%99&yr=&ftyp=&src=
+ * http://localhost:3000/tgaz/劉備
  */
 launch_proxy["maps.cga.harvard.edu"] = function (_output, _query, _mode) {
     
