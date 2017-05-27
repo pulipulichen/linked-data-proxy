@@ -201,6 +201,7 @@ var _node_jieba_parsing_callback = function (_result, callback) {
             }, 1000 * getRandomArbitrary(1,20));
             return;
         }
+        //console.log(["執行...", _i, temp_array.length, temp_array[_i][0], REQUEST_COUNT]);
         
         //console.log("送出第" + _i + "次");
         // 執行迴圈
@@ -227,7 +228,7 @@ var _node_jieba_parsing_callback = function (_result, callback) {
 
         
         var sub_result = _send_array.join(" ").trim();
-        _write_log(["準備送出一小段：", sub_result]);
+        _write_log(["送出...", _i, temp_array.length, sub_result, REQUEST_COUNT]);
 
         if (sub_array.length === 0
                 || sub_result === ""
