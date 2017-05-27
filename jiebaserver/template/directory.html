@@ -63,19 +63,22 @@ var batch_check = function () {
 var multi_check = function () {
     var _limit = 1000;
     var _count = $("a").length;
-    $("a").attr("target", "test");
+    //$("a").attr("target", "test");
 
     open_a = function (_i) {
-            if (_i < _count) {
-                    var _time = 3*60*1000;
-                    if (_i < _limit) {
-                        _time = 5*1000;
-                    }
-                    setTimeout(function () {
-                            _i++;
-                            open_a(_i);
-                    }, _time);
+        if (_i < _count) {
+            console.log($("a").eq(_i).attr("href"));
+            window.open($("a").eq(_i).attr("href") + "&test=true", "test");
+            
+            var _time = 3*60*1000;
+            if (_i < _limit) {
+                _time = 5*1000;
             }
+            setTimeout(function () {
+                _i++;
+                open_a(_i);
+            }, _time);
+        }
     };
     open_a(0);
 };
