@@ -247,7 +247,6 @@ var _node_jieba_parsing_callback = function (_result, callback) {
             method: 'POST',
             json: {query: sub_result}
         }, function (error, response, body) {
-            REQUEST_COUNT--;
             _post_request_callback(error, response, body, _i, sub_array);
         });
         /*
@@ -309,9 +308,11 @@ var _node_jieba_parsing_callback = function (_result, callback) {
             joined_result = joined_result + _parse_check_result_array(sub_array, body);
             _i++;
             _loop(_i);
+            REQUEST_COUNT--;
         }
         else {
             setTimeout(function () {
+                REQUEST_COUNT--;
                 _do_loop(_i);
             }, 5 * 1000);
         }
