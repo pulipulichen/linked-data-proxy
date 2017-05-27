@@ -12,6 +12,10 @@ app.get("/",function(req, res){
 
 		    var _directory_abstract_max_length = 20;
 		    files.forEach(function(f) {
+                        if (f === ".gitignore") {
+                            return;
+                        }
+                        
 		    	var predata = fs.readFileSync("./ljlarticle/" + f, 'utf8');
 		    	predata = predata.replace(/(?:\\[rnt]|[\r\n\t　]+)+/g, "").trim();
 				//console.log(predata.substring(0, 19));
@@ -75,7 +79,9 @@ app.get("/directory_ljl",function(req, res){
 
 		    var _directory_abstract_max_length = 20;
 		    files.forEach(function(f) {
-
+                        if (f === ".gitignore") {
+                            return;
+                        }
 
 		    	if(f.indexOf("0704")==-1){
 		    		return;
@@ -110,7 +116,9 @@ app.get("/directory_ming",function(req, res){
 
 		    var _directory_abstract_max_length = 20;
 		    files.forEach(function(f) {
-
+                        if (f === ".gitignore") {
+                            return;
+                        }
 
 		    	if(f.indexOf("0704")!==-1){
 		    		return;
