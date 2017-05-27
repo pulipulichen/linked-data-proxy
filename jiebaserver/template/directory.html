@@ -67,8 +67,11 @@ var multi_check = function () {
 
     open_a = function (_i) {
         if (_i < _count) {
-            console.log($("a").eq(_i).attr("href"));
-            window.open($("a").eq(_i).attr("href") + "&test=true", "test");
+            var _href = $("a").eq(_i).attr("href")
+            if (_href !== undefined) {
+                console.log(_href);
+                window.open($("a").eq(_i).attr("href") + "&test=true", "test");
+            }
             
             var _time = 3*60*1000;
             if (_i < _limit) {
