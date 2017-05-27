@@ -195,9 +195,14 @@ AUTOANNO._setup_tooltip = function () {
 
     rangy.init();
     console.log("ready");
+    
+    if (location.href.indexOf("&test=true") > -1) {
+        window.close();
+    }
+    
     $(".loadingbar").hide();
     $.getScript("/client/js/exp-linked-data-proxy-2017.dlll.nccu.edu.tw.js");
-
+    
 
 
     $(SELECTOR).mouseup(function () {
