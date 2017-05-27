@@ -196,7 +196,7 @@ var _node_jieba_parsing_callback = function (_result, callback) {
     var _do_loop = function (_i) {
         if (REQUEST_COUNT > REQUEST_COUNT_MAX) {
             setTimeout(function () {
-                console.log(["等待中...", _i, temp_array.length, temp_array[_i][0], REQUEST_COUNT]);
+                //console.log(["等待中...", _i, temp_array.length, temp_array[_i][0], REQUEST_COUNT]);
                 _do_loop(_i);
             }, 1000 * getRandomArbitrary(1,20));
             return;
