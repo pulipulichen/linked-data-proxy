@@ -1,0 +1,7 @@
+ljlarticle
+node_modules
+start_app.bat
+\[test\]
+open_webpage.bat
+scripts/data/dict_custom.js
+scripts/data/dict_custom.json
