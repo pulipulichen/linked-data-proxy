@@ -101,7 +101,7 @@ web_crawler = function (_output, _options, _mode) {
             ua_event(_options.module + _mode, _options.query, false, false);
             //_res.send(null);
             _output.display_error(_module + _mode, _query, _error);
-            WEB_CRAWLER_LOCK = false;
+            WEB_CRAWLER_COUNTER--;
             
             //_no_cache();
         });
@@ -124,7 +124,7 @@ web_crawler = function (_output, _options, _mode) {
     // ---------------------------
 
     var _retrieve_end = function () {
-        WEB_CRAWLER_LOCK = false;
+        WEB_CRAWLER_COUNTER--;
         
         
         //var _head_pos = _content.indexOf("<BODY");
@@ -277,13 +277,13 @@ web_crawler = function (_output, _options, _mode) {
     // ----------------
     
     var _no_cache = function () {
-        if (WEB_CRAWLER_LOCK === true) {
+        if (WEB_CRAWLER_COUNTER > CONFIG.multi_request_limit) {
             setTimeout(function () {
                 _no_cache();
             }, 1000 * getRandomArbitrary(1,5));
             return;
         }
-        WEB_CRAWLER_LOCK = true;
+        WEB_CRAWLER_COUNTER++;
         
         var _protocol_options = build_protocol_options(_options);
                 
@@ -386,6 +386,6 @@ web_crawler = function (_output, _options, _mode) {
     
 };  //web_crawler = function (_res, _options) {
 
-WEB_CRAWLER_LOCK = false;
+WEB_CRAWLER_COUNTER = 0;
 
 // ---------------------------
