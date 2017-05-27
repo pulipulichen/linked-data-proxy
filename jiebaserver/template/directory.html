@@ -4,14 +4,61 @@
 <head>
 <meta charset="UTF-8">
 <title>文本自動標註系統</title>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
+
 </head>
 
 <body style="margin: 2em;">
 	<div class="header">
-		<h1 class="article_title">{{ARTICLE}}</h1>
+		<h1 class="article_title" ondblclick="batch_check()">{{ARTICLE}}</h1>
 	</div>
 
 	<ul class="content">{{CONTENT}}</ul>
+<script>
+var batch_check = function () {
+	var _limit = 10;
+	var _count = $("a").length;
+	$("a").attr("target", "test");
+	
+	var _check_child_is_closed = function (_child, _callback) {
+		if (_child === null || _child.closed === true) {
+			setTimeout(function () {
+				_callback();
+			}, 0);
+		}
+		else {
+			setTimeout(function () {
+				_check_child_is_closed(_child, _callback);
+			}, 1*1000);
+		}
+	};
+	
+	open_a = function (_i) {
+		if (_i < _count) {
+			console.log($("a").eq(_i).attr("href"));
+			var _child = window.open($("a").eq(_i).attr("href") + "&test=true", "test");
+			
+			_check_child_is_closed(_child, function () {
+				_i++;
+				open_a(_i);
+			});
+			/*
+			var _time = 3*60*1000;
+			if (_i < _limit) {
+				_time = 5*1000;
+			}
+			setTimeout(function () {
+				_i++;
+				open_a(_i);
+			}, _time);
+			*/
+			
+		}
+	};
+	open_a(0);
+};
+</script>
+
 </body>
 </html>
 
