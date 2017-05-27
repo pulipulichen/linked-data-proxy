@@ -36,7 +36,7 @@ var _options = {
             
             var _href = _d.find("a[href]:first").attr("href");
             var _name = _d.find("b:first").text();
-            var _geo = _d.find("dd.pnd").text();
+            var _geo = _d.find("dd.pnd:first").text();
             _geo = extract_string(_geo, "[", "]");
             
             _output.append($('<div><a href="' + _href + '" target="_blank">' + _name + '</a> [' + _geo + ']</div>'));

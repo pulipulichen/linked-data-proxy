@@ -85,7 +85,9 @@ web_crawler = function (_output, _options, _mode) {
             });
         }
         */
-    };
+    };  // var _retrieve_callback = function(res) {
+    
+    // ---------------------------
 
     var _retrieve_error_callback = function(e) {
         //console.log("Got error: " + e.message);
@@ -99,7 +101,9 @@ web_crawler = function (_output, _options, _mode) {
             _output.display_error(_module + _mode, _query, _error);
         });
         return;
-    };
+    };  // var _retrieve_error_callback = function(e) {
+    
+    // ---------------------------
 
     var _retrieve_data = function (_chunk) {
         if (_options.encoding === "big5") {
@@ -110,7 +114,9 @@ web_crawler = function (_output, _options, _mode) {
         }
         //_content = iconv.decode(new Buffer(_content), "big5");
         _content += _chunk;
-    };
+    };  // var _retrieve_data = function (_chunk) {
+    
+    // ---------------------------
 
     var _retrieve_end = function () {
         //var _head_pos = _content.indexOf("<BODY");
@@ -172,13 +178,13 @@ web_crawler = function (_output, _options, _mode) {
             _content = _options.process(_content);
         }
         else if (typeof(_options.html_selector) === "string") {
-            _content = _html_selector(_content);
+            _content = html_selector(_content, _options.html_selector);
         }
         else if (typeof(_options.text_selector) === "string") {
-            _content = _text_selector(_content);
+            _content = text_selector(_content, _options.text_selector);
         }
         else if (typeof(_options.extract_string) === "object") {
-            _content = _extract_string(_content);
+            _content = web_crawler_extract_string(_content, _options.extract_string);
         }
         //console.log(content);
         
@@ -191,47 +197,54 @@ web_crawler = function (_output, _options, _mode) {
         _content = _content.trim();
 
         if (_content !== "") {
-            
-            if (typeof(_options.post_process) === "function") {
-                try {
-                    _content = _options.post_process(_content);
-                }
-                catch (_e) {
-                    console.log("post_process error: " + _e);
-                }
-            }
-            
-            if (typeof(_options.base_url) === "string") {
-                _content = _prepend_base_url(_content, _options.base_url);
-            }
-            
-            // 加入參考網頁
-            if (typeof(_options.referer_source) === "string" || typeof(_options.referer_name) === "string") {
-                var _name = _options.module;
-                if (typeof(_options.referer_name) === "string") {
-                    _name = _options.referer_name;
-                }
-                var _referer_source = _options.url;
-                if (typeof(_options.referer_source) === "string") {
-                    _referer_source = _options.referer_source;
-                }
-                _content = _content + '<div>Reference: <a href="' + _referer_source + '" target="_blank">' + _name + '</a></div>';
-            }
-            
-            
-            if (typeof(_options.zhs2zht) === "boolean" && _options.zhs2zht === true) {
-                opencc.simplifiedToTraditional(_content).then(function (_content) {
-                    _set_module_cache(_content);
-                });
-            }            
-            else {
-                _set_module_cache(_content);
-            }
+            _retrieve_end_process_content(_content)
         }
         else {
             _selector_not_fount();
         }
-    };
+    };  // var _retrieve_end = function () {
+    
+    // ---------------------
+    
+    var _retrieve_end_process_content = function (_content) {
+        if (typeof(_options.post_process) === "function") {
+            try {
+                _content = _options.post_process(_content);
+            }
+            catch (_e) {
+                console.log("post_process error [" + _options.module + "]: " + _e);
+            }
+        }
+
+        if (typeof(_options.base_url) === "string") {
+            _content = prepend_base_url(_content, _options.base_url);
+        }
+
+        // 加入參考網頁
+        if (typeof(_options.referer_source) === "string" || typeof(_options.referer_name) === "string") {
+            var _name = _options.module;
+            if (typeof(_options.referer_name) === "string") {
+                _name = _options.referer_name;
+            }
+            var _referer_source = _options.url;
+            if (typeof(_options.referer_source) === "string") {
+                _referer_source = _options.referer_source;
+            }
+            _content = _content + '<div>Reference: <a href="' + _referer_source + '" target="_blank">' + _name + '</a></div>';
+        }
+
+        // 轉換成繁體內容
+        if (typeof(_options.zhs2zht) === "boolean" && _options.zhs2zht === true) {
+            opencc.simplifiedToTraditional(_content).then(function (_content) {
+                _set_module_cache(_content);
+            });
+        }            
+        else {
+            _set_module_cache(_content);
+        }
+    };  // var _retrieve_end_process_content = function (_content) {
+    
+    // ----------------
     
     var _has_cache = function (_cache_response) {
         ua_event(_options.module, _options.query, (_cache_response !== null), true);
@@ -240,49 +253,15 @@ web_crawler = function (_output, _options, _mode) {
         get_vote_score(_module, _query, function (_priority) {
             _output.display_response(_options.module, _cache_response, _priority, _query);
         });
-    };
+    };  // var _has_cache = function (_cache_response) {
+    
+    // ----------------
     
     var _no_cache = function () {
-        _url_options = url.parse(_options.url);
-        
-        if (typeof(_options.method) === "undefined") {
-            _options.method = "GET";
-        }
-        
-        var _protocol_options = {
-            host: _url_options.host,
-            port: _url_options.port,
-            path: _url_options.path,
-            method: _options.method.toUpperCase(),
-            headers: {}
-        };
-        
-        if (_protocol_options.host === null) {
-            _protocol_options.host = "localhost";
-        }
-        if (_protocol_options.host.indexOf(":") > -1) {
-            _protocol_options.host = _protocol_options.host.split(":")[0];
-        } 
-
-        if (_protocol_options.port === null) {
-            _protocol_options.port = 80;
-        }
-        
-        if (typeof(_options.user_agent) === "string") {
-            _protocol_options.headers["User-Agent"] = _options.user_agent;
-        }
-        if (typeof(_options.referer) === "string") {
-            _protocol_options.headers["Referer"] = _options.referer;
-        }
-        
-        if (typeof(_options.headers) === "object") {
-            for (var _key in _options.headers) {
-                _protocol_options.headers[_key] = _options.headers[_key];
-            }
-        }
-        
+        var _protocol_options = build_protocol_options(_options);
+                
         var _protocol = http;
-        if (_url_options.protocol === "https:") {
+        if (_protocol_options.protocol === "https:") {
             _protocol = https;
         }
         _content = "";
@@ -293,6 +272,7 @@ web_crawler = function (_output, _options, _mode) {
             console.log(_protocol_options);
         }
         
+        console.log(["準備要搜尋了", JSON.stringify(_protocol_options)]);
         if (_options.method === "get") {
             //console.log("get");
             _protocol.get(_protocol_options, _retrieve_callback)
@@ -383,6 +363,7 @@ web_crawler = function (_output, _options, _mode) {
                     form.append(_key, _options.post_query[_key]);
                 }
                 */
+                /*
                 _protocol_options["url"] = _options.url;
                 _protocol_options["formData"] = _options.post_query;
                 
@@ -392,9 +373,12 @@ web_crawler = function (_output, _options, _mode) {
                   _output.test_display(body);
                   console.log(body.indexOf("<div id=WordSection1>"));
                 });
+                */
              }
         }
-    };
+    };  // var _no_cache = function () {
+    
+    // ---------------------------------
     
     var _set_module_cache = function (_content) {
         module_cache_set(_options.url, _content, function () {
@@ -406,7 +390,9 @@ web_crawler = function (_output, _options, _mode) {
                 _output.display_response(_module, _content, _priority, _query);
             });
         });
-    };
+    };  //var _set_module_cache = function (_content) {
+    
+    // ---------------------------------
     
     var _selector_not_fount = function () {
         _content = null;
@@ -421,51 +407,9 @@ web_crawler = function (_output, _options, _mode) {
             ua_event(_module + _mode, _query, false, false);
             _output.display_error(_module + _mode, _query, _error);
         });
-    };
+    };  // var _selector_not_fount = function () {
     
-    var _html_selector = function (_content) {
-        var ele = $(_content).find(_options.html_selector);
-        if (ele.length === 0) {
-            //show_error_page(_res, "Selector not found: " + _options.select_html);
-            /*
-            _content = null;
-            var _error = "Selector not found: " + _options.html_selector;
-            module_cache_set(_options.url, _content, _error, function () {
-                ua_event(_module, _query, false, false);
-                _output.display_error(_module, _query, _error);
-            });
-            return;
-            */
-           _content = "";
-        }
-        else if (ele.length === 1) {
-            _content = ele.clone().wrap("<div></div>").parent().html();
-        }
-        else {
-            _content = $("<div></div>");
-            ele.each(function (i, e) {
-               $(e).clone().appendTo(_content);
-            });
-            _content = _content.html();
-        }
-        return _content;
-    };
-    
-    var _text_selector = function (_content) {
-        var _ele = $(_content).find(_options.text_selector);
-        _content = [];
-        for (var _i = 0; _i < _ele.length; _i++) {
-            _content.push(_ele.eq(_i).text());
-        }
-        _content = _content.join("\n");
-        return _content;
-    };
-    
-    var _extract_string = function (_content) {
-        _content = extract_string(_content, _options.extract_string[0], _options.extract_string[1]);
-        //_content = "<div>" + _content + "</div>";
-        return _content;
-    };
+    // ---------------------------------
     
     module_cache_get(_options.url, function (_cache_response) {
         if (_cache_response !== false) {
@@ -486,67 +430,3 @@ web_crawler = function (_output, _options, _mode) {
 };  //web_crawler = function (_res, _options) {
 
 // ---------------------------
-
-strStartsWith = function (str, prefix) {
-    return str.indexOf(prefix) === 0;
-};
-
-var _prepend_base_url = function (_content, _base_url) {
-    try {
-        if (_content.substr(0, 1) === "<") {
-            _content = $(_content);
-        }
-        else {
-            _content = $('<div>' + _content + '</div>');
-        }
-    }
-    catch (_e) {
-        _content = $('<div>' + _content + '</div>');
-    }
-    if (_content.length > 1) {
-        var _c = $("<div></div>").append(_content);
-        _content = _c;
-    }
-    
-    _content.find("a[href]").each(function (_i, _ele) {
-        if (!strStartsWith(_ele.href, "http://") && !strStartsWith(_ele.href, "https://") && !strStartsWith(_ele.href, "//")) {
-            _ele.href = _base_url + _ele.href;
-        }
-        _ele.target = "_blank";
-    });
-    _content.find("img[src]").each(function (_i, _ele) {
-        if (!strStartsWith(_ele.src, "http://") && !strStartsWith(_ele.src, "https://") && !strStartsWith(_ele.src, "//")) {
-            _ele.src = _base_url + _ele.src;
-        }
-    });
-    return get_outer_html(_content);
-};
-
-// --------------------
-
-clone_json = function (_json) {
-    var _output = {};
-    for (var _key in _json) {
-        _output[_key] = _json[_key];
-    }
-    return _output;
-};
-
-extract_string = function (_str, _head_needle, _foot_needle) {
-    var _head_pos = _str.indexOf(_head_needle);
-    if (_head_pos === -1) {
-        _head_pos = 0;
-    }
-    else {
-        _head_pos = _head_pos + _head_needle.length;
-    }
-    var _foot_pos = _str.indexOf(_foot_needle, _head_pos);
-    if (_foot_pos === -1) {
-        _foot_pos = _str.length;
-    }
-    return _str.substring(_head_pos, _foot_pos);
-};
-
-iconv_encode = function (_str, _encoding) {
-    return iconv.encode(_str, _encoding);
-};
