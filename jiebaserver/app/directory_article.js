@@ -112,7 +112,7 @@ app.get("/directory_ming",function(req, res){
 		    files.forEach(function(f) {
 
 
-		    	if(f.indexOf("0704")!=-1){
+		    	if(f.indexOf("0704")!==-1){
 		    		return;
 		    	}
 		    	var predata = fs.readFileSync("./ljlarticle/" + f, 'utf8');
