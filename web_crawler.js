@@ -282,99 +282,13 @@ web_crawler = function (_output, _options, _mode) {
             if (typeof(DEBUG.post_query) !== "undefined") {
                 console.log(_options.post_query);
             }
-            //console.log("post");
-             if (_options.payload === false) {
-                
-                if (typeof(DEBUG.protocol_options) !== "undefined") {
-                    console.log(_protocol_options);
-                }
-                //console.log(_options.url);
-                //var _post_query = querystring.stringify(_options.post_query);
-                var _post_query = _options.post_query;
-                 _protocol.post(_protocol_options, _post_query, _retrieve_callback);
-             }
-             else {
-                 /*
-                 var _post_query = JSON.stringify(_options.post_query);
-                 _protocol_options.headers["Content-Length"] = _post_query.length;
-                 _protocol_options.headers["Content-Type"] = "application/json";
-                 var _post_request = _protocol.request(_protocol_options, _retrieve_callback);
-                 _post_request.on("error", _retrieve_error_callback);
-                 _post_request.write(_post_query);
-                 _post_request.end();
-                 */
-                
-                /*
-                var _post_query = querystring.stringify(_options.post_query);
-                _protocol_options.uri = _options.url;
-                _protocol_options.body = _options.post_query;
-                _protocol_options.json = true;
-                //_protocol_options.form = _options.post_query;
-                
-                _protocol_options.headers["Content-Length"] = _post_query.length;
-                _protocol_options.headers["Content-Type"] = "application/json";
-                if (typeof(DEBUG.protocol_options) !== "undefined") {
-                    console.log(_protocol_options);
-                }
-                var _post_req = request_promise(_protocol_options)
-                        .then(function (response) {
-                            response = iconv.decode(response, 'big5');
-                            _output.test_display(response);
-                            //console.log(response);
-                        })
-                        .catch(_retrieve_error_callback);
-                //_post_req.on("response", _retrieve_callback);
-                //_post_req.on('error', _retrieve_error_callback);
-                */
-               
-                /*
-                var form = new FormData();
-                for (var _key in _options.post_query) {
-                    form.append(_key, _options.post_query[_key]);
-                }
-                form.submit(_protocol_options, function (err, res) {
-                    console.log(res.statusCode);
-                    _retrieve_callback(res);
-                });
-                */
-                /*
-                var request = http.request(_protocol_options);
-                
-                form.pipe(request);
-
-                request.on('response', function (res) {
-                    console.log(res.statusCode);
-                });
-                */
-                /*
-                _protocol_options["url"] = _options.url;
-                _protocol_options["formData"] = _options.post_query;
-                var r = request.post(_options.url, function(err, httpResponse, body) {
-                  if (err) {
-                    return console.error('upload failed:', err);
-                  }
-                  console.log('Upload successful!  Server responded with:');
-                  //console.log(body);
-                  _output.test_display(body);
-                  console.log(body.indexOf("Quan"));
-                });
-                var form = r.form();
-                for (var _key in _options.post_query) {
-                    form.append(_key, _options.post_query[_key]);
-                }
-                */
-                /*
-                _protocol_options["url"] = _options.url;
-                _protocol_options["formData"] = _options.post_query;
-                
-                request(_protocol_options, function (error, response, body) {
-                    console.log('Upload successful!  Server responded with:');
-                  //console.log(body);
-                  _output.test_display(body);
-                  console.log(body.indexOf("<div id=WordSection1>"));
-                });
-                */
-             }
+            if (typeof(DEBUG.protocol_options) !== "undefined") {
+                console.log(_protocol_options);
+            }
+            //console.log(_options.url);
+            //var _post_query = querystring.stringify(_options.post_query);
+            var _post_query = _options.post_query;
+             _protocol.post(_protocol_options, _post_query, _retrieve_callback);
         }
     };  // var _no_cache = function () {
     
