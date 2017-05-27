@@ -24,6 +24,7 @@ require("./lib/uuid.js");
 require("./lib/ip.js");
 require("./lib/session.js");
 require("./lib/cors.js");
+require("./lib/protocol_query.js");
 
 
 Cookies = require( "cookies" );
