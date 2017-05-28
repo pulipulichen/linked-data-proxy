@@ -24,6 +24,7 @@ require('./database.js');
 
 //--------------------------------------------------------------------------------------------
 
+require("./config.js");
 require("./app/file_link.js");
 require("./app/directory_article.js");
 require("./app/add_term.js");
@@ -57,15 +58,20 @@ _write_log = function (_msg) {
     _msg = datetext + " " + _msg;
 
     console.log(_msg);
-    if (fs.existsSync("/tmp")) {
-        fs.appendFileSync("/tmp/jieba.log", _msg + "\n", 'utf8');
+    
+    if (CONFIG.enable_jieba_log === true) { 
+        var _path = CONFIG.jieba_log_path;
+        var _pos = _path.lastIndexOf("/");
+        var _dir_path = _path.substr(0, _pos);
+        if (fs.existsSync(_dir_path)) {
+            fs.appendFileSync(_path, _msg + "\n", 'utf8');
+        }
     }
-
 };
 
 // ----------------------------------------------------------
 
-app.set('port',process.env.PORT || 8000);
+app.set('port',process.env.PORT || CONFIG.port);
 var server=app.listen(app.get('port'),function(){
 	console.log('Server up: http://localhost:'+app.get('port'));
 });

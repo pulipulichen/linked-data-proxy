@@ -13,7 +13,6 @@ var request = require('request');
 request_promise = require('request-promise');
 var FormData = require('form-data');
 
-var opencc = require('node-opencc');
 
 var DEBUG = {
     //chunk: true,
@@ -254,7 +253,7 @@ web_crawler = function (_output, _options, _mode) {
 
         // 轉換成繁體內容
         if (typeof(_options.zhs2zht) === "boolean" && _options.zhs2zht === true) {
-            opencc.simplifiedToTraditional(_content).then(function (_content) {
+            simplifiedToTraditional(_content, function function (_content) {
                 _set_module_cache(_content);
             });
         }            

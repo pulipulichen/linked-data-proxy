@@ -8,7 +8,7 @@ var DEBUG = {
 //var URL = "http://pc.pulipuli.info:3000/check_post/wiki,moedict,cbdb,tgaz,cdict,pixabay/";
 //var URL = "http://localhost:3000/check/wiki,moedict,cbdb,tgaz,cdict,pixabay/" ;
 //var URL = "http://localhost:3000/check_post/wiki,moedict/" ;	// 給NodeJS本機端用
-var URL = "http://localhost:3000/check/wiki,moedict,cbdb,tgaz,cdict/";	// 給NodeJS本機端用
+var URL = CONFIG.linked_data_proxy_check_url;	// 給NodeJS本機端用
 
 // -----------------------
 
@@ -16,16 +16,14 @@ var URL = "http://localhost:3000/check/wiki,moedict,cbdb,tgaz,cdict/";	// 給Nod
 //var check_result_array = [];  //各個sub_array進行check後回傳的check_result_array
 //var sub_result;         //各個check_result_array轉為string
 
-var GENERAL_DICT = require('../scripts/data/dictionary.js');
+var stopword = CONFIG.stopword;
+
+
+
+// ------------------------
 var _replace_br = false;
 
-var stopword = ".,\/#!$%\^&\*;:{}=\-_`~()"
-        + "«»/•† ‡¿№×‰ºª‱¶§|‖¦©℗®℠™¤​฿​​¢​₡​₢​$​₫​₯​​₠​€​ƒ​₣​​​₭​​₾​ℳ​₥​₦​₧​₱​₰​£​៛​​​₪​৳​​₮​₩​¥⁂❧☞‽◊⁀"
-        + "\n\r。，<br>─「」；：:！？{}()[].0123456789"
-        + "〇零一二三四五六七八九十月日時分"
-        + "…、%％【】※『』 ㈠㈡　，、。．？！～＄％＠＆＃＊‧；︰…‥﹐﹒˙·﹔﹕‘’“”〝〞‵′〃├─┼┴┬┤┌┐╞═╪╡│▕└┘╭╮╰╯╔╦╗╠═╬╣╓╥╖╒╤╕║╚╩╝╟╫╢╙╨╜╞╪╡╘╧╛﹣﹦≡｜∣∥–︱—︳╴¯￣﹉﹊﹍﹎﹋﹌﹏︴﹨∕╲╱＼／↑↓←→↖↗↙↘〔〕【】﹝﹞〈〉﹙﹚《》（）｛｝﹛﹜『』「」＜＞≦≧﹤﹥︵︶︷︸︹︺︻︼︽︾︿﹀∩∪﹁﹂﹃﹄◎⊕⊙○●△▲▽▼☆★◇◆□■☎☏◐◑♡♥♣♧☻☺♠♤▪▫∴∵☜☞♫♬◊♦►◁∈∋◘◙♀♂♩♪☼￥〒￠￡※↔↕♨卍◈§♭＿ˍ▁▂▃▄▅▆▇█▏▎▍▌▋▊▉◢◣◥◤►◄▣▤▥▦▧▨▩▒░㊣㊟㊕㊗㊡㊝①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽㈠㈡㈢㈣㈤㈥㈦㈧㈨㈩１２３４５６７８９０〡〢〣〤〥〦〧〨〩十卄卅ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ⒜⒝⒞⒟⒠⒡⒢⒣⒤⒥⒦⒧⒨⒩⒪⒫⒬⒭⒮⒯⒰⒱⒲⒳⒴⒵ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩανξοπρστυφχψωクラピカマニアチェックあなたのテスト≠〃てたこれまでキャンプシーズにかけるかがきいレャズンをえたコンパやすうなどすそビジネられていアウドアやにびせだも来つリビをしたとにオはわゅうごりよろしくそうまムペㄱㄲㄳㄴㄵㄶㄷㄸㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅃㅄㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅥㅦㅧㅨㅩㅪㅫㅬㅭㅮㅯㅰㅱㅲㅳㅴㅵㅶㅷㅸㅹㅺㅻㅼㅽㅾㅿㆀㆁㆂㆃㆄㆅㆆㆇㆈㆉㆊ╳＋﹢－×÷＝≠≒∞ˇ±√⊥∠∟⊿㏒㏑∫∮∵∴ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦㄧㄨㄩ˙ˊˇˋÄÃÇÊËÎÏÐÑÕÖÛÜãäêëîïõöŸŴŽŤŘŇĩħąčĤ";
-
-
+var GENERAL_DICT = require('../scripts/data/dictionary.js');
 
 // ------------------------
 
@@ -162,7 +160,7 @@ var _process = function (article, callback) {
 // --------------------------------------------
 
 REQUEST_COUNT = 0;
-REQUEST_COUNT_MAX = 10;
+REQUEST_COUNT_MAX = CONFIG.linked_data_proxy_request_max;
 
 var _node_jieba_parsing_callback = function (_result, callback) {
     //console.log(_result);
@@ -172,7 +170,7 @@ var _node_jieba_parsing_callback = function (_result, callback) {
     var joined_result = "";    //把每個sub_result結合起來 準備回傳給client
 
     //console.log(article);
-    var BATCH_CHECK = 100;
+    var BATCH_CHECK = CONFIG.batch_check;
 
     for (var t = 0, len = _result.length; t < len; t += BATCH_CHECK) {
         temp_array.push(_result.slice(t, t + BATCH_CHECK));
@@ -198,7 +196,7 @@ var _node_jieba_parsing_callback = function (_result, callback) {
             setTimeout(function () {
                 //console.log(["等待中...", _i, temp_array.length, temp_array[_i][0], REQUEST_COUNT]);
                 _do_loop(_i);
-            }, 1000 * getRandomArbitrary(1,20));
+            }, 1000 * getRandomArbitrary(1,10));
             return;
         }
         //console.log(["執行...", _i, temp_array.length, temp_array[_i][0], REQUEST_COUNT]);
