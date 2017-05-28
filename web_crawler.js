@@ -253,7 +253,7 @@ web_crawler = function (_output, _options, _mode) {
 
         // 轉換成繁體內容
         if (typeof(_options.zhs2zht) === "boolean" && _options.zhs2zht === true) {
-            simplifiedToTraditional(_content, function function (_content) {
+            simplifiedToTraditional(_content, function (_content) {
                 _set_module_cache(_content);
             });
         }            
