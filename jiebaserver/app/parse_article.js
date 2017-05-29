@@ -41,7 +41,7 @@ app.post("/parse_article", function (req, res) {
     var cookies = new Cookies(req, res);
 
     //console.log(article);
-    _write_log(article);
+    //_write_log(article);
 
     tableArticleCache.findOrCreate({
         where: {
@@ -64,11 +64,12 @@ app.post("/parse_article", function (req, res) {
             
             // 計算result是空值的數量
             _count_processing_null_result(function (_count) {
-                console.log(["還沒查詢完的資料: ", _count, CONFIG.linked_data_proxy_request_max]);
+                console.log(["正在查詢的數量: ", _count, CONFIG.linked_data_proxy_request_max]);
                 if (_count < CONFIG.linked_data_proxy_request_max) {
                     
                     var _callback = function () {
                         _find_a_null_result_article(function (article, cache_id) {
+                            console.log(["下一個", cache_id]);
                             _article_cache_post_process(article, cache_id, _callback);
                         });
                     };
@@ -135,6 +136,11 @@ app.get("/parse_article", function (req, res) {
 // ----------------
 
 var _article_cache_post_process = function (article, cache_id, _callback) {
+    var _a = article;
+    if (_a.length > 100) {
+        _a = _a.substr(0, 100) + "...";
+    }
+    console.log(["現在進行:", _a]);
     // 先把它變成processing: true
     tableArticleCache.update(
             {processing: true},
@@ -353,7 +359,7 @@ var _node_jieba_parsing_callback = function (_result, callback) {
     };  //var _do_loop = function (_i) {
     
     var _post_request_callback = function (error, response, body, _i, sub_array) {
-        _write_log(["request post", body, typeof (body)]);
+        _write_log(["收到check的回覆: ", body]);
 
         //if (body === "nodata" || body === null || body === undefined) {
         if (body !== undefined && body !== null) {

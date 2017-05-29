@@ -84,7 +84,7 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id
         return;
     }
     else {
-        console.log("有資料，開始記錄 " + _limit);
+        console.log("有要查詢的資料，準備開始進行查詢，總共要查詢的個數有：" + _limit);
     }
     
     for (var _q = 0; _q < _queries.length; _q++) {
