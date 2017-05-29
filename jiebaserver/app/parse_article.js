@@ -73,10 +73,10 @@ app.post("/parse_article", function (req, res) {
                     
                     var _callback = function () {
                         _count_processing_null_result(function (_count) {
-                            console.log(["[" + cache_id + "] 下一個 正在查詢的數量: ", _count, CONFIG.linked_data_proxy_request_max, REQUEST_CACHE_ID]);
+                            console.log(["[" + cache_id + "] 下一個 正在查詢的數量: ", _count, CONFIG.linked_data_proxy_request_max, '剩餘數量: ',REQUEST_CACHE_ID.length]);
                             if (_count < CONFIG.linked_data_proxy_request_max) {
                                 _find_a_null_result_article(function (article, cache_id) {
-                                    console.log(["[" + cache_id + "] 下一個", cache_id, REQUEST_CACHE_ID]);
+                                    console.log(["[" + cache_id + "] 下一個", cache_id, '剩餘數量: ',REQUEST_CACHE_ID.length]);
                                     _article_cache_post_process(article, cache_id, _callback);
                                 });
                             }
@@ -88,7 +88,7 @@ app.post("/parse_article", function (req, res) {
                 else {
                     if (cache_id !== undefined && cache_id !== null) {
                         REQUEST_CACHE_ID.push(cache_id);
-                        console.log(["[" + cache_id + "] 太多了，停止查詢", REQUEST_CACHE_ID]);
+                        console.log(["[" + cache_id + "] 太多了，停止查詢", '剩餘數量: ',REQUEST_CACHE_ID.length]);
                     }
                 }
             }); //_count_null_result(function (_count) {
