@@ -87,60 +87,11 @@ app.post("/parse_article", function (req, res) {
     _article_cache_post_process(article);
 });
 
-// -------------------------------------------
-
-app.get("/parse_article", function (req, res) {
-
-    // 1. 取得COOKIE
-    var cache_id;
-    if (typeof (req.query.cache_id) === "undefined") {
-        var cookies = new Cookies(req, res);
-        cache_id = cookies.get("cache_id");
-
-    }
-    else {
-        cache_id = req.query.cache_id;
-    }
-    cache_id = parseInt(cache_id, 10);
-
-    //console.log(cache_id);
-
-    // 2. 取得暫存檔案
-    tableArticleCache
-            .findById(cache_id)
-            .then(function (articlecache) {
-                //console.log("ok");
-                if (articlecache === null || articlecache.get("result") === null || articlecache.get("result") === "") {
-                    // 3-1. IF 暫存檔案沒有資料: 回傳undefined
-                    console.log(["client端請求， 沒資料 ID: ", cache_id]);
-                    res.jsonp(cache_id);
-                }
-                else {
-                    // 3-2. if 暫存檔案有資料
-                    // 回傳資料
-                    var _result = articlecache.get("result");
-                    
-                    var _r = _result;
-                    if (_r.length > 100) {
-                        _r = _r.substr(0, 100) + "...";
-                    }
-                    console.log(["完成" + _r]);
-
-                    if (DEBUG.enable_cache === false) {
-                        articlecache.destroy({force: true});
-                    }
-
-                    res.jsonp({
-                        result: _result,
-                        cache_id: cache_id
-                    });
-                }
-            });
-});
 
 // ----------------
 
 var _article_cache_post_process = function (article, cache_id, _callback) {
+    REQUEST_COUNT++;
     var _a = article;
     if (_a.length > 100) {
         _a = _a.substr(0, 100) + "...";
@@ -156,6 +107,7 @@ var _article_cache_post_process = function (article, cache_id, _callback) {
             // 4. 處理完之後放入暫存檔案 
             //console.log("4. 處理完之後放入暫存檔案 ");
             //console.log(result);
+            REQUEST_COUNT--;
             tableArticleCache.update(
                     {
                         result: result,
@@ -172,6 +124,8 @@ var _article_cache_post_process = function (article, cache_id, _callback) {
  * @param {function} _callback
  */
 var _count_processing_null_result = function (_callback) {
+    _callback(REQUEST_COUNT);
+    /*
     tableArticleCache.findAndCountAll({
         where: {
             result: null,
@@ -181,6 +135,7 @@ var _count_processing_null_result = function (_callback) {
         
         _callback(_count.count);
     });
+    */
 };
 
 var _find_a_null_result_article = function (_callback) {
@@ -486,3 +441,55 @@ var _parse_check_result_array = function (sub_array, check_result_array) {
 getRandomArbitrary = function(min, max) {
     return Math.random() * (max - min) + min;
 };
+
+
+// -------------------------------------------
+
+app.get("/parse_article", function (req, res) {
+
+    // 1. 取得COOKIE
+    var cache_id;
+    if (typeof (req.query.cache_id) === "undefined") {
+        var cookies = new Cookies(req, res);
+        cache_id = cookies.get("cache_id");
+
+    }
+    else {
+        cache_id = req.query.cache_id;
+    }
+    cache_id = parseInt(cache_id, 10);
+
+    //console.log(cache_id);
+
+    // 2. 取得暫存檔案
+    tableArticleCache
+            .findById(cache_id)
+            .then(function (articlecache) {
+                //console.log("ok");
+                if (articlecache === null || articlecache.get("result") === null || articlecache.get("result") === "") {
+                    // 3-1. IF 暫存檔案沒有資料: 回傳undefined
+                    console.log(["client端請求， 沒資料 ID: ", cache_id]);
+                    res.jsonp(cache_id);
+                }
+                else {
+                    // 3-2. if 暫存檔案有資料
+                    // 回傳資料
+                    var _result = articlecache.get("result");
+                    
+                    var _r = _result;
+                    if (_r.length > 100) {
+                        _r = _r.substr(0, 100) + "...";
+                    }
+                    console.log(["完成" + _r]);
+
+                    if (DEBUG.enable_cache === false) {
+                        articlecache.destroy({force: true});
+                    }
+
+                    res.jsonp({
+                        result: _result,
+                        cache_id: cache_id
+                    });
+                }
+            });
+});
