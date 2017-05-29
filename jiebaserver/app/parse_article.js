@@ -362,7 +362,7 @@ var _node_jieba_parsing_callback = function (_result, cache_id, callback) {
             setTimeout(function () {
                 //REQUEST_COUNT--;
                 _do_loop(_i);
-            }, 5 * 1000);
+            }, _send_array.length * 100);
         }
     };  //var _post_request_callback = function (error, response, body, _i) {
 
