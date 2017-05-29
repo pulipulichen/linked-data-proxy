@@ -76,7 +76,7 @@ app.post("/parse_article", function (req, res) {
                             console.log(["[" + cache_id + "] 下一個 正在查詢的數量: ", _count, CONFIG.linked_data_proxy_request_max, REQUEST_CACHE_ID]);
                             if (_count < CONFIG.linked_data_proxy_request_max) {
                                 _find_a_null_result_article(function (article, cache_id) {
-                                    console.log(["[" + cache_id + "] 下一個", cache_id]);
+                                    console.log(["[" + cache_id + "] 下一個", cache_id, REQUEST_CACHE_ID]);
                                     _article_cache_post_process(article, cache_id, _callback);
                                 });
                             }
