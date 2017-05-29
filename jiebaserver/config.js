@@ -35,5 +35,5 @@ CONFIG = {
      * 一次傳送的字句
      * @type Number
      */
-    batch_check: 100
+    batch_check: 50
 };
