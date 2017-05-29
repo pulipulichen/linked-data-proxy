@@ -236,6 +236,7 @@ var _node_jieba_parsing_callback = function (_result, cache_id, callback) {
         }
     };	// var _loop = function (_i) {
 
+    var _send_array = [];
     var _do_loop = function (_i) {
         /*
         if (REQUEST_COUNT > REQUEST_COUNT_MAX) {
@@ -251,7 +252,7 @@ var _node_jieba_parsing_callback = function (_result, cache_id, callback) {
         //console.log("送出第" + _i + "次");
         // 執行迴圈
         var sub_array = [];
-        var _send_array = [];
+        _send_array = [];
         for (var _t = 0; _t < temp_array[_i].length; _t++) {
             //var _term = temp_array[_i][_t].replace(/(?:\\[rnt]|[\r\n\t]+)+/g, "").trim();
             var _term = temp_array[_i][_t];
