@@ -41,3 +41,7 @@ a{text-decoration:none;}
     visibility: visible;
 }
 
+.autoanno_tooltip_templates {
+	position: absolute;
+	top: -10000px;
+}

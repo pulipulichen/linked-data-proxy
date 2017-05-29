@@ -37,3 +37,20 @@ tableArticleCache = sequelize.define('articlecache', {
 });
 
 tableArticleCache.sync();
+
+
+// --------------------------------
+
+tableTermCache = sequelize.define('term_cache', {
+  term: {
+    type: Sequelize.TEXT
+  },
+  existed: {
+    type: Sequelize.BOOLEAN
+  }
+}, {
+  freezeTableName: true, // Model tableName will be the same as the model name
+  timestamps: true
+});
+
+tableTermCache.sync();

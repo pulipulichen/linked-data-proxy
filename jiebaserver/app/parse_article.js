@@ -217,19 +217,41 @@ var _node_jieba_parsing_callback = function (_result, cache_id, callback) {
     //console.log(article);
     var BATCH_CHECK = CONFIG.batch_check;
 
-    for (var t = 0, len = _result.length; t < len; t += BATCH_CHECK) {
-        temp_array.push(_result.slice(t, t + BATCH_CHECK));
-    }
+    //for (var t = 0, len = _result.length; t < len; t += BATCH_CHECK) {
+    //    temp_array.push(_result.slice(t, t + BATCH_CHECK));
+    //}
+    temp_array[0] = _result;    // 全部一個檔案傳就好了，不要花這麼多功夫切割
 
     // array: temp_array
     // limit: temp_array.length
     // callback: callback(joined_result);
     
     var _retry = 0;
+    var sub_array = undefined;
+    var _send_array = undefined;
+    var sub_result = undefined;
     var _loop = function (_i) {
         if (_i < temp_array.length) {
             _retry = 0;
-            _do_loop(_i);
+            sub_array = temp_array[_i];
+            _find_terms_not_in_cache(sub_array, function (_send_array_temp) {
+                _send_array = _send_array_temp;
+                sub_result = _send_array.join(" ").trim();
+                
+                if (sub_array.length === 0
+                    || sub_result === ""
+                    || sub_result === undefined) {
+                    _write_log(["沒有要查的資料", sub_array.length, sub_result]);
+                    _parse_check_result_array(sub_array, [], function (sub_result) {
+                        joined_result = joined_result + sub_result;
+                        _i++;
+                        _loop(_i);
+                    });
+                    return;
+                }
+                
+                _do_loop(_i);
+            });
         }
         else {
             // 結束了
@@ -238,101 +260,23 @@ var _node_jieba_parsing_callback = function (_result, cache_id, callback) {
         }
     };	// var _loop = function (_i) {
 
-    var _send_array = [];
+    
     var _do_loop = function (_i) {
-        /*
-        if (REQUEST_COUNT > REQUEST_COUNT_MAX) {
-            setTimeout(function () {
-                //console.log(["等待中...", _i, temp_array.length, temp_array[_i][0], REQUEST_COUNT]);
-                _do_loop(_i);
-            }, 1000 * getRandomArbitrary(1,10));
-            return;
-        }
-        */
-        //console.log(["執行...", _i, temp_array.length, temp_array[_i][0], REQUEST_COUNT]);
-        
-        //console.log("送出第" + _i + "次");
-        // 執行迴圈
-        var sub_array = [];
-        _send_array = [];
-        for (var _t = 0; _t < temp_array[_i].length; _t++) {
-            //var _term = temp_array[_i][_t].replace(/(?:\\[rnt]|[\r\n\t]+)+/g, "").trim();
-            var _term = temp_array[_i][_t];
-            //if (_term !== " " 
-            //&& _term !== "" 
-            //&& _term !== "　"
-            //&& _term !== "\t"
-            //&& _term !== "\r"
-            //&& _term !== "\r\n"
-            //&& _term !== "\n") {
-            if (_term !== "") {
-                sub_array.push(_term);
-                if (_match_stopword(_term) === false) {
-                    _send_array.push(_term);
-                }
-            }
-
-        }
-
-        
-        var sub_result = _send_array.join(" ").trim();
-        _write_log([cache_id, "送出...", _i, temp_array.length, sub_result, REQUEST_COUNT]);
-
-        if (sub_array.length === 0
-                || sub_result === ""
-                || sub_result === undefined) {
-            joined_result = joined_result + _parse_check_result_array(sub_array);
-            _i++;
-            _loop(_i);
-            return;
-        }
-
-        //console.log(sub_result);
-
-        //REQUEST_COUNT++;
-        //console.log(["check url", URL]);
-        request({
-            url: URL,
-            method: 'POST',
-            json: {query: sub_result}
-        }, function (error, response, body) {
-            _post_request_callback(error, response, body, _i, sub_array);
+        _write_log([cache_id, "送出...", _i + "/" + temp_array.length
+            , '詞數:' + _send_array.length + "/" + sub_array.length
+            , sub_result]);
+        _init_terms_into_cache(_send_array, function () {
+            request({
+                url: URL,
+                method: 'POST',
+                json: {query: sub_result}
+            }, function (error, response, body) {
+                _post_request_callback(error, response, body, _i, sub_array);
+            });
         });
-        /*
-         console.log(URL);
-         _write_log(["before protocol", URL]);
-         protocol_query({
-         url: URL,
-         method:'POST',
-         post_query: {query:sub_result},
-         formData: {query:sub_result},
-         payload: false	//
-         }, function (body) {
-         console.log(["body", body, typeof(body)]);
-         _write_log(["request", body, typeof(body)]);
-
-         if (body === "nodata" || body === null) {
-         body = [];
-         }
-
-         if (typeof(body) !== "undefined" ) {
-         joined_result = joined_result + _parse_check_result_array(sub_array, body);
-         _i++;
-         _defalut_timeout=0;
-         }
-         else{
-         _defalut_timeout=10000;
-         _write_log(["request no data", body]);
-         //console.log("[" + sub_result + "]");
-         }
-
-         setTimeout(function() {
-         //console.log(_defalut_timeout);
-         _loop(_i);
-         }, _defalut_timeout);
-         });
-         */
     };  //var _do_loop = function (_i) {
+    
+    //---------------------------------
     
     var _post_request_callback = function (error, response, body, _i, sub_array) {
         if (body !== undefined && body !== null) {
@@ -345,7 +289,6 @@ var _node_jieba_parsing_callback = function (_result, cache_id, callback) {
                 body = [];
             }
         }
-
         
         if (!error
                 && response.statusCode === 200
@@ -356,17 +299,20 @@ var _node_jieba_parsing_callback = function (_result, cache_id, callback) {
                     && typeof (response.body) !== "undefined") {
                 body = response.body;
             }
-            joined_result = joined_result + _parse_check_result_array(sub_array, body);
-            _i++;
-            _loop(_i);
-            //REQUEST_COUNT--;
+            
+            _parse_check_result_array(sub_array, body, function (sub_result) {
+                joined_result = joined_result + sub_result;
+                _i++;
+                _loop(_i);
+                //REQUEST_COUNT--;
+            }); 
         }
         else {
             _retry++;
             setTimeout(function () {
                 //REQUEST_COUNT--;
                 _do_loop(_i);
-            }, _send_array.length * 200 / _retry);
+            }, _send_array.length * CONFIG.linked_data_proxy_request_max * 200 / _retry);
         }
     };  //var _post_request_callback = function (error, response, body, _i) {
 
@@ -396,64 +342,75 @@ var _match_stopword = function (_query) {
     return (_count === _match_count);
 };
 
-var _parse_check_result_array = function (sub_array, check_result_array) {
+var _parse_check_result_array = function (sub_array, check_result_array, _callback) {
     var _result = [];
     //console.log(sub_array);
     if (check_result_array === undefined) {
         check_result_array = [];
     }
-    //if (check_result_array !== undefined) {
-        for (var i = 0; i < sub_array.length; i++) {
-            if (sub_array[i] === "\n" && _replace_br === true) {
-                _result.push('<br />');
-                continue;
-            }
+    
+    // -----------------
+    // 先把找到的check_result_array放入資料庫中
+    _update_terms_in_cache(check_result_array, function () {
+        _find_terms_existed_in_cache(sub_array, function (check_result_array) {
+            _write_log(["準備整合", check_result_array.length + "/" + sub_array.length]);
+            
+            //if (check_result_array !== undefined) {
+                for (var i = 0; i < sub_array.length; i++) {
+                    if (sub_array[i] === "\n" && _replace_br === true) {
+                        _result.push('<br />\n');
+                        continue;
+                    }
 
-            var found = false;
-            var _word = sub_array[i].replace(/(?:\\[rnt]|[\r\n\t]+)+/g, "").trim();
-            if (_word === ""
-                    || _word === " "
-                    || _word === "\n"
-                    || _word === "\r"
-                    || _word === "\t") {
-                _result.push(sub_array[i]);
-                continue;
-
-            }
-
-
-            for (var j = 0; j < check_result_array.length; j++) {
-                if (sub_array[i] === check_result_array[j]) {
-                    found = true;
-                    break;
-                }
-            }
+                    var found = false;
+                    var _word = sub_array[i].replace(/(?:\\[rnt]|[\r\n\t]+)+/g, "").trim();
+                    if (_word === ""
+                            || _word === " "
+                            || _word === "\n"
+                            || _word === "\r"
+                            || _word === "\t") {
+                        _result.push(sub_array[i]);
+                        continue;
+                    }
 
 
-            if (found === true) {
-                if (sub_array[i].length > 1) {
-                    _result.push('<span class="autoanno_vocabulary autoanno_tooltip autoanno_highlight" data-tooltip-content="#autoanno_tooltip_content">'
-                            + sub_array[i]
-                            + '</span>');
-                }
-                else {
-                    _result.push('<span class="autoanno_vocabulary autoanno_tooltip" data-tooltip-content="#autoanno_tooltip_content">'
-                            + sub_array[i]
-                            + '</span>');
-                }
-            }
-            else {
-                _result.push('<span class="autoanno_vocabulary">'
-                        + sub_array[i]
-                        + '</span>');
-            }
-        }
-    //}
+                    for (var j = 0; j < check_result_array.length; j++) {
+                        if (sub_array[i] === check_result_array[j]) {
+                            found = true;
+                            break;
+                        }
+                    }
 
-    //console.log(sub_result);
-    var sub_result = _result.join("");
-    //console.log(sub_result);
-    return sub_result;
+
+                    if (found === true) {
+                        if (sub_array[i].length > 1) {
+                            _result.push('<span class="autoanno_vocabulary autoanno_tooltip autoanno_highlight" data-tooltip-content="#autoanno_tooltip_content">'
+                                    + sub_array[i]
+                                    + '</span>');
+                        }
+                        else {
+                            _result.push('<span class="autoanno_vocabulary autoanno_tooltip" data-tooltip-content="#autoanno_tooltip_content">'
+                                    + sub_array[i]
+                                    + '</span>');
+                        }
+                    }
+                    else {
+                        _result.push('<span class="autoanno_vocabulary">'
+                                + sub_array[i]
+                                + '</span>');
+                    }
+                }   //for (var i = 0; i < sub_array.length; i++) {
+            //}
+
+            //console.log(sub_result);
+            var sub_result = _result.join("");
+            //console.log(sub_result);
+            //return sub_result;
+            _callback(sub_result);
+        }); // _find_terms_existed_in_cache(sub_array, function (check_result_array) {
+    }); //_update_terms_in_cache(check_result_array, function () {
+    
+            
 
 };  //end of var _parse_check_result_array = function (sub_array, check_result_array)
 
@@ -512,3 +469,120 @@ app.get("/parse_article", function (req, res) {
                 }
             });
 });
+
+_in_array = function(_value, _array) {
+    if (typeof(_array) !== "object") {
+        return -1;
+    }
+    
+    for (var _i = 0; _i < _array.length; _i++) {
+        if (_array[_i] === _value) {
+            return _i;
+        }
+    }
+    return -1;
+};
+
+uniqle_array = function(a) {
+    var seen = {};
+    return a.filter(function(item) {
+        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+    });
+};
+
+var _find_terms_not_in_cache = function(_search_terms, _callback) {
+    if (typeof(_search_terms) !== "object" || _search_terms.length === 0) {
+        _callback([]);
+        return;
+    }
+    
+    var _result = [];
+    _search_terms = uniqle_array(_search_terms);
+    var _temp = [];
+    for (var _i = 0; _i < _search_terms.length; _i++) {
+        var _term = _search_terms[_i].trim();
+        if (_term !== "") {
+            _temp.push(_term);
+        }
+    }
+    _search_terms = _temp;
+    
+    tableTermCache.findAll({
+        where: {
+            term: {
+                $or: _search_terms
+            }
+        }
+    }).then(function (_cache_results) {
+        var _cache_array = [];
+        for (var _i = 0; _i < _cache_results.length; _i++) {
+            _cache_array.push(_cache_results[_i].get("term"));
+        }
+        
+        for (var _i = 0; _i < _search_terms.length; _i++) {
+            var _term = _search_terms[_i];
+            if (_match_stopword(_term) === false 
+                    && _in_array(_term, _cache_array) === -1) {
+                _result.push(_term);
+            }
+        }
+        setTimeout(function () {
+            _callback(_result);
+        }, 100);
+    });
+};
+
+var _init_terms_into_cache = function (_terms, _callback) {
+    if (typeof(_terms) !== "object" || _terms.length === 0) {
+        _callback();
+        return;
+    }
+    
+    var _data = [];
+    for (var _i = 0; _i < _terms.length; _i++) {
+        _data.push({
+            term: _terms[_i],
+            existed: false
+        });
+    }
+    
+    tableTermCache.bulkCreate(_data).then(_callback);
+};
+
+var _update_terms_in_cache = function (_terms, _callback) {
+    if (typeof(_terms) !== "object" || _terms.length === 0) {
+        _callback();
+        return;
+    }
+    
+    tableTermCache.update(
+        {existed: true},
+        { where: {
+            term: {
+                $or: _terms
+            }
+        }
+    }).then(function () {
+        setTimeout(function () {
+            _callback();
+        }, 100);
+    });
+};
+
+var _find_terms_existed_in_cache = function (_search_terms, _callback) {
+    //var _result = [];
+    tableTermCache.findAll({
+        where: {
+            term: {
+                $or: _search_terms
+            },
+            existed: true
+        }
+    }).then(function (_cache_results) {
+        var _cache_array = [];
+        for (var _i = 0; _i < _cache_results.length; _i++) {
+            _cache_array.push(_cache_results[_i].get("term"));
+        }
+        _callback(_cache_array);
+    });
+};
