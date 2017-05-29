@@ -225,8 +225,10 @@ var _node_jieba_parsing_callback = function (_result, cache_id, callback) {
     // limit: temp_array.length
     // callback: callback(joined_result);
     
+    var _retry = 0;
     var _loop = function (_i) {
         if (_i < temp_array.length) {
+            _retry = 0;
             _do_loop(_i);
         }
         else {
@@ -360,10 +362,11 @@ var _node_jieba_parsing_callback = function (_result, cache_id, callback) {
             //REQUEST_COUNT--;
         }
         else {
+            _retry++;
             setTimeout(function () {
                 //REQUEST_COUNT--;
                 _do_loop(_i);
-            }, _send_array.length * 100);
+            }, _send_array.length * 200 / _retry);
         }
     };  //var _post_request_callback = function (error, response, body, _i) {
 
