@@ -153,6 +153,7 @@ var _count_null_result = function (_callback) {
     tableArticleCache.findAndCountAll({
         where: {result: null}
     }).then(function (_count) {
+        console.log(["還沒查詢完的資料: ", _count.count]);
         _callback(_count.count);
     });
 };
