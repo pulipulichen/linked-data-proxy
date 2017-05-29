@@ -332,7 +332,7 @@ var _node_jieba_parsing_callback = function (_result, cache_id, callback) {
     };  //var _do_loop = function (_i) {
     
     var _post_request_callback = function (error, response, body, _i, sub_array) {
-        if (body !== null) {
+        if (body !== undefined && body !== null) {
             _write_log([cache_id, "收到check的回覆: (" + _i + "/" + temp_array.length + ")", body]);
         }
 
