@@ -27,6 +27,9 @@ var _replace_br = false;
 
 var GENERAL_DICT = require('../scripts/data/dictionary.js');
 
+REQUEST_COUNT = 0;
+REQUEST_COUNT_MAX = CONFIG.linked_data_proxy_request_max;
+
 // ------------------------
 
 /**
@@ -81,6 +84,9 @@ app.post("/parse_article", function (req, res) {
                     
                     _article_cache_post_process(article, cache_id, _callback);
                 }   // if (_count < CONFIG.linked_data_proxy_request_max) {
+                else {
+                    console.log(["[" + cache_id + "] 太多了，停止查詢"]);
+                }
             }); //_count_null_result(function (_count) {
         }
     });
@@ -91,7 +97,11 @@ app.post("/parse_article", function (req, res) {
 // ----------------
 
 var _article_cache_post_process = function (article, cache_id, _callback) {
-   REQUEST_COUNT++;
+    if (cache_id === undefined || cache_id === null) {
+        return;
+    } 
+    
+    REQUEST_COUNT++;
     var _a = article;
     if (_a.length > 100) {
         _a = _a.substr(0, 100) + "...";
@@ -190,9 +200,6 @@ var _process = function (article, cache_id, callback) {
 }; // end of proces: var _process = function (article, callback) {
 
 // --------------------------------------------
-
-REQUEST_COUNT = 0;
-REQUEST_COUNT_MAX = CONFIG.linked_data_proxy_request_max;
 
 var _node_jieba_parsing_callback = function (_result, cache_id, callback) {
     //console.log(_result);
