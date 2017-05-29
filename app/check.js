@@ -14,7 +14,7 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id
     var _output = {
         data: [],
         index: 0,
-        limit: _modules.length*_queries.length,
+        //limit: _modules.length*_queries.length,
         _get_data: function () {
             return JSON.stringify(this.data);
         },
@@ -141,7 +141,7 @@ app.post('/check/:modules', function (_req, _res) {
         if (_cache === false) {
             // 沒有快取的情況
             
-            //console.log("準備建立");
+            console.log("沒快取，準備建立");
             setTimeout(function () {
                 tableCheckResponse.create({"response": "false"}).then(function (_response) {
                     var _response_id = _response.get("id");

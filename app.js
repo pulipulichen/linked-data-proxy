@@ -27,6 +27,7 @@ require("./lib/cors.js");
 require("./lib/protocol_query.js");
 require("./lib/web_crawler_lib.js");
 require("./lib/queue.js");
+require("./lib/check_lib.js");
 
 
 Cookies = require( "cookies" );

@@ -358,7 +358,7 @@ var _parse_check_result_array = function (sub_array, check_result_array, _callba
             //if (check_result_array !== undefined) {
                 for (var i = 0; i < sub_array.length; i++) {
                     if (sub_array[i] === "\n" && _replace_br === true) {
-                        _result.push('<br />\n');
+                        _result.push('<br />');
                         continue;
                     }
 
@@ -528,7 +528,7 @@ var _find_terms_not_in_cache = function(_search_terms, _callback) {
         }
         setTimeout(function () {
             _callback(_result);
-        }, 100);
+        }, 0);
     });
 };
 
@@ -565,7 +565,7 @@ var _update_terms_in_cache = function (_terms, _callback) {
     }).then(function () {
         setTimeout(function () {
             _callback();
-        }, 100);
+        }, 0);
     });
 };
 

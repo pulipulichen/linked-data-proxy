@@ -13,7 +13,8 @@ CONFIG = {
      */
     jieba_log_path: "/tmp/jieba.log",
     
-    linked_data_proxy_check_url: "http://localhost:3000/check/wiki,moedict,cbdb,tgaz,cdict/",
+    //linked_data_proxy_check_url: "http://localhost:3000/check/wiki,moedict,cbdb,tgaz,cdict/",
+    linked_data_proxy_check_url: "http://localhost:3000/check_post/wiki,moedict,cbdb,tgaz,cdict/",
     
     /**
      * 停用字，這些字不查詢
@@ -29,12 +30,11 @@ CONFIG = {
      * 同時查詢資料的上限
      * @type Number
      */
-    linked_data_proxy_request_max: 1
-    ,
+    linked_data_proxy_request_max: 20,
     
     /**
      * 一次傳送的字句
      * @type Number
      */
-    batch_check: 120
+    //batch_check: 120
 };

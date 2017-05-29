@@ -9,39 +9,49 @@
 </head>
 
 <body style="margin: 2em;">
-	<div class="header">
-		<h1 class="article_title" ondblclick="batch_check()">{{ARTICLE}}</h1>
-	</div>
+    <div class="header">
+        <h1 class="article_title" ondblclick="batch_check()">{{ARTICLE}}</h1>
+    </div>
 
-	<ul class="content">{{CONTENT}}</ul>
+    <ul class="content">{{CONTENT}}</ul>
         
         <div style="color:white;" ondblclick="multi_check()">MULTI-OPEN</div>
 <script>
+    
+var _check_child_is_closed = function (_child, _callback) {
+        if (_child === null || _child.closed === true) {
+                setTimeout(function () {
+                        _callback();
+                }, 0);
+        }
+        else {
+        setTimeout(function () {
+            _check_child_is_closed(_child, _callback);
+        }, 0.5 * 1000);
+    }
+};
+
 var batch_check = function () {
     var _limit = 10;
     var _count = $("a").length;
+    var _split = 5;
+    var _interval = parseInt(_count / _split, 10);
     console.log(_count);
-    $("a").attr("target", "test");
-
-    var _check_child_is_closed = function (_child, _callback) {
-            if (_child === null || _child.closed === true) {
-                    setTimeout(function () {
-                            _callback();
-                    }, 0);
-            }
-            else {
-            setTimeout(function () {
-                _check_child_is_closed(_child, _callback);
-            }, 1 * 1000);
-        }
-    };
+    //$("a").attr("target", "test");
+    
+    var _queue = [];
+    for (var _i = 0; _i < _count; _i++) {
+        _queue.push(_i);
+    }
+    shuffle(_queue);
 
     open_a = function (_i) {
         if (_i < _count) {
-            var _href = $("a").eq(_i).attr("href");
+            var _href = $("a").eq(_queue[_i]).attr("href");
+            var _child = null;
             if (_href !== undefined) {
                 console.log(_href);
-                var _child = window.open(_href + "&test=true", "test");
+                _child = window.open(_href + "&finish_close=true", "test");
             }
 
             _check_child_is_closed(_child, function () {
@@ -61,35 +71,62 @@ var batch_check = function () {
 
         }
     };
-    open_a(0);
+
+    var _i = 0;
+    while (_i < _count) {
+        open_a(_i);
+        _i = _i + _interval;
+    }
 };
 
 var multi_check = function () {
-    var _limit = 1000;
+    //var _limit = 1000;
     var _count = $("a").length;
+    var _split = 5;
+    var _interval = parseInt(_count / _split, 10);
     console.log(_count);
+    
+    var _queue = [];
+    for (var _i = 0; _i < _count; _i++) {
+        _queue.push(_i);
+    }
+    shuffle(_queue);
+    
     //$("a").attr("target", "test");
 
-    open_a = function (_i) {
-        if (_i < _count) {
-            var _href = $("a").eq(_i).attr("href")
+    open_a = function (_i, _limit) {
+        if (_i < _count && _i < _limit) {
+            var _href = $("a").eq(_queue[_i]).attr("href");
+            var _child = null;
             if (_href !== undefined) {
                 console.log(_href);
-                window.open($("a").eq(_i).attr("href") + "&test=true", "test");
+                _child = window.open(_href + "&init_close=true", "_blank");
             }
             
-            var _time = 3*60*1000;
-            if (_i < _limit) {
-                _time = 1.5*1000;
-            }
-            setTimeout(function () {
+            _check_child_is_closed(_child, function () {
                 _i++;
-                open_a(_i);
-            }, _time);
+                open_a(_i, _limit);
+            });
         }
     };
-    open_a(0);
+
+    var _i = 0;
+    while (_i < _count) {
+        open_a(_i, _i + _interval);
+        _i = _i + _interval;
+    }
+    
 };
+
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length; i; i--) {
+        j = Math.floor(Math.random() * i);
+        x = a[i - 1];
+        a[i - 1] = a[j];
+        a[j] = x;
+    }
+}
 </script>
 
 </body>

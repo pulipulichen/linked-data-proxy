@@ -100,6 +100,12 @@ AUTOANNO.iframe_post = function (_url, _data, _callback) {
 };
 
 AUTOANNO.iframe_post_callback = function (result) {
+    if (location.href.indexOf("&init_close=true") > -1) {
+        setTimeout(function () {
+            window.close();
+        }, 1000);
+    }
+    
     //console.log(cache_id);
     var _url = URL_JIEBA + "/parse_article?callback=?";
     var _retry = function () {
@@ -196,8 +202,10 @@ AUTOANNO._setup_tooltip = function () {
     rangy.init();
     console.log("ready");
     
-    if (location.href.indexOf("&test=true") > -1) {
-        window.close();
+    if (location.href.indexOf("&finish_close=true") > -1) {
+        setTimeout(function () {
+            window.close();
+        }, 500);
     }
     
     $(".loadingbar").hide();
