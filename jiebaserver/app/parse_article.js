@@ -146,7 +146,10 @@ var _article_cache_post_process = function (article, cache_id, _callback) {
             //console.log("4. 處理完之後放入暫存檔案 ");
             //console.log(result);
             tableArticleCache.update(
-                    {result: result},
+                    {
+                        result: result,
+                        processing: false
+                    },
                     {where: {id: cache_id}}
             ).then(_callback);
         });
