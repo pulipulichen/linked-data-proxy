@@ -1,4 +1,6 @@
 
+// https://sequelize.readthedocs.io/en/v3/docs/models-usage/
+
 var DEBUG = {
     enable_cache: true
 };
@@ -148,10 +150,10 @@ var _article_cache_post_process = function (article, cache_id, _callback) {
  * @param {function} _callback
  */
 var _count_null_result = function (_callback) {
-    tableArticleCache.count({
+    tableArticleCache.findAndCountAll({
         where: {result: null}
-    }).complete(function (_err, _count) {
-        _callback(_count);
+    }).then(function (_count) {
+        _callback(_count.count);
     });
 };
 
