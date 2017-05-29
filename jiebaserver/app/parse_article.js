@@ -91,7 +91,7 @@ app.post("/parse_article", function (req, res) {
 // ----------------
 
 var _article_cache_post_process = function (article, cache_id, _callback) {
-    REQUEST_COUNT++;
+   REQUEST_COUNT++;
     var _a = article;
     if (_a.length > 100) {
         _a = _a.substr(0, 100) + "...";
@@ -103,7 +103,7 @@ var _article_cache_post_process = function (article, cache_id, _callback) {
             {where: {id: cache_id}}
     ).then(function () {
         // 3. 開始斷詞或其他的處理
-        _process(article, function (result) {
+        _process(article, cache_id, function (result) {
             // 4. 處理完之後放入暫存檔案 
             //console.log("4. 處理完之後放入暫存檔案 ");
             //console.log(result);
@@ -157,7 +157,7 @@ var _find_a_null_result_article = function (_callback) {
  * 處理斷詞
  * callback(result)
  */
-var _process = function (article, callback) {
+var _process = function (article, cache_id, callback) {
 
     //callback("aaaaaaa12121212a" + article);
     //return;
@@ -185,7 +185,7 @@ var _process = function (article, callback) {
     }
 
     node_jieba_parsing([GENERAL_DICT, _custom_dict], article, function (_result) {
-        _node_jieba_parsing_callback(_result, callback);
+        _node_jieba_parsing_callback(_result, cache_id, callback);
     });	// end of node_jieba_parsing([dict1, dict2], article, function (_result) {
 }; // end of proces: var _process = function (article, callback) {
 
@@ -194,7 +194,7 @@ var _process = function (article, callback) {
 REQUEST_COUNT = 0;
 REQUEST_COUNT_MAX = CONFIG.linked_data_proxy_request_max;
 
-var _node_jieba_parsing_callback = function (_result, callback) {
+var _node_jieba_parsing_callback = function (_result, cache_id, callback) {
     //console.log(_result);
     //return;
 
@@ -260,7 +260,7 @@ var _node_jieba_parsing_callback = function (_result, callback) {
 
         
         var sub_result = _send_array.join(" ").trim();
-        _write_log(["送出...", _i, temp_array.length, sub_result, REQUEST_COUNT]);
+        _write_log([cache_id, "送出...", _i, temp_array.length, sub_result, REQUEST_COUNT]);
 
         if (sub_array.length === 0
                 || sub_result === ""
@@ -319,7 +319,7 @@ var _node_jieba_parsing_callback = function (_result, callback) {
     };  //var _do_loop = function (_i) {
     
     var _post_request_callback = function (error, response, body, _i, sub_array) {
-        _write_log(["收到check的回覆: (" + _i + "/" + temp_array.length + ")", body]);
+        _write_log([cache_id, "收到check的回覆: (" + _i + "/" + temp_array.length + ")", body]);
 
         //if (body === "nodata" || body === null || body === undefined) {
         if (body !== undefined && body !== null) {
@@ -341,11 +341,11 @@ var _node_jieba_parsing_callback = function (_result, callback) {
             joined_result = joined_result + _parse_check_result_array(sub_array, body);
             _i++;
             _loop(_i);
-            REQUEST_COUNT--;
+            //REQUEST_COUNT--;
         }
         else {
             setTimeout(function () {
-                REQUEST_COUNT--;
+                //REQUEST_COUNT--;
                 _do_loop(_i);
             }, 5 * 1000);
         }
