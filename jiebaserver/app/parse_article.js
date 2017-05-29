@@ -280,7 +280,7 @@ var _node_jieba_parsing_callback = function (_result, cache_id, callback) {
 
         //console.log(sub_result);
 
-        REQUEST_COUNT++;
+        //REQUEST_COUNT++;
         //console.log(["check url", URL]);
         request({
             url: URL,
