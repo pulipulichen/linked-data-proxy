@@ -29,6 +29,7 @@ var GENERAL_DICT = require('../scripts/data/dictionary.js');
 
 REQUEST_COUNT = 0;
 REQUEST_COUNT_MAX = CONFIG.linked_data_proxy_request_max;
+REQUEST_CACHE_ID = [];
 
 // ------------------------
 
@@ -85,7 +86,10 @@ app.post("/parse_article", function (req, res) {
                     _article_cache_post_process(article, cache_id, _callback);
                 }   // if (_count < CONFIG.linked_data_proxy_request_max) {
                 else {
-                    console.log(["[" + cache_id + "] 太多了，停止查詢"]);
+                    if (cache_id !== undefined && cache_id !== null) {
+                        REQUEST_CACHE_ID.push(cache_id);
+                        console.log(["[" + cache_id + "] 太多了，停止查詢", REQUEST_CACHE_ID]);
+                    }
                 }
             }); //_count_null_result(function (_count) {
         }
@@ -149,14 +153,16 @@ var _count_processing_null_result = function (_callback) {
 };
 
 var _find_a_null_result_article = function (_callback) {
+    var _cache_id = REQUEST_CACHE_ID.shift();
     tableArticleCache.findOne({
         where: {
+            id: _cache_id,
             result: null,
             processing: false
         }
     }).then(function (_cache) {
         if (_cache !== null) {
-            _callback(_cache.get("article"), _cache.get("id"));
+            _callback(_cache.get("article"), _cache_id);
         }
     });
 };
@@ -326,7 +332,9 @@ var _node_jieba_parsing_callback = function (_result, cache_id, callback) {
     };  //var _do_loop = function (_i) {
     
     var _post_request_callback = function (error, response, body, _i, sub_array) {
-        _write_log([cache_id, "收到check的回覆: (" + _i + "/" + temp_array.length + ")", body]);
+        if (body !== null) {
+            _write_log([cache_id, "收到check的回覆: (" + _i + "/" + temp_array.length + ")", body]);
+        }
 
         //if (body === "nodata" || body === null || body === undefined) {
         if (body !== undefined && body !== null) {
