@@ -37,8 +37,11 @@ var batch_check = function () {
 	
 	open_a = function (_i) {
 		if (_i < _count) {
-			console.log($("a").eq(_i).attr("href"));
-			var _child = window.open($("a").eq(_i).attr("href") + "&test=true", "test");
+                    var _href = $("a").eq(_i).attr("href");
+                    if (_href !== undefined) {
+			console.log(_href);
+			var _child = window.open(_href + "&test=true", "test");
+                    }
 			
 			_check_child_is_closed(_child, function () {
 				_i++;

@@ -36,37 +36,7 @@ app.post("/parse_article", function (req, res) {
     var cookies = new Cookies(req, res);
 
     var article = req.body.article;
-
-    //console.log(article);
-    _write_log(article);
-
-    tableArticleCache.findOrCreate({
-        where: {article: article}
-    })
-            .spread(function (articlecache, created) {
-
-                // 2. 把暫存檔案的路徑放入COOKIE	
-                var cache_id = articlecache.get('id');
-                cookies.set("cache_id", cache_id);
-                //console.log(created);
-                //console.log(articlecache.get("result"));
-                //console.log(articlecache.get({plain: true}));
-                res.send("");
-                if (created === true
-                        || articlecache.get("result") === null
-                        || articlecache.get("result") === "") {
-                    // 3. 開始斷詞或其他的處理
-                    _process(article, function (result) {
-                        // 4. 處理完之後放入暫存檔案 
-                        //console.log("4. 處理完之後放入暫存檔案 ");
-                        //console.log(result);
-                        tableArticleCache.update(
-                                {result: result},
-                        {where: {id: cache_id}}
-                        );
-                    });
-                }
-            });
+    _article_cache_post_process(article);
 });
 
 // -------------------------------------------
@@ -120,6 +90,77 @@ app.get("/parse_article", function (req, res) {
             });
 });
 
+// ----------------
+
+var _article_cache_post_process = function (article) {
+    
+    //console.log(article);
+    _write_log(article);
+
+    tableArticleCache.findOrCreate({
+        where: {article: article}
+    }).spread(function (articlecache, created) {
+
+        // 2. 把暫存檔案的路徑放入COOKIE	
+        var cache_id = articlecache.get('id');
+        cookies.set("cache_id", cache_id);
+        //console.log(created);
+        //console.log(articlecache.get("result"));
+        //console.log(articlecache.get({plain: true}));
+        res.send("");
+        if (created === true
+                || articlecache.get("result") === null
+                || articlecache.get("result") === "") {
+            // 這裡...
+            
+            // 計算result是空值的數量
+            _count_null_result(function (_count) {
+                
+                if (_count < CONFIG.linked_data_proxy_request_max) {
+                    // 3. 開始斷詞或其他的處理
+                    _process(article, function (result) {
+                        // 4. 處理完之後放入暫存檔案 
+                        //console.log("4. 處理完之後放入暫存檔案 ");
+                        //console.log(result);
+                        tableArticleCache.update(
+                                {result: result},
+                                {where: {id: cache_id}}
+                        ).then(function () {
+                            // 試著找尋下一個空值
+                            _find_a_null_result_article(function (article) {
+                                _article_cache_post_process(article);
+                            });
+                        });
+                    });
+                }   // if (_count < CONFIG.linked_data_proxy_request_max) {
+            }); //_count_null_result(function (_count) {
+        }
+    });
+};  // var _article_cache_post_process = function (article) {
+
+/**
+ * 計算沒查詢完的資料
+ * @param {function} _callback
+ */
+var _count_null_result = function (_callback) {
+    tableArticleCache.count({
+        where: {result: null}
+    }).complete(function (_err, _count) {
+        _callback(_count);
+    });
+};
+
+var _find_a_null_result_article = function (_callback) {
+    tableArticleCache.findOne({
+        where: {result: null}
+    }).then(function (_cache) {
+        if (_cache !== null) {
+            _callback(_cache.get("article"));
+        }
+    });
+};
+
+// ---------------------------------
 
 /**
  * 處理斷詞
@@ -192,6 +233,7 @@ var _node_jieba_parsing_callback = function (_result, callback) {
     };	// var _loop = function (_i) {
 
     var _do_loop = function (_i) {
+        /*
         if (REQUEST_COUNT > REQUEST_COUNT_MAX) {
             setTimeout(function () {
                 //console.log(["等待中...", _i, temp_array.length, temp_array[_i][0], REQUEST_COUNT]);
@@ -199,6 +241,7 @@ var _node_jieba_parsing_callback = function (_result, callback) {
             }, 1000 * getRandomArbitrary(1,10));
             return;
         }
+        */
         //console.log(["執行...", _i, temp_array.length, temp_array[_i][0], REQUEST_COUNT]);
         
         //console.log("送出第" + _i + "次");
