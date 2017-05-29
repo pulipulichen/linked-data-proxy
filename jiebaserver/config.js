@@ -30,7 +30,7 @@ CONFIG = {
      * 同時查詢資料的上限
      * @type Number
      */
-    linked_data_proxy_request_max: 20,
+    linked_data_proxy_request_max: 2,
     
     /**
      * 一次傳送的字句
