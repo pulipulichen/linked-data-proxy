@@ -63,7 +63,7 @@ app.post("/parse_article", function (req, res) {
             // 這裡...
             
             // 計算result是空值的數量
-            _count_null_result(function (_count) {
+            _count_processing_null_result(function (_count) {
                 console.log(["還沒查詢完的資料: ", _count, CONFIG.linked_data_proxy_request_max]);
                 if (_count < CONFIG.linked_data_proxy_request_max) {
                     
