@@ -27,6 +27,9 @@ tableArticleCache = sequelize.define('articlecache', {
   },
   result: {
     type: Sequelize.TEXT
+  },
+  processing: {
+    type: Sequelize.BOOLEAN
   }
 }, {
   freezeTableName: true, // Model tableName will be the same as the model name

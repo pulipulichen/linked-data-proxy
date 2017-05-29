@@ -44,7 +44,10 @@ app.post("/parse_article", function (req, res) {
     _write_log(article);
 
     tableArticleCache.findOrCreate({
-        where: {article: article}
+        where: {
+            article: article,
+            processing: false
+        }
     }).spread(function (articlecache, created) {
 
         // 2. 把暫存檔案的路徑放入COOKIE	
@@ -61,7 +64,7 @@ app.post("/parse_article", function (req, res) {
             
             // 計算result是空值的數量
             _count_null_result(function (_count) {
-                
+                console.log(["還沒查詢完的資料: ", _count, CONFIG.linked_data_proxy_request_max]);
                 if (_count < CONFIG.linked_data_proxy_request_max) {
                     
                     var _callback = function () {
@@ -132,35 +135,46 @@ app.get("/parse_article", function (req, res) {
 // ----------------
 
 var _article_cache_post_process = function (article, cache_id, _callback) {
-    // 3. 開始斷詞或其他的處理
-    _process(article, function (result) {
-        // 4. 處理完之後放入暫存檔案 
-        //console.log("4. 處理完之後放入暫存檔案 ");
-        //console.log(result);
-        tableArticleCache.update(
-                {result: result},
-                {where: {id: cache_id}}
-        ).then(_callback);
+    // 先把它變成processing: true
+    tableArticleCache.update(
+            {processing: true},
+            {where: {id: cache_id}}
+    ).then(function () {
+        // 3. 開始斷詞或其他的處理
+        _process(article, function (result) {
+            // 4. 處理完之後放入暫存檔案 
+            //console.log("4. 處理完之後放入暫存檔案 ");
+            //console.log(result);
+            tableArticleCache.update(
+                    {result: result},
+                    {where: {id: cache_id}}
+            ).then(_callback);
+        });
     });
-    
 };  // var _article_cache_post_process = function (article) {
 
 /**
  * 計算沒查詢完的資料
  * @param {function} _callback
  */
-var _count_null_result = function (_callback) {
+var _count_processing_null_result = function (_callback) {
     tableArticleCache.findAndCountAll({
-        where: {result: null}
+        where: {
+            result: null,
+            processing: true
+        }
     }).then(function (_count) {
-        console.log(["還沒查詢完的資料: ", _count.count]);
+        
         _callback(_count.count);
     });
 };
 
 var _find_a_null_result_article = function (_callback) {
     tableArticleCache.findOne({
-        where: {result: null}
+        where: {
+            result: null,
+            processing: false
+        }
     }).then(function (_cache) {
         if (_cache !== null) {
             _callback(_cache.get("article"), _cache.get("id"));
