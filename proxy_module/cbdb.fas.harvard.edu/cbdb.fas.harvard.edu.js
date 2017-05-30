@@ -30,7 +30,7 @@ var _options = {
     //content_not_found_string: '"PersonInfo" : ""',
     content_not_found_string: 'No result.',
     
-    html_selector: 'table[width="98%"] td',
+    html_selector: 'table[width="98%"] td > div',
     
     // ------------------------
     
@@ -39,6 +39,9 @@ var _options = {
      * @param {string} _content
      */
     post_process: function (_content) {
+        _content = _content.split('<hr>').join('');
+        _content = _content.split('<hr style="height:3px; border-style:solid">').join('<hr>');
+        _content = _content.replace('<hr>', "");
         return _content.split('" style="display:none;">').join('" style="display:inline;">');
         /*
         //console.log("[post_process]");
@@ -127,7 +130,7 @@ var _options = {
     /**
      * 使用原本的連接器
      */
-    enable_follow_redirects: true,
+    enable_follow_redirects: false,
 };
 
 web_crawler(_output, _options, _mode);
