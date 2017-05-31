@@ -314,6 +314,7 @@ AUTOANNO.query = function (instance, add_term_mode, callback) {
                         $.getJSON(URL_LDP + "/" + _module + "/" + ts + "/1?callback=?", function (result) {
 
                         });
+                        window.alert('提高「' + ts + '」標註資料中' + '「' + _module + '」顯示順序之權重');
                         //------------------------
                     });
                     var _minus_button = $('<button type="button" id="minus" class="evaluate-minus-button"> 沒有幫助 </button>').appendTo(_legend);
@@ -327,6 +328,7 @@ AUTOANNO.query = function (instance, add_term_mode, callback) {
                         $.getJSON(URL_LDP + "/" + _module + "/" + ts + "/-1?callback=?", function (result) {
 
                         });
+                        window.alert('降低「' + ts + '」標註資料中' + '「' + _module + '」顯示順序之權重');
                     });
 
                 }
