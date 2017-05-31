@@ -284,12 +284,13 @@ AUTOANNO.query = function (instance, add_term_mode, callback) {
                 _menu_button.click(function (event) {
                     _result.find("fieldset").hide();
                     var _data_module = $(this).data("module");
+                    var _term = $(this).parents(".tooltipster-content:first").find(".tooltip_title:first").text().trim();
 
                     _result.find('fieldset[data-module="' + _data_module + '"]').show();
 
                     // GA event
                     // ga_mouse_click_event_trigger(_obj, _selector, _name, _event_type, _event_key)
-                    ga_mouse_click_event_trigger(this, ".module-select-button", _data_module, "watched", "mouse_click");
+                    ga_mouse_click_event_trigger(this, ".module-select-button", _data_module + ": "+ _term , "watched", "mouse_click");
                 });
 
                 _menu.append(_menu_button);
@@ -305,13 +306,14 @@ AUTOANNO.query = function (instance, add_term_mode, callback) {
                     _plus_button.click(function () {
 
                         //------------------------
+                        var _term = $(this).parents(".tooltipster-content:first").find(".tooltip_title:first").text().trim();
                         var _module = $(this).parents("fieldset:first").data("module");
                         var _module_name = $(this).parents("fieldset:first").data("module");
                         if (typeof (MODULE_SYMBOL[_module]) === "string") {
                             _module = MODULE_SYMBOL[_module];
                             _module_name = MODULE_NAME[_module_name];
                         }
-                        ga_mouse_click_event_trigger(this, ".evaluate-plus-button", _module, "liked", "mouse_click");
+                        ga_mouse_click_event_trigger(this, ".evaluate-plus-button", _term + " : " + _module, "liked", "mouse_click");
                         //ts = encodeURIComponent(ts);
                         $.getJSON(URL_LDP + "/" + _module + "/" + ts + "/1?callback=?", function (result) {
 
@@ -321,14 +323,14 @@ AUTOANNO.query = function (instance, add_term_mode, callback) {
                     });
                     var _minus_button = $('<button type="button" id="minus" class="evaluate-minus-button"> 沒有幫助 </button>').appendTo(_legend);
                     _minus_button.click(function () {
-
+                        var _term = $(this).parents(".tooltipster-content:first").find(".tooltip_title:first").text().trim();
                         var _module = $(this).parents("fieldset:first").data("module");
                         var _module_name = $(this).parents("fieldset:first").data("module");
                         if (typeof (MODULE_SYMBOL[_module]) === "string") {
                             _module = MODULE_SYMBOL[_module];
                             _module_name = MODULE_NAME[_module_name];
                         }
-                        ga_mouse_click_event_trigger(this, ".evaluate-minus-button", _module, "disliked", "mouse_click");
+                        ga_mouse_click_event_trigger(this, ".evaluate-minus-button", _term + " : " + _module, "disliked", "mouse_click");
                         $.getJSON(URL_LDP + "/" + _module + "/" + ts + "/-1?callback=?", function (result) {
 
                         });
