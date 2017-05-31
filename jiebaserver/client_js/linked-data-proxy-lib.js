@@ -344,7 +344,9 @@ AUTOANNO.query = function (instance, add_term_mode, callback) {
                     var _source_uri = $(this).attr("href");
                     ga_mouse_click_event_trigger(this, ".evaluate-minus-button", _term + " : " + _source_name + " : " +_source_uri , "referenced", "mouse_click");
                 });
-                
+                $("revealcheck").onchange(function(){
+                    ga_mouse_click_event_trigger(this, ".revealcheck", "revealed" , "revealed", "mouse_click");
+                });
                 _fieldset.hide();
                 //_fieldset.append(_addterm_button);
                 _result.append(_fieldset);
