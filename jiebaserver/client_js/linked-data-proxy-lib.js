@@ -306,29 +306,33 @@ AUTOANNO.query = function (instance, add_term_mode, callback) {
 
                         //------------------------
                         var _module = $(this).parents("fieldset:first").data("module");
+                        var _module_name = $(this).parents("fieldset:first").data("module");
                         if (typeof (MODULE_SYMBOL[_module]) === "string") {
                             _module = MODULE_SYMBOL[_module];
+                            _module_name = MODULE_NAME[_module_name];
                         }
                         ga_mouse_click_event_trigger(this, ".evaluate-plus-button", _module, "liked", "mouse_click");
                         //ts = encodeURIComponent(ts);
                         $.getJSON(URL_LDP + "/" + _module + "/" + ts + "/1?callback=?", function (result) {
 
                         });
-                        window.alert('提高「' + ts + '」標註資料中' + '「' + _name + '」顯示順序之權重');
+                        window.alert('提高「' + ts + '」標註資料中' + '「' + _module_name + '」顯示順序之權重');
                         //------------------------
                     });
                     var _minus_button = $('<button type="button" id="minus" class="evaluate-minus-button"> 沒有幫助 </button>').appendTo(_legend);
                     _minus_button.click(function () {
 
                         var _module = $(this).parents("fieldset:first").data("module");
+                        var _module_name = $(this).parents("fieldset:first").data("module");
                         if (typeof (MODULE_SYMBOL[_module]) === "string") {
                             _module = MODULE_SYMBOL[_module];
+                            _module_name = MODULE_NAME[_module_name];
                         }
                         ga_mouse_click_event_trigger(this, ".evaluate-minus-button", _module, "disliked", "mouse_click");
                         $.getJSON(URL_LDP + "/" + _module + "/" + ts + "/-1?callback=?", function (result) {
 
                         });
-                        window.alert('降低「' + ts + '」標註資料中' + '「' + _name + '」顯示順序之權重');
+                        window.alert('降低「' + ts + '」標註資料中' + '「' + _module_name + '」顯示順序之權重');
                     });
 
                 }
