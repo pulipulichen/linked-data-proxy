@@ -338,6 +338,13 @@ AUTOANNO.query = function (instance, add_term_mode, callback) {
                     });
 
                 }
+                _fieldset.find('div:last > a[target="_blank"]').click(function(){
+                    var _term = $(this).parents(".tooltipster-content:first").find(".tooltip_title:first").text().trim();
+                    var _source_name = $(this).text().trim();
+                    var _source_uri = $(this).attr("href");
+                    ga_mouse_click_event_trigger(this, ".evaluate-minus-button", _term + " : " + _sourcename + "_source_uri" , "referenced", "mouse_click");
+                });
+                
                 _fieldset.hide();
                 //_fieldset.append(_addterm_button);
                 _result.append(_fieldset);
