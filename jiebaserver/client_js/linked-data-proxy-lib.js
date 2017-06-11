@@ -36,6 +36,12 @@ var MODULE_SYMBOL = {
     "cbdb.fas.harvard.edu": "cbdb"
 };
 
+/**
+ * 段落內容長度切割上限
+ * @type Number
+ */
+var CONTENT_SPLIT_LIMIT = 5000;
+
 // ----------------------------
 
 
@@ -537,10 +543,7 @@ AUTOANNO.init = function () {
  * @param {Function} _callback
  * @returns {AUTOANNO}
  */
-AUTOANNO._batch_parse_content = function (_selector, _callback) {
-    // 段落內容長度上限
-    var _html_length_limit = 5000;
-    
+AUTOANNO._batch_parse_content = function (_selector, _callback) {  
     //var _result = "";
     var _end_loop = function () {
         //_callback(_result);
@@ -549,25 +552,6 @@ AUTOANNO._batch_parse_content = function (_selector, _callback) {
     
     var _contents = $(_selector);
     
-    // -------------
-    
-    var _split_content = function (_object_html) {
-        // 切割裡面的內容
-        var _content_array = [];
-        if (_object_html.length < _html_length_limit) {
-            // 用 換行 切割
-            _content_array.push(_object_html);
-        }
-        else {
-            while (_object_html.length > _html_length_limit) {
-                var _pos = _object_html.indexOf("\n", _html_length_limit);
-                var _content = _object_html.substr(0, _pos);
-                _content_array.push(_content);
-                _object_html = _object_html.substring(_pos, _object_html.length);
-            }
-        }
-        return _content_array;
-    };
     
     // ------------------------------
     
@@ -575,7 +559,7 @@ AUTOANNO._batch_parse_content = function (_selector, _callback) {
         if (_i < _contents.length) {
             var _object_html = _contents.eq(_i).html();
             
-            var _content_array = _split_content(_object_html);
+            var _content_array = AUTOANNO._split_content_to_array(_object_html);
             console.log("第" + (_i+1) + "個元素切割成" + _content_array.length + "份資料，準備送出...");
             // 這樣子，就會整理出一個_article_data的陣列
             // 然後試著送出去吧
@@ -599,6 +583,35 @@ AUTOANNO._batch_parse_content = function (_selector, _callback) {
     return this;
 };
 
+/**
+ * 將過長的內容切割成陣列
+ * @param {String} _object_html
+ * @returns {Array}
+ */
+AUTOANNO._split_content_to_array = function (_object_html) {
+    // 切割裡面的內容
+    var _content_array = [];
+    if (_object_html.length < CONTENT_SPLIT_LIMIT) {
+        // 用 換行 切割
+        _content_array.push(_object_html);
+    }
+    else {
+        while (_object_html.length > CONTENT_SPLIT_LIMIT) {
+            var _pos = _object_html.indexOf("\n", CONTENT_SPLIT_LIMIT);
+            var _content = _object_html.substr(0, _pos);
+            _content_array.push(_content);
+            _object_html = _object_html.substring(_pos, _object_html.length);
+        }
+    }
+    return _content_array;
+};
+
+/**
+ * 
+ * @param {Array} _content_array
+ * @param {Function} _callback
+ * @returns {AUTOANNO}
+ */
 AUTOANNO._batch_parse_batch_send = function (_content_array, _callback) {
     var _result = "";
     var _end_loop = function () {
@@ -628,6 +641,7 @@ AUTOANNO._batch_parse_batch_send = function (_content_array, _callback) {
     };
     
     _loop(0);
+    return this;
 };
 
 // ---------------------------
