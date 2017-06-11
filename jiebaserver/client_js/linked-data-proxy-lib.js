@@ -539,7 +539,7 @@ AUTOANNO.init = function () {
  */
 AUTOANNO._batch_parse_content = function (_selector, _callback) {
     // 段落內容長度上限
-    var _html_length_limit = 1000;
+    var _html_length_limit = 2000;
     
     //var _result = "";
     var _end_loop = function () {
@@ -576,6 +576,7 @@ AUTOANNO._batch_parse_content = function (_selector, _callback) {
             var _object_html = _contents.eq(_i).html();
             
             var _content_array = _split_content(_object_html);
+            console.log("第" + (_i+1) + "個元素切割成" + _content_array.length + "份資料，準備送出...");
             // 這樣子，就會整理出一個_article_data的陣列
             // 然後試著送出去吧
             
@@ -613,6 +614,7 @@ AUTOANNO._batch_parse_batch_send = function (_content_array, _callback) {
             };
             AUTOANNO.iframe_post(_url, _data, function (_result_part) {
                 AUTOANNO.iframe_post_callback(_result_part, function (_result_part) {
+                    console.log("收到第" + (_i+1) + "份資料");
                     _result = _result + _result_part;
                     
                     _i++;
