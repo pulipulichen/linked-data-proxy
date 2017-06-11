@@ -1,9 +1,8 @@
-var AUTOANNO = {};
-
-
-var SELECTOR = ".content";
-cache_id = undefined;
-var SELECT_TEXT;
+/**
+ * 要加入自動標註的範圍，以CSS選取器運作
+ * @type String
+ */
+var CONTENT_SELECTOR = ".content";
 
 var URL_LDP = "http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:32580";
 //var URL_LDP="http://pc.pulipuli.info:3000";
@@ -37,6 +36,15 @@ var MODULE_SYMBOL = {
     "cbdb.fas.harvard.edu": "cbdb"
 };
 
+// ----------------------------
+
+
+var AUTOANNO = {};
+
+
+cache_id = undefined;
+var SELECT_TEXT;
+
 AUTOANNO.css_list = [
     'client/css/style.css',
     'client/css/tooltipster.bundle.min.css',
@@ -48,8 +56,14 @@ AUTOANNO.js_list = {
     "client/js/rangy-core.js": "rangy-core.js"
 };
 
-
-
+// ----------------------------------
+/**
+ * 使用iframe來傳送post的方法
+ * @param {String} _url
+ * @param {JSON} _data
+ * @param {function} _callback
+ * @returns {undefined}
+ */
 AUTOANNO.iframe_post = function (_url, _data, _callback) {
 
     var _DEBUG = false;
@@ -96,10 +110,17 @@ AUTOANNO.iframe_post = function (_url, _data, _callback) {
     setTimeout(function () {
         _form.submit();
     }, 100);
-
+    return this;
 };
 
-AUTOANNO.iframe_post_callback = function (result) {
+// ----------------------------
+
+/**
+ * iframe post完的的回呼函數
+ * @param {JSON} result
+ * @returns {AUTOANNO}
+ */
+AUTOANNO.iframe_post_callback = function (_result, _callback) {
     if (location.href.indexOf("&init_close=true") > -1) {
         setTimeout(function () {
             window.close();
@@ -133,10 +154,14 @@ AUTOANNO.iframe_post_callback = function (result) {
             }
             else {
                 //console.log(result);
-                $(SELECTOR).html(result);
+                
+                // 改用callback取代
+                //$(CONTENT_SELECTOR).html(result);
+                //AUTOANNO._setup_tooltip();
 
-                AUTOANNO._setup_tooltip();
-
+                if (typeof(_callback) === "function") {
+                    _callback(result);
+                }
             }
         });
     };
@@ -144,8 +169,16 @@ AUTOANNO.iframe_post_callback = function (result) {
     setTimeout(function () {
         _retry();
     }, 100);
+    
+    return this;
 };
 
+// -----------------------
+
+/**
+ * 設定tooltip
+ * @returns {AUTOANNO}
+ */
 AUTOANNO._setup_tooltip = function () {
 
     var _TOOLTIP_LOCK = false;
@@ -213,7 +246,7 @@ AUTOANNO._setup_tooltip = function () {
     
 
 
-    $(SELECTOR).mouseup(function () {
+    $(CONTENT_SELECTOR).mouseup(function () {
         var sel = rangy.getSelection();
         var _selection_text = sel.toString().trim();
         if (_selection_text !== "") {
@@ -224,8 +257,19 @@ AUTOANNO._setup_tooltip = function () {
             $(sel.focusNode.parentElement).click();
         }
     });
+    
+    return this;
 };
 
+// -----------------------------
+
+/**
+ * 查詢字詞
+ * @param {Object} instance
+ * @param {Boolean} add_term_mode
+ * @param {Function} callback
+ * @returns {AUTOANNO}
+ */
 AUTOANNO.query = function (instance, add_term_mode, callback) {
     var ts;
     if (typeof (instance) === "object") {
@@ -355,22 +399,42 @@ AUTOANNO.query = function (instance, add_term_mode, callback) {
         _result.find("fieldset:first").show();
         callback(_result);
     });
+    
+    return this;
 };
 
 //---------------------------------------------------
 
+/**
+ * 載入CSS
+ * @param {String} _path
+ * @returns {AUTOANNO}
+ */
 AUTOANNO.load_css = function (_path) {
     $(function () {
         $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', URL_BASE + _path));
     });
+    return this;
 };
 
+/**
+ * 載入JavaScript
+ * @param {String} _path
+ * @param {String} _id
+ * @returns {AUTOANNO}
+ */
 AUTOANNO.load_js = function (_path, _id) {
     $(function () {
         $('head').append($('<scri' + 'pt type="text/javascri' + 'pt" />').attr('src', URL_BASE + _path).attr('id', _id));
     });
+    return this;
 };
 
+/**
+ * 確認是否有jQuery在，否則載入jQuery
+ * @param {Function} _callback
+ * @returns {AUTOANNO}
+ */
 AUTOANNO.check_jquery = function (_callback) {
     if (typeof ($) === "function") {
         _callback();
@@ -379,8 +443,17 @@ AUTOANNO.check_jquery = function (_callback) {
         var _jquery_path = URL_BASE + "client/js/" + "jquery.js";
         AUTOANNO.getScript(_jquery_path, _callback);
     }
+    return this;
 };
 
+//-------------------------
+
+/**
+ * 載入JavaScript檔案，用JavaScript原生的方法
+ * @param {String} source JavaScrtip的網址
+ * @param {Function} callback
+ * @returns {AUTOANNO}
+ */
 AUTOANNO.getScript = function (source, callback) {
     var script = document.createElement('script');
     var prior = document.getElementsByTagName('script')[0];
@@ -400,13 +473,15 @@ AUTOANNO.getScript = function (source, callback) {
 
     script.src = source;
     prior.parentNode.insertBefore(script, prior);
+    return this;
 };
 
 //---------------------------------------------------
 
-
-
-
+/**
+ * 初始化
+ * @returns {AUTOANNO}
+ */
 AUTOANNO.init = function () {
 
     for (var _i = 0; _i < AUTOANNO.css_list.length; _i++) {
@@ -432,13 +507,132 @@ AUTOANNO.init = function () {
     $(function () {
         // 網頁讀取完成之後才會做
         $('<div class="autoanno_tooltip_templates"><span id="autoanno_tooltip_content"><div id="linked_data_proxy_result" style="width: 50vw;height: 50vh;max-height: 50vh; overflow-y: auto;"></div></span></div><div id="result"></div>').appendTo($("body"));
-        var content = $(SELECTOR).html();
-        AUTOANNO.iframe_post(URL_JIEBA + "/parse_article", {article: content}, AUTOANNO.iframe_post_callback);
+        
+        // 為了避免這邊傳送資料太多，有必要作調整
+//        var _content = $(CONTENT_SELECTOR).html();
+//        var _url = URL_JIEBA + "/parse_article";
+//        var _data = {
+//            article: _content
+//        };
+//        var _callback = function (_result) {
+//            AUTOANNO.iframe_post_callback(_result, function (_result) {
+//                $(CONTENT_SELECTOR).html(_result);
+//                AUTOANNO._setup_tooltip();
+//            });
+//        };
+//        AUTOANNO.iframe_post(_url, _data, _callback);
+        
+        AUTOANNO._batch_parse_content(CONTENT_SELECTOR, function () {
+            AUTOANNO._setup_tooltip();
+        });
 
         // $.getScript("")
     });
+    return this;
 };
 
+/**
+ * 避免一次傳送太多資料，變成一段一段載入資料吧
+ * @param {String} _selector
+ * @param {Function} _callback
+ * @returns {AUTOANNO}
+ */
+AUTOANNO._batch_parse_content = function (_selector, _callback) {
+    // 段落內容長度上限
+    var _html_length_limit = 1000;
+    
+    //var _result = "";
+    var _end_loop = function () {
+        //_callback(_result);
+        _callback();
+    };
+    
+    var _contents = $(_selector);
+    
+    // -------------
+    
+    var _split_content = function (_object_html) {
+        // 切割裡面的內容
+        var _content_array = [];
+        if (_object_html.length < _html_length_limit) {
+            // 用 換行 切割
+            _content_array.push(_object_html);
+        }
+        else {
+            while (_object_html.length > _html_length_limit) {
+                var _pos = _object_html.indexOf("\n", _html_length_limit);
+                var _content = _object_html.substr(0, _pos);
+                _content_array.push(_content);
+                _object_html = _object_html.substring(_pos, _object_html.length);
+            }
+        }
+        return _content_array;
+    };
+    
+    // ------------------------------
+    
+    var _loop = function (_i) {
+        if (_i < _contents.length) {
+            var _object_html = _contents.eq(_i).html();
+            
+            var _content_array = _split_content(_object_html);
+            // 這樣子，就會整理出一個_article_data的陣列
+            // 然後試著送出去吧
+            
+            AUTOANNO._batch_parse_batch_send(_content_array, function (_content_result) {
+                //_result = _result + _content_result;
+                _contents.eq(_i).html(_content_result);
+                
+                // 下一個迴圈
+                _i++;
+                _loop(_i);
+            });
+        }
+        else {
+            _end_loop();
+        }
+    };
+    
+    _loop(0);
+    
+    return this;
+};
+
+AUTOANNO._batch_parse_batch_send = function (_content_array, _callback) {
+    var _result = "";
+    var _end_loop = function () {
+        _callback(_result);
+    };
+    
+    var _url = URL_JIEBA + "/parse_article";
+    var _loop = function (_i) {
+        if (_i < _content_array.length) {
+            var _content = _content_array[_i];
+            var _data = {
+                article: _content
+            };
+            AUTOANNO.iframe_post(_url, _data, function (_result_part) {
+                AUTOANNO.iframe_post_callback(_result_part, function (_result_part) {
+                    _result = _result + _result_part;
+                    
+                    _i++;
+                    _loop(_i);
+                });
+            });
+        }
+        else {
+            _end_loop();
+        }
+    };
+    
+    _loop(0);
+};
+
+// ---------------------------
+
+/**
+ * 開始初始化
+ */
 AUTOANNO.check_jquery(function () {
     console.log("init");
     AUTOANNO.init();
