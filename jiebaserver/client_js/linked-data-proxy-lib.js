@@ -614,7 +614,7 @@ AUTOANNO._batch_parse_batch_send = function (_content_array, _callback) {
             };
             AUTOANNO.iframe_post(_url, _data, function (_result_part) {
                 AUTOANNO.iframe_post_callback(_result_part, function (_result_part) {
-                    console.log("收到第" + (_i+1) + "份資料");
+                    console.log("收到第" + (_i+1) + "份資料: " + _result_part.substr(0, 100) + "...");
                     _result = _result + _result_part;
                     
                     _i++;
