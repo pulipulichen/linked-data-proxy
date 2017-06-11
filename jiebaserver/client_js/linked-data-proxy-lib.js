@@ -539,7 +539,7 @@ AUTOANNO.init = function () {
  */
 AUTOANNO._batch_parse_content = function (_selector, _callback) {
     // 段落內容長度上限
-    var _html_length_limit = 2000;
+    var _html_length_limit = 5000;
     
     //var _result = "";
     var _end_loop = function () {
