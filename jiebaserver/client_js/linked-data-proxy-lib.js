@@ -40,7 +40,7 @@ var MODULE_SYMBOL = {
  * 段落內容長度切割上限
  * @type Number
  */
-var CONTENT_SPLIT_LIMIT = 5000;
+var CONTENT_SPLIT_LIMIT = 1000;
 
 // ----------------------------
 
