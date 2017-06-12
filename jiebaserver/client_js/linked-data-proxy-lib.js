@@ -40,7 +40,7 @@ var MODULE_SYMBOL = {
  * 段落內容長度切割上限
  * @type Number
  */
-var CONTENT_SPLIT_LIMIT = 1000;
+var CONTENT_SPLIT_LIMIT = 5000;
 
 // ----------------------------
 
@@ -601,6 +601,10 @@ AUTOANNO._split_content_to_array = function (_object_html) {
             var _content = _object_html.substr(0, _pos);
             _content_array.push(_content);
             _object_html = _object_html.substring(_pos, _object_html.length);
+        }
+        
+        if (_object_html !== "") {
+            _content_array.push(_object_html);
         }
     }
     return _content_array;
