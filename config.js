@@ -79,7 +79,7 @@ CONFIG = {
     
     // 重新轉址
     redirect_config: {
-        '/directory_ming_2017': 'http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3253/directory_ming',
-        '/phppgadmin': "http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3259/phppgadmin"
+        'directory_ming': 'http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3253/directory_ming',
+        'phppgadmin': "http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3259/phppgadmin"
     }
 };
