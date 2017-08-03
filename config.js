@@ -78,8 +78,9 @@ CONFIG = {
     },
     
     // 重新轉址
-    redirect_config: {
-        'directory_ming': 'http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3253/directory_ming',
-        'phppgadmin': "http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3259/phppgadmin"
-    }
+    // 20170803 暫時想不到比較好的解法，先直接寫死在/app/redirect.js中
+    //redirect_config: {
+    //    'directory_ming': 'http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3253/directory_ming',
+    //    'phppgadmin': "http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3259/phppgadmin"
+    //}
 };
