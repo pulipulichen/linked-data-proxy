@@ -49,6 +49,7 @@ require("./app/query.js");
 require("./app/vote.js");
 require("./app/uuid.js");
 require("./app/add_term.js");
+require("./app/redirect.js");
 
 require("./app/jieba-test.js");
 
