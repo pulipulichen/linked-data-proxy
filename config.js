@@ -75,5 +75,11 @@ CONFIG = {
         password: 'password',
         host: 'localhost',
         logging: false
+    },
+    
+    // 重新轉址
+    redirect_config: {
+        '/directory_ming': 'http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3253/directory_ming',
+        '/phppgadmin': "http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3259/phppgadmin"
     }
 };
