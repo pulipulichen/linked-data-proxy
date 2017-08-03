@@ -43,13 +43,13 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 require("./app/lib.js");
 require("./app/index.js");
+require("./app/redirect.js");
 require("./app/check.js");
 require("./app/check_post.js");
 require("./app/query.js");
 require("./app/vote.js");
 require("./app/uuid.js");
 require("./app/add_term.js");
-require("./app/redirect.js");
 
 require("./app/jieba-test.js");
 
