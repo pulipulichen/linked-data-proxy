@@ -4,13 +4,13 @@
  */
 var CONTENT_SELECTOR = ".content";
 
-var URL_LDP = "http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:32580";
+var URL_LDP = "http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3258";
 //var URL_LDP="http://pc.pulipuli.info:3000";
 //var URL_JIEBA="http://localhost:8000";
-var URL_JIEBA = "http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:32543";
+var URL_JIEBA = "http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3253";
 
 //var URL_BASE = "http://localhost:8000/";
-var URL_BASE = "http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:32543/";
+var URL_BASE = "http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3253/";
 
 /**
  * @author Pulipuli Chen 20170526
