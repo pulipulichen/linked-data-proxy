@@ -249,7 +249,7 @@ AUTOANNO._setup_tooltip = function () {
     }
     
     $(".loadingbar").hide();
-    $.getScript("/client/js/exp-linked-data-proxy-2017.dlll.nccu.edu.tw.js");
+    $.getScript(URL_BASE + "client/js/exp-linked-data-proxy-2017.dlll.nccu.edu.tw.js");
     
 
 
