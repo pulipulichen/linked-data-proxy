@@ -1,5 +1,16 @@
 # linked-data-proxy
 
+GitHub Repository: https://github.com/pulipulichen/linked-data-proxy
+
+How to use AUTOANNO?
+####
+
+1. Add a HTML container with class="AUTOANNO-content" which contains the content text.
+2. Add website's URL pattern to "referer_allow_list" configuration: https://github.com/pulipulichen/linked-data-proxy/blob/master/config.js
+3. Update the server from GitHub.
+
+-----------------
+
 ## TODO
 - 查詢一個會擋人的資料庫 (google跟cbdb都會擋人，過不去)
 

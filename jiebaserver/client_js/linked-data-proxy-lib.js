@@ -2,17 +2,18 @@
  * 要加入自動標註的範圍，以CSS選取器運作
  * @type String
  */
-var CONTENT_SELECTOR = ".content";
-
-var URL_LDP = "http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3258";
-//var URL_LDP="http://pc.pulipuli.info:3000";
-//var URL_JIEBA="http://localhost:8000";
-var URL_JIEBA = "http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3253";
-
-//var URL_BASE = "http://localhost:8000/";
-var URL_BASE = "http://exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3253/";
+var CONTENT_SELECTOR = ".AUTOANNO-content,.content";
 
 /**
+ * Server Address
+ * @type String
+ */
+var URL_LDP = "http://demo-linked-data-proxy-2017.dlll.nccu.edu.tw:3258";
+var URL_JIEBA = "http://demo-linked-data-proxy-2017.dlll.nccu.edu.tw:3253";
+var URL_BASE = "http://demo-linked-data-proxy-2017.dlll.nccu.edu.tw:3253/";
+
+/**
+ * for localhost test
  * @author Pulipuli Chen 20170526
  */
 if (location.href.indexOf("localhost:8000") > -1) {

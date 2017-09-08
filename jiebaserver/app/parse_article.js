@@ -2,7 +2,7 @@
 // https://sequelize.readthedocs.io/en/v3/docs/models-usage/
 
 var DEBUG = {
-    enable_cache: true
+    enable_cache: false
 };
 
 /*var _modules = ["wiki","moedict","cbdb","tgaz","pixabay"];*/
@@ -356,6 +356,8 @@ var _parse_check_result_array = function (sub_array, check_result_array, _callba
             _write_log(["準備整合", check_result_array.length + "/" + sub_array.length]);
             
             //if (check_result_array !== undefined) {
+                var _is_html_tag = false;
+            
                 for (var i = 0; i < sub_array.length; i++) {
                     if (sub_array[i] === "\n" && _replace_br === true) {
                         _result.push('<br />');
@@ -380,24 +382,37 @@ var _parse_check_result_array = function (sub_array, check_result_array, _callba
                             break;
                         }
                     }
-
-
-                    if (found === true) {
-                        if (sub_array[i].length > 1) {
-                            _result.push('<span class="autoanno_vocabulary autoanno_tooltip autoanno_highlight" data-tooltip-content="#autoanno_tooltip_content">'
-                                    + sub_array[i]
-                                    + '</span>');
+                    
+                    //console.log(["要來檢測了", sub_array[i], _is_html_tag]);
+                    if (sub_array[i] === "<" && _is_html_tag === false) {
+                        _is_html_tag = true;
+                        _result.push(sub_array[i]);
+                    }
+                    else if (sub_array[i] === ">" && _is_html_tag === true) {
+                        _is_html_tag = false;
+                        _result.push(sub_array[i]);
+                    }
+                    else if (_is_html_tag === true) {
+                        _result.push(sub_array[i]);
+                    } 
+                    else {
+                        if (found === true) {
+                            if (sub_array[i].length > 1) {
+                                _result.push('<span class="autoanno_vocabulary autoanno_tooltip autoanno_highlight" data-tooltip-content="#autoanno_tooltip_content">'
+                                        + sub_array[i]
+                                        + '</span>');
+                            }
+                            else {
+                                _result.push('<span class="autoanno_vocabulary autoanno_tooltip" data-tooltip-content="#autoanno_tooltip_content">'
+                                        + sub_array[i]
+                                        + '</span>');
+                            }
                         }
                         else {
-                            _result.push('<span class="autoanno_vocabulary autoanno_tooltip" data-tooltip-content="#autoanno_tooltip_content">'
+                            _result.push('<span class="autoanno_vocabulary">'
                                     + sub_array[i]
                                     + '</span>');
                         }
-                    }
-                    else {
-                        _result.push('<span class="autoanno_vocabulary">'
-                                + sub_array[i]
-                                + '</span>');
                     }
                 }   //for (var i = 0; i < sub_array.length; i++) {
             //}
