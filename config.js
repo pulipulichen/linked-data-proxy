@@ -23,6 +23,7 @@ CONFIG = {
         "exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3258",
         "exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3253",
         "http://140.119.25.194:10780",
+        "test-linked-data-proxy-2017.dlll.nccu.edu.tw:3359",
     ],
     
     // 模組的別名
