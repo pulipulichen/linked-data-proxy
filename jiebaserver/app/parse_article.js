@@ -2,7 +2,7 @@
 // https://sequelize.readthedocs.io/en/v3/docs/models-usage/
 
 var DEBUG = {
-    enable_cache: false
+    enable_cache: true
 };
 
 /*var _modules = ["wiki","moedict","cbdb","tgaz","pixabay"];*/
