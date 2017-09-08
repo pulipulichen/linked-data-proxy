@@ -14,8 +14,10 @@ if (_local_debug === true) {
     console.log("[LOCAL TEST MODE]");
 }
 else {
-    CSS_URL = "/client/js/exp-linked-data-proxy-2017.dlll.nccu.edu.tw.js";
-    LIB_URL = "/client/js/ga_inject_lib.js";
+    
+    var URL_BASE = "http://demo-linked-data-proxy-2017.dlll.nccu.edu.tw:3253";
+    CSS_URL = URL_BASE + "/client/js/exp-linked-data-proxy-2017.dlll.nccu.edu.tw.js";
+    LIB_URL = URL_BASE + "/client/js/ga_inject_lib.js";
 }
 
 
