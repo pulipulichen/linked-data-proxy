@@ -23,7 +23,7 @@ CONFIG = {
         "exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3258",
         "exp-linked-data-proxy-2017.dlll.nccu.edu.tw:3253",
         "140.119.25.194:10780",
-        "140.119.25.235:10240"
+        "140.119.25.235:10240",
         "test-linked-data-proxy-2017.dlll.nccu.edu.tw:3359",
     ],
     
