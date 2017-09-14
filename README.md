@@ -9,6 +9,21 @@ How to use AUTOANNO?
 2. Add website's URL pattern to "referer_allow_list" configuration: https://github.com/pulipulichen/linked-data-proxy/blob/master/config.js
 3. Update the server from GitHub.
 
+How to customize models?
+####
+
+You can change configuration by using following JavaScript.
+````
+URL_MODELS = "wiki,moedict,cbdb,tgaz,cdict,pixabay";
+````
+
+- wiki: Wikipedia
+- moedict: Moe Dict
+- cdbd: CDBD
+- tgaz: TGAZ
+- cdict: English-Chinese dictionary 英漢字典
+- pixabay: Pixabay picture database
+
 -----------------
 
 ## TODO

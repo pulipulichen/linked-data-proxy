@@ -8,9 +8,22 @@ var CONTENT_SELECTOR = ".AUTOANNO-content,.content";
  * Server Address
  * @type String
  */
-var URL_LDP = "http://demo-linked-data-proxy-2017.dlll.nccu.edu.tw:3258";
-var URL_JIEBA = "http://demo-linked-data-proxy-2017.dlll.nccu.edu.tw:3253";
-var URL_BASE = "http://demo-linked-data-proxy-2017.dlll.nccu.edu.tw:3253/";
+if (typeof(URL_LDP) === "undefined") {
+    var URL_LDP = "http://demo-linked-data-proxy-2017.dlll.nccu.edu.tw:3258";
+}
+if (typeof(URL_JIEBA) === "undefined") {
+    var URL_JIEBA = "http://demo-linked-data-proxy-2017.dlll.nccu.edu.tw:3253";
+}
+if (typeof(URL_BASE) === "undefined") {
+    var URL_BASE = "http://demo-linked-data-proxy-2017.dlll.nccu.edu.tw:3253/";
+}
+
+if (typeof(URL_SCRIPT) === "undefined") {
+    var URL_SCRIPT = "client/js/exp-linked-data-proxy-2017.dlll.nccu.edu.tw.js"
+}
+if (typeof(URL_MODELS) === "undefined") {
+    var URL_MODELS = "wiki,moedict,cbdb,tgaz,cdict,pixabay";
+}
 
 /**
  * for localhost test
@@ -267,7 +280,7 @@ AUTOANNO._setup_finish = function () {
     }
     
     $(".loadingbar").hide();
-    $.getScript(URL_BASE + "client/js/exp-linked-data-proxy-2017.dlll.nccu.edu.tw.js");
+    $.getScript(URL_BASE + URL_SCRIPT);
     
 };
 
@@ -293,7 +306,7 @@ AUTOANNO.query = function (instance, add_term_mode, callback) {
 
 
 
-    var _url = URL_LDP + "/wiki,moedict,cbdb,tgaz,cdict,pixabay/" + ts_trim + "?callback=?";
+    var _url = URL_LDP + "/" + URL_MODELS + "/" + ts_trim + "?callback=?";
     $.getJSON(_url, function (_data) {
         var _result = $("<div></div>");
         var _que = $("<div></div>").addClass("que").appendTo(_result);
