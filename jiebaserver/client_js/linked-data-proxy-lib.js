@@ -599,7 +599,7 @@ AUTOANNO._batch_parse_content = function (_selector, _callback) {
                 _i++;
                 setTimeout(function () {
                     _loop(_i);
-                }, 1000000);
+                }, 0);
                 
             });
         }
