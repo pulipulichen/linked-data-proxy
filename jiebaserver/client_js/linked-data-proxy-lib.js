@@ -18,8 +18,8 @@ if (typeof(URL_BASE) === "undefined") {
     var URL_BASE = "http://demo-linked-data-proxy-2017.dlll.nccu.edu.tw:3253/";
 }
 
-if (typeof(URL_SCRIPT) === "undefined") {
-    var URL_SCRIPT = "client/js/exp-linked-data-proxy-2017.dlll.nccu.edu.tw.js"
+if (typeof(URL_GA_SCRIPT) === "undefined") {
+    var URL_GA_SCRIPT = "client/js/exp-linked-data-proxy-2017.dlll.nccu.edu.tw.js"
 }
 if (typeof(URL_MODELS) === "undefined") {
     var URL_MODELS = "wiki,moedict,cbdb,tgaz,cdict,pixabay";
@@ -55,6 +55,7 @@ var MODULE_SYMBOL = {
  * @type Number
  */
 var CONTENT_SPLIT_LIMIT = 5000;
+//var CONTENT_SPLIT_LIMIT = 10;
 
 // ----------------------------
 
@@ -220,7 +221,9 @@ AUTOANNO._setup_tooltip = function (_element) {
             }
             else {
                 //setTimeout(function() {
-                _TOOLTIP_CONTENT = $('<div style="text-align:center;margin-top: calc(25vh - 15px - 0.5rem)"><img src="' + URL_BASE + 'client/js/loading.gif" /><br     />Loading</div>');
+                _TOOLTIP_CONTENT = $('<div style="text-align:center;margin-top: calc(25vh - 15px - 0.5rem)">'
+                    + '<img src="' + URL_BASE + 'client/js/loading.gif" />'
+                    + '<br />Loading</div>');
                 //$("#linked_data_proxy_result").append(_TOOLTIP_CONTENT);
                 $(".tooltipster-content").append(_TOOLTIP_CONTENT);
 
@@ -242,7 +245,6 @@ AUTOANNO._setup_tooltip = function (_element) {
                     });
                     //console.log(_query_text);
                 }, 0);
-
             }
         },
         functionReady: function (instance, helper) {
@@ -280,7 +282,6 @@ AUTOANNO._setup_finish = function () {
     }
     
     $(".loadingbar").hide();
-    $.getScript(URL_BASE + URL_SCRIPT);
     
 };
 
@@ -506,7 +507,10 @@ AUTOANNO.getScript = function (source, callback) {
  * @returns {AUTOANNO}
  */
 AUTOANNO.init = function () {
-
+    
+    //console.log("start");
+    //return;
+    
     for (var _i = 0; _i < AUTOANNO.css_list.length; _i++) {
         AUTOANNO.load_css(AUTOANNO.css_list[_i]);
     }
@@ -528,6 +532,10 @@ AUTOANNO.init = function () {
     // ----------------------
 
     $(function () {
+        
+        $.getScript(URL_BASE + URL_GA_SCRIPT);
+
+        
         // 網頁讀取完成之後才會做
         $('<div class="autoanno_tooltip_templates"><span id="autoanno_tooltip_content"><div id="linked_data_proxy_result" style="width: 50vw;height: 50vh;max-height: 50vh; overflow-y: auto;"></div></span></div><div id="result"></div>').appendTo($("body"));
         
@@ -589,7 +597,10 @@ AUTOANNO._batch_parse_content = function (_selector, _callback) {
                 
                 // 下一個迴圈
                 _i++;
-                _loop(_i);
+                setTimeout(function () {
+                    _loop(_i);
+                }, 0);
+                
             });
         }
         else {
