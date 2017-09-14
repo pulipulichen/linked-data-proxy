@@ -186,11 +186,11 @@ AUTOANNO.iframe_post_callback = function (_result, _callback) {
  * 設定tooltip
  * @returns {AUTOANNO}
  */
-AUTOANNO._setup_tooltip = function () {
+AUTOANNO._setup_tooltip = function (_element) {
 
     var _TOOLTIP_LOCK = false;
     var _TOOLTIP_CONTENT;
-    $('.autoanno_tooltip').tooltipster({
+    _element.find('.autoanno_tooltip').tooltipster({
         //maxWidth: 400,
         contentAsHTML: true,
         interactive: true,
@@ -240,20 +240,8 @@ AUTOANNO._setup_tooltip = function () {
     });
 
     rangy.init();
-    console.log("ready");
-    
-    if (location.href.indexOf("&finish_close=true") > -1) {
-        setTimeout(function () {
-            window.close();
-        }, 500);
-    }
-    
-    $(".loadingbar").hide();
-    $.getScript(URL_BASE + "client/js/exp-linked-data-proxy-2017.dlll.nccu.edu.tw.js");
-    
 
-
-    $(CONTENT_SELECTOR).mouseup(function () {
+    $(_element).mouseup(function () {
         var sel = rangy.getSelection();
         var _selection_text = sel.toString().trim();
         if (_selection_text !== "") {
@@ -266,6 +254,21 @@ AUTOANNO._setup_tooltip = function () {
     });
     
     return this;
+};
+
+AUTOANNO._setup_finish = function () {
+    
+    console.log("rangy ready");
+    
+    if (location.href.indexOf("&finish_close=true") > -1) {
+        setTimeout(function () {
+            window.close();
+        }, 500);
+    }
+    
+    $(".loadingbar").hide();
+    $.getScript(URL_BASE + "client/js/exp-linked-data-proxy-2017.dlll.nccu.edu.tw.js");
+    
 };
 
 // -----------------------------
@@ -530,7 +533,8 @@ AUTOANNO.init = function () {
 //        AUTOANNO.iframe_post(_url, _data, _callback);
         
         AUTOANNO._batch_parse_content(CONTENT_SELECTOR, function () {
-            AUTOANNO._setup_tooltip();
+            //AUTOANNO._setup_tooltip();
+            AUTOANNO._setup_finish();
         });
 
         // $.getScript("")
@@ -568,6 +572,7 @@ AUTOANNO._batch_parse_content = function (_selector, _callback) {
             AUTOANNO._batch_parse_batch_send(_content_array, function (_content_result) {
                 //_result = _result + _content_result;
                 _contents.eq(_i).html(_content_result);
+                AUTOANNO._setup_tooltip(_contents.eq(_i));
                 
                 // 下一個迴圈
                 _i++;
