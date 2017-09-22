@@ -166,6 +166,8 @@ AUTOANNO.iframe_post_callback = function (_result, _callback) {
 
             var result = data.result;
             cache_id = data.cache_id;
+            console.log("設定了cache_id: " + cache_id);
+            
             if (result === undefined || result === null) {
                 setTimeout(function () {
                     console.log("再次查詢");
