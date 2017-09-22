@@ -273,6 +273,8 @@ AUTOANNO._setup_tooltip = function (_element) {
     return this;
 };
 
+AUTOANNO.setup_finished = false;
+
 AUTOANNO._setup_finish = function () {
     
     console.log("rangy ready");
@@ -284,7 +286,8 @@ AUTOANNO._setup_finish = function () {
     }
     
     $(".loadingbar").hide();
-    $(".term-add-button").show();
+    
+    AUTOANNO.setup_finished = true;
 };
 
 // -----------------------------
@@ -320,6 +323,9 @@ AUTOANNO.query = function (instance, add_term_mode, callback) {
 
         if (add_term_mode === true) {
             var _addterm_button = $('<input type="button" id="term" class=".term-add-button" data-term="' + ts_trim + '" value="添加新詞">');
+            if (AUTOANNO.setup_finished === false) {
+                _addterm_button.hide();
+            }
             _addterm_button.hide();
             _addterm_button.css({
                 "float": "right"
