@@ -25,6 +25,7 @@ CONFIG = {
         "140.119.25.194:10780",
         "140.119.25.235:10240",
         "test-linked-data-proxy-2017.dlll.nccu.edu.tw:3359",
+        "pulipulichen.github.io"
     ],
     
     // 模組的別名

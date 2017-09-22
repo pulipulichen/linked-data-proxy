@@ -37,4 +37,7 @@ CONFIG = {
      * @type Number
      */
     //batch_check: 120
+    
+    
+    enable_cache: false
 };
