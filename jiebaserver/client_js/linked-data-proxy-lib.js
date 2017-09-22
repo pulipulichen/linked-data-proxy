@@ -284,7 +284,7 @@ AUTOANNO._setup_finish = function () {
     }
     
     $(".loadingbar").hide();
-    
+    $(".term-add-button").show();
 };
 
 // -----------------------------
@@ -320,6 +320,7 @@ AUTOANNO.query = function (instance, add_term_mode, callback) {
 
         if (add_term_mode === true) {
             var _addterm_button = $('<input type="button" id="term" class=".term-add-button" data-term="' + ts_trim + '" value="添加新詞">');
+            _addterm_button.hide();
             _addterm_button.css({
                 "float": "right"
             });
