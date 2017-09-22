@@ -326,7 +326,6 @@ AUTOANNO.query = function (instance, add_term_mode, callback) {
             if (AUTOANNO.setup_finished === false) {
                 _addterm_button.hide();
             }
-            _addterm_button.hide();
             _addterm_button.css({
                 "float": "right"
             });
