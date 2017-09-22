@@ -38,6 +38,9 @@ CONFIG = {
      */
     //batch_check: 120
     
-    
-    enable_cache: false
+    /**
+     * 是否啟用快取
+     * @type Boolean
+     */
+    enable_cache: true
 };
