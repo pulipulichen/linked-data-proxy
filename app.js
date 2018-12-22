@@ -64,6 +64,7 @@ for (var _key in _module_alisas) {
     require("./proxy_module/"+_module+"/"+_module+".js");
 }
 */
+launch_proxy = {};
 const proxy_module_folder = './proxy_module/';
 fs.readdir(proxy_module_folder, (err, files) => {
   files.forEach(module_name => {
