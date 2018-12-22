@@ -173,7 +173,7 @@ $(function () {
         });
         
         
-        var _url = "/" + _modules.join(",") + "/" + encodeURI(_query) + "?callback=?";
+        var _url = _modules.join(",") + "/" + encodeURI(_query) + "?callback=?";
         _url = location.href + _url;
         $("#url").val(_url);
         //window.alert(_url);
