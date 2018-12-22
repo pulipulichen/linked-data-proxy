@@ -49,13 +49,22 @@ var _options = {
         var _output_array = [];
         var _p = $(_content).find(".syllable");
         _content = _p[0].text;
+        /*
         console.log(_content.indexOf('<div>'))
         if (_content.indexOf('<div>') > -1) {
             _content = _content.slice(0, _content.indexOf('<div>'))
         }
         console.log(_content);
+        */
         
         //_content = $(_content).find("#mw-content-text > p:first").html();
+        return _content;
+    },
+    
+    post_process: function (_content) {
+        var _ele = $(_content);
+        _ele.find("div").remove();
+        _content = _ele.text;
         return _content;
     },
     
