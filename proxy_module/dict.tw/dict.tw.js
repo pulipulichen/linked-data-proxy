@@ -48,8 +48,7 @@ var _options = {
     process: function (_content) {
         var _output_array = [];
         var _p = $(_content).find(".syllable:first-of-type");
-        _output_array.push(_p[0]);
-        _content = get_outer_html(_output_array);
+        _content = _p[0].text();
         //_content = $(_content).find("#mw-content-text > p:first").html();
         return _content;
     },
