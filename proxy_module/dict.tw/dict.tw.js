@@ -20,7 +20,7 @@ var _options = {
     query: _query,
     
     // 正式查詢
-    url: "https://dict.tw/dict/" + encodeURI(_query),
+    url: "http://dict.tw/dict/" + encodeURI(_query),
     
     encoding: "utf8",
     
