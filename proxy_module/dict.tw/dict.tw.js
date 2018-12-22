@@ -48,7 +48,8 @@ var _options = {
     process: function (_content) {
         var _output_array = [];
         var _p = $(_content).find(".syllable");
-        _content = _p[0].text;
+        _content = $(_p[0].text).find('div').remove().text;
+        
         //_content = $(_content).find("#mw-content-text > p:first").html();
         return _content;
     },
