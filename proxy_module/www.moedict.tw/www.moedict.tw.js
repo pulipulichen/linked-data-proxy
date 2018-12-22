@@ -10,6 +10,8 @@
  * http://localhost:3000/moedict/不萌
  *
  */
+
+CONFIG.module_alias["moedict"] = "www.moedict.tw";
 launch_proxy["www.moedict.tw"] = function (_output, _query, _mode) {
     
 var _options = {

@@ -65,6 +65,7 @@ for (var _key in _module_alisas) {
 }
 */
 launch_proxy = {};
+CONFIG.module_alias = {};
 const proxy_module_folder = './proxy_module/';
 fs.readdir(proxy_module_folder, (err, files) => {
   files.forEach(module_name => {

@@ -12,6 +12,8 @@
  * 失敗查詢 http://cbdb.fas.harvard.edu/cbdbapi/person.php?name=北京&o=json
  * http://localhost:3000/cbdb/北京
  */
+
+CONFIG.module_alias["cbdb"] = "cbdb.fas.harvard.edu";
 launch_proxy["cbdb.fas.harvard.edu"] = function (_output, _query, _mode) {
     
 var _options = {

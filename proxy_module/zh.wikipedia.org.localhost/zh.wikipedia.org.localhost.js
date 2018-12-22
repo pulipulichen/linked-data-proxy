@@ -4,6 +4,7 @@
  * http://localhost:3000/wiki.l/劉備
  * 失敗查詢的頁面：https://zh.wikipedia.org/w/index.php?title=%E6%95%B8%E4%BD%8D%E5%9C%96%E6%9B%B8111%E9%A4%A8&oldformat=true&printable=yes
  */
+CONFIG.module_alias["wiki.l"] = "zh.wikipedia.org.localhost";
 launch_proxy["zh.wikipedia.org.localhost"] = function (_output, _query, _mode) {
     
 var _options = {

@@ -26,27 +26,13 @@ check_white_list = function (_req, _res) {
  */
 modules_mapping = function (_modules) {
     var _m = [];
-    
-    // 先建立快取
-    if (modules_mapping_alias === null) {
-      modules_mapping_alias = {};
-      for (var _full_name in launch_proxy) {
-        var _alias = _full_name
-        console.log(launch_proxy[_full_name]['module_alias'])
-        if (typeof(launch_proxy[_full_name]['module_alias']) === 'string') {
-          _alias = launch_proxy[_full_name]['module_alias'];
-        }
-        modules_mapping_alias[_alias] = _full_name
-      }
-      console.log(modules_mapping_alias)
-    }
-    
+        
     for (var _i = 0; _i < _modules.length; _i++) {
         var _module = _modules[_i].trim();
         
         // 切換別名
-        if (typeof(modules_mapping_alias[_module]) === "string") {
-            _module = modules_mapping_alias[_module];
+        if (typeof(CONFIG.module_alias[_module]) === "string") {
+            _module = CONFIG.module_alias[_module];
         }
         
         // 去除重複的模組
@@ -58,8 +44,6 @@ modules_mapping = function (_modules) {
     
     return _modules;
 };
-
-modules_mapping_alias = null;
 
 // -----------------
 

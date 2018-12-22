@@ -11,11 +11,11 @@
  * 失敗查詢 http://maps.cga.harvard.edu/tgaz/placename?fmt=html&n=%E5%8A%89%E5%82%99&yr=&ftyp=&src=
  * http://localhost:3000/tgaz/劉備
  */
+CONFIG.module_alias["tgaz"] = "maps.cga.harvard.edu";
 launch_proxy["maps.cga.harvard.edu"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "maps.cga.harvard.edu",
-    module_alias: "tgaz",
     query: _query,
     // ----------------------------------------
     
