@@ -34,13 +34,13 @@ var _options = {
     /**
      * 取出指定元素的HTML程式碼
      */
-    html_selector: ".syllable:first-of-type",
+    //html_selector: ".syllable:first-of-type",
     
     /**
      * 取出指定元素的純文字
      * 取出音節(斷句)
      */
-    //text_selector: ".syllable:first-of-type",
+    text_selector: ".def:first > .syllable",
     
     // ------------------------
     
