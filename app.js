@@ -56,12 +56,20 @@ require("./app/jieba-test.js");
 // -----------------------------
 
 // 載入模組
+/*
 var _module_alisas = CONFIG.module_alias;
 launch_proxy = {};
 for (var _key in _module_alisas) {
     var _module = _module_alisas[_key];
     require("./proxy_module/"+_module+"/"+_module+".js");
 }
+*/
+const proxy_module_folder = './proxy_module/';
+fs.readdir(proxy_module_folder, (err, files) => {
+  files.forEach(module_name => {
+    require("./proxy_module/"+module_name+"/"+module_name+".js");
+  });
+})
 
 // ------------------------------------------------------------
 
