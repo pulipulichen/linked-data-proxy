@@ -1,3 +1,4 @@
+
 /**
  * 查詢 www.moedict.tw
  * 成功查詢的頁面：https://www.moedict.tw/%E5%8B%BE%E8%90%8C
@@ -11,12 +12,11 @@
  *
  */
 
-CONFIG.module_alias["moedict"] = "www.moedict.tw";
-launch_proxy["www.moedict.tw"] = function (_output, _query, _mode) {
+CONFIG.module_alias["dict.tw"] = "dict.tw";
+launch_proxy["dict.tw"] = function (_output, _query, _mode) {
     
 var _options = {
-    module: "www.moedict.tw",
-    module_alias: "moedict",
+    module: "dict.tw",
     query: _query,
     
     // 正式查詢
