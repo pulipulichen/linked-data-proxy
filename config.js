@@ -3,10 +3,10 @@ CONFIG = {
     port: 3000,
     
     // 快取過期：單位是小時
-    //module_cache_expire_hour: 0.001, 
-    //query_cache_expire_hour: 0.001, 
-    module_cache_expire_hour: 24*30, 
-    query_cache_expire_hour: 24*30, 
+    module_cache_expire_hour: 0.001, 
+    query_cache_expire_hour: 0.001, 
+    //module_cache_expire_hour: 24*30, 
+   // query_cache_expire_hour: 24*30, 
     
     query_return_error: false,
     secret: 's3Cur3',
