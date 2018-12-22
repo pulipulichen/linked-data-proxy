@@ -49,25 +49,9 @@ var _options = {
         var _output_array = [];
         var _p = $(_content).find(".syllable");
         _content = _p[0].text;
-        /*
-        console.log(_content.indexOf('<div>'))
-        if (_content.indexOf('<div>') > -1) {
-            _content = _content.slice(0, _content.indexOf('<div>'))
-        }
-        console.log(_content);
-        */
+        return _content;
+    },
         
-        //_content = $(_content).find("#mw-content-text > p:first").html();
-        return _content;
-    },
-    
-    post_process: function (_content) {
-        if (_content.indexOf('<div>') > -1) {
-            _content = _content.slice(0, _content.indexOf('<div>'))
-        }
-        return _content;
-    },
-    
     // ------------------------
     
     /**
@@ -84,7 +68,7 @@ var _options = {
     /**
      * 參考來源網頁的名稱
      */
-    referer_name: "dict.tw線上字典",
+    //referer_name: "dict.tw線上字典",
     
     /**
      * 參考來源網頁
