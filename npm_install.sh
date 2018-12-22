@@ -6,6 +6,7 @@ npm install express-session --save
 npm install cookie-sessions --save
 npm install cookie-parser --save
 npm install cors --save
+npm install -g nodemon --save
 
 # 資料庫
 npm install sequelize --save
