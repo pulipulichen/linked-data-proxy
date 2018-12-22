@@ -32,8 +32,9 @@ modules_mapping = function (_modules) {
       modules_mapping_alias = {};
       for (var _full_name in launch_proxy) {
         var _alias = _full_name
+        console.log(launch_proxy[_full_name]['module_alias'])
         if (typeof(launch_proxy[_full_name]['module_alias']) === 'string') {
-          var _alias = launch_proxy[_full_name]['module_alias'];
+          _alias = launch_proxy[_full_name]['module_alias'];
         }
         modules_mapping_alias[_alias] = _full_name
       }
