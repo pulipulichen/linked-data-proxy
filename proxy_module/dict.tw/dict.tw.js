@@ -62,9 +62,9 @@ var _options = {
     },
     
     post_process: function (_content) {
-        var _ele = $(_content);
-        _ele.find("div").remove();
-        _content = _ele.text;
+        if (_content.indexOf('<div>') > -1) {
+            _content = _content.slice(0, _content.indexOf('<div>'))
+        }
         return _content;
     },
     
