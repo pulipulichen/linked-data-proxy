@@ -36,7 +36,7 @@ modules_mapping = function (_modules) {
         }
         
         // 去除重複的模組
-        if ($.inArray(_module, _m) === -1) {
+        if (_module.indexOf(_m) === -1) {
             _m.push((_module));
         }
     }
