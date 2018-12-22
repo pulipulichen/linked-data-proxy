@@ -13,6 +13,7 @@ launch_proxy["pixabay.com"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "pixabay.com",
+    module_alias: "pixabay",
     query: _query,
     // ----------------------------------------
     

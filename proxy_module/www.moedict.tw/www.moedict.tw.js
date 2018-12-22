@@ -14,6 +14,7 @@ launch_proxy["www.moedict.tw"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "www.moedict.tw",
+    module_alias: "moedict",
     query: _query,
     
     // 正式查詢

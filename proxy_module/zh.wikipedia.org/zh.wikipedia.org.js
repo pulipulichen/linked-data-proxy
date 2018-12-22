@@ -10,6 +10,7 @@ launch_proxy["zh.wikipedia.org"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "zh.wikipedia.org",
+    module_alias: "wiki",
     query: _query,
     
     // 測試查詢

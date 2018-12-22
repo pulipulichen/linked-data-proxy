@@ -19,16 +19,35 @@ check_white_list = function (_req, _res) {
 
 // -----------------
 
+/**
+ * @author 20181222 布丁 pulipuli.chen@gmail.com
+ * @param {String[]} _modules 模組名稱
+ * @returns {String[]} 對應後的模組名稱
+ */
 modules_mapping = function (_modules) {
     var _m = [];
+    
+    // 先建立快取
+    if (modules_mapping_alias === null) {
+      modules_mapping_alias = {};
+      for (var _full_name in launch_proxy) {
+        var _alias = _full_name
+        if (typeof(launch_proxy[_full_name]['module_alias']) === 'string') {
+          var _alias = launch_proxy[_full_name]['module_alias'];
+        }
+        modules_mapping_alias[_alias] = _full_name
+      }
+    }
+    
     for (var _i = 0; _i < _modules.length; _i++) {
         var _module = _modules[_i].trim();
         
         // 切換別名
-        if (typeof(CONFIG.module_alias[_module]) === "string") {
-            _module = CONFIG.module_alias[_module];
+        if (typeof(modules_mapping_alias[_module]) === "string") {
+            _module = modules_mapping_alias[_module];
         }
         
+        // 去除重複的模組
         if ($.inArray(_module, _m) === -1) {
             _m.push((_module));
         }
@@ -37,6 +56,8 @@ modules_mapping = function (_modules) {
     
     return _modules;
 };
+
+modules_mapping_alias = null;
 
 // -----------------
 

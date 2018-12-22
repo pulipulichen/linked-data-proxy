@@ -12,6 +12,7 @@ launch_proxy["cdict.net"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "cdict.net",
+    module_alias: "cdict",
     query: _query,
     
     // 正式查詢

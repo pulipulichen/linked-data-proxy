@@ -16,6 +16,7 @@ launch_proxy["cbdb.fas.harvard.edu"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "cbdb.fas.harvard.edu",
+    module_alias: "cbdb",
     query: _query,
     // ----------------------------------------
     

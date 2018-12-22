@@ -8,6 +8,7 @@ launch_proxy["zh.wikipedia.org.localhost"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "zh.wikipedia.org.localhost",
+    module_alias: "wiki.l",
     query: _query,
     
     /*

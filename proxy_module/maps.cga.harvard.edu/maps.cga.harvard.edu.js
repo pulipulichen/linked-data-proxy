@@ -15,6 +15,7 @@ launch_proxy["maps.cga.harvard.edu"] = function (_output, _query, _mode) {
     
 var _options = {
     module: "maps.cga.harvard.edu",
+    module_alias: "tgaz",
     query: _query,
     // ----------------------------------------
     
