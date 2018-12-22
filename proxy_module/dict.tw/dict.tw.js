@@ -42,6 +42,18 @@ var _options = {
      */
     text_selector: ".syllable:first-of-type",
     
+    /**
+     * 指定處理元素的方法
+     */
+    process: function (_content) {
+        var _output_array = [];
+        var _p = $(_content).find(".syllable:first-of-type");
+        _output_array.push(_p[0]);
+        _content = get_outer_html(_output_array);
+        //_content = $(_content).find("#mw-content-text > p:first").html();
+        return _content;
+    },
+    
     // ------------------------
     
     /**
