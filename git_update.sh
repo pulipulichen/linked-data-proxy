@@ -13,3 +13,5 @@ git --git-dir="$GIT_PATH"/.git merge "$GIT_BRANCH" --no-commit
 
 chmod +x "$GIT_PATH"/*.sh
 chmod +x "$GIT_PATH"/jiebaserver/*.sh
+
+restart_app.sh
