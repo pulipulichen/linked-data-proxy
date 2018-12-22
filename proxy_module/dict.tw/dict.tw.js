@@ -40,7 +40,7 @@ var _options = {
      * 取出指定元素的純文字
      * 取出音節(斷句)
      */
-    text_selector: ".def:first > .syllable",
+    text_selector: ".def .syllable:first",
     
     // ------------------------
     
