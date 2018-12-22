@@ -30,6 +30,10 @@ CONFIG = {
     ],
     
     // 模組的別名
+    /**
+     * @deprecated 以後分散到各個模組去，不在這裡設定 20181222 布丁
+     */
+    /*
     module_alias: {
         "wiki": "zh.wikipedia.org",
         "wiki.l": "zh.wikipedia.org.localhost",
@@ -39,6 +43,7 @@ CONFIG = {
         "cdict": "cdict.net",
         "pixabay": "pixabay.com",
     },
+    */
     
     // Google Analytics的編號
     ga_track_code: "UA-46464710-11",

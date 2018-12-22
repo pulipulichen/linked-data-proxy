@@ -37,6 +37,7 @@ modules_mapping = function (_modules) {
         }
         modules_mapping_alias[_alias] = _full_name
       }
+      console.log(modules_mapping_alias)
     }
     
     for (var _i = 0; _i < _modules.length; _i++) {
