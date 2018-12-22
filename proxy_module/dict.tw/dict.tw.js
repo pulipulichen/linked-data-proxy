@@ -20,7 +20,7 @@ var _options = {
     query: _query,
     
     // 正式查詢
-    url: "https://www.moedict.tw/" + encodeURI(_query),
+    url: "https://dict.tw/dict/" + encodeURI(_query),
     
     encoding: "utf8",
     
@@ -38,8 +38,9 @@ var _options = {
     
     /**
      * 取出指定元素的純文字
+     * 取出音節(斷句)
      */
-    text_selector: "#result p.definition",
+    text_selector: ".syllable:first",
     
     // ------------------------
     
@@ -57,7 +58,7 @@ var _options = {
     /**
      * 參考來源網頁的名稱
      */
-    referer_name: "萌典",
+    referer_name: "dict.tw線上字典",
     
     /**
      * 參考來源網頁
