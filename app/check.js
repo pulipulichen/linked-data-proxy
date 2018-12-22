@@ -24,7 +24,7 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id
         display: function (_data) {
             console.log(this.index + ": " + _data);
             if (_data !== undefined 
-                    && $.inArray(_data, this.data) === -1) {
+                    && _data.indexOf(this.data) === -1) {
                 
                 this.data.push(_data);
             }
@@ -70,7 +70,7 @@ var _app_query_no_cache = function (_req, _res, _modules, _queries, _response_id
         
         if (_query !== undefined && match_stopword(_query) === false) {
             for (var _i = 0; _i < _modules.length; _i++) {
-                if ($.inArray(_query, _output.data) === -1) {
+                if (_query.indexOf(_output.data) === -1) {
                     _limit++;
                 }
             }
