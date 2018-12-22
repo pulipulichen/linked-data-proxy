@@ -40,13 +40,12 @@ var _options = {
      * 取出指定元素的純文字
      * 取出音節(斷句)
      */
-    text_selector: ".syllable:first-of-type",
+    //text_selector: ".syllable:first-of-type",
     
     /**
      * 指定處理元素的方法
      */
     process: function (_content) {
-        var _output_array = [];
         var _p = $(_content).find(".syllable");
         _content = _p[0].text;
         return _content;
