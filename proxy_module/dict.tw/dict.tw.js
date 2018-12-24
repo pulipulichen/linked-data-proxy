@@ -46,8 +46,8 @@ var _options = {
      * 指定處理元素的方法
      */
     process: function (_content) {
-        var _p = $(_content).find(".syllable");
-        _content = _p.text;
+        var _p = $(_content).find(".syllable:first");
+        _content = _p[0].text;
         return _content;
     },
         
