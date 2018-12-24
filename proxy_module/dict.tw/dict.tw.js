@@ -47,7 +47,7 @@ var _options = {
      */
     process: function (_content) {
         var _p = $(_content).find(".syllable");
-        _content = _p[0].text;
+        _content = _p.text;
         return _content;
     },
         
