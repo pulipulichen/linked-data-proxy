@@ -51,7 +51,7 @@ var _options = {
         var _s = $(_content).find(".def");
         //var _syllable =_s[0].text;
         console.log("123");
-        console.log(_s.text());
+        console.log(_s);
         var _d = $(_content).find("span .phone:first"); 
         var _def = _d.text;
         //_content = _syllable;
