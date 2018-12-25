@@ -48,10 +48,8 @@ var _options = {
     process: function (_content) {
        // var _d = $(_content).find(".db_info").find(".def");
         
-        var _s = $(_content).find(".def:nth-of-type(3)");
+        var _s = $(_content).find(".syllable:first");
         var _syllable =_s[0].text;
-        console.log("123");
-        console.log(_syllable );
         var _d = $(_content).find("span .phone:first"); 
         var _def = _d.text;
         _content = _syllable;
