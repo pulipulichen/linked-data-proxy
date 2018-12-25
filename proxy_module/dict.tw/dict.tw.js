@@ -50,9 +50,9 @@ var _options = {
         
         var _s = $(_content).find(".syllable:first");
         var _syllable =_s[0].text;
-        var _d = $(_content).find(".db_info").next(".def").text(); 
+        var _d = $(_content).find(".db_info").next(".def:first").val(); 
         //var _def = _d[0].text();
-        _content =_syllable + "\ndef:"+ _d;
+        _content =_syllable + "  def:"+ _d;
         return _content;
     },
         
