@@ -50,6 +50,9 @@ var _options = {
         var _syllable =_s[0].text;
         var _d = $(_content).find(".phone"); 
         var _def = _d[0].text;
+        console.log(_d);
+        console.log(_def);
+        console.log(_syllable);
         _content = _syllable + _d;
         return _content;
     },
