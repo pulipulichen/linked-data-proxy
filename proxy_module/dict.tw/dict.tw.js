@@ -46,8 +46,11 @@ var _options = {
      * 指定處理元素的方法
      */
     process: function (_content) {
-        var _p = $(_content).find(".syllable:first");
-        _content = _p[0].text;
+        var _s = $(_content).find(".syllable:first");
+        var _syllable =_s[0].text;
+        var _d = $(_content).find(".phone:first"); 
+        var _def = _d[0].text;
+        _content = _s + _d;
         return _content;
     },
         
