@@ -48,7 +48,7 @@ var _options = {
     process: function (_content) {
        // var _d = $(_content).find(".db_info").find(".def");
         
-        var _s = $(_content).find(".def");
+        var _s = $(_content).find(".def:nth-of-type(3)");
         var _syllable =_s;
         console.log("123");
         console.log(_syllable );
