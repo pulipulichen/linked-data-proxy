@@ -50,9 +50,9 @@ var _options = {
         
         var _s = $(_content).find(".syllable:first");
         var _syllable =_s[0].text;
-        var _d = $(_content).find("span .phone:first"); 
-        var _def = _d.text;
-        _content = _syllable;
+        var _d = $(_content).find(".db_info").next(".def"); 
+        var _def = _d.text();
+        _content = _def;
         return _content;
     },
         
