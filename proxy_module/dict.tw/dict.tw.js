@@ -48,9 +48,9 @@ var _options = {
     process: function (_content) {
         var _s = $(_content).find(".syllable:first");
         var _syllable =_s[0].text;
-        var _d = $(_content).find("span .phone").text; 
-        var _def = _d[1].text;
-        _content = _syllable + _d;
+        var _d = $(_content).find("span .phone:first"); 
+        var _def = _d[0].text;
+        _content = _syllable + _def;
         return _content;
     },
         
