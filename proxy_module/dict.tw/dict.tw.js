@@ -53,7 +53,7 @@ var _options = {
         console.log(_s);
         var _d = $(_content).find("span .phone:first"); 
         var _def = _d.text;
-       // _content = _syllable;
+        //_content = _syllable;
         return _content;
     },
         
