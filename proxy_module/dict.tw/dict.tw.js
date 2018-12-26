@@ -49,7 +49,7 @@ var _options = {
         try {
            // var _d = $(_content).find(".db_info").find(".def");
             //var _second = _content.IndexOf("<hr>");
-            var _content_hearder = $(_content).IndexOf("<hr>");
+            var _content_hearder = _content.IndexOf("<hr>");
             console.log("----------content_hearder------------------");
             console.log(_content_hearder);
             var _content_footer = '<hr>';
