@@ -60,7 +60,13 @@ var _options = {
         var _s = $(_content).find(".syllable:first");
         var _syllable =_s[0].text;
         
-        _content =_syllable + "extract_string";
+        var _def =$(_content);
+        _def.find(".db_info:first").next(".def > span").remove();
+        _def.find(".db_info:first").next(".def > a").remove();
+        _def.find(".db_info:first").next(".def > br").remove();
+        var _defHtml =  get_outer_html(_def);
+        
+        _content =_syllable + " extract_string:" + _defHtml;
         return _content;
     },
         
