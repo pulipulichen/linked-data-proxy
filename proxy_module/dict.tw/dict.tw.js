@@ -52,9 +52,10 @@ var _options = {
         var _syllable =_s[0].text;
         var _d = $(_content).find(".db_info").next(".def");
         
-        var _removePhone = $(_d).find(".phone").remove();
-        var _removeSyllable = $(_removePhone).find(".syllable").remove();
-        var _t = _removeSyllable[0].text;
+        var _removePhone = $(_d[0]).find("a").remove();
+        var _removeSyllable = $(_removePhone).find("span").remove();
+        var _removeBr = $(_removeSyllable).find("br").remove();
+        var _t = _removeBr.text;
         //var _def = _d[0].text();
         _content =_syllable + "  def:"+ _d + " phone:" + _t;
         return _content;
