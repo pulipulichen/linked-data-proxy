@@ -48,8 +48,9 @@ var _options = {
     process: function (_content) {
         try {
            // var _d = $(_content).find(".db_info").find(".def");
-            //var _second = _content.IndexOf("<hr>");
-            var _content_hearder = '</form>';
+            var _second = _content.lastIndexOf("<hr>");
+            var _content_hearder = _content.lastIndexOf("<hr>", _second-1);//'</form>';
+            console.log(_content_hearder);
             var _content_footer = '<hr>';
             
             //var _content = _content.slice(_content_hearder + _content_footer.length, _content.lastIndexOf(_content_footer));
