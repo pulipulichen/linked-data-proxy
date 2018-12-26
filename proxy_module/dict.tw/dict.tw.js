@@ -52,7 +52,7 @@ var _options = {
         var _syllable =_s[0].text;
         
         var _d = $(_content).find(".db_info").next(".def").find(".syllable");
-        var _def = _d[0].text;
+        var _def = _d[0].value;
         
         var _removePhone = $(_d[0]).find("a").remove();
         var _removeSyllable = $(_removePhone).find("span").remove();
