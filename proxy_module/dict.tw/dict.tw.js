@@ -55,7 +55,7 @@ var _options = {
             //var _second = _content.lastIndexOf("<hr>", _content.lastIndexOf("<hr>"));
             if(_content.search('<br /> &nbsp;') !== -1){
                 _content = _content.split('<br /> &nbsp;')[1];
-                console.log("---------有資料-----------");
+                console.log("有<br /> &nbsp;開頭");
             }
                 _content = _content.split('<br />')[0];
             
@@ -66,7 +66,7 @@ var _options = {
             //var _content = _content.slice(_content.lastIndexOf(_content_hearder) + _content_hearder.length, _content.lastIndexOf(_content_footer));
             var _content = _content.slice(_content.indexOf(_content_hearder) + _content_hearder.length, _content.indexOf(_content_footer));
             */
-            console.log("---------------------------------");
+            console.log("--------DEF------------------");
             console.log(_content);
    
             _content =_syllable + " def:" + _content;
