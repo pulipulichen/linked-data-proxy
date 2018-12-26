@@ -53,7 +53,7 @@ var _options = {
             var _content_footer = '<hr>';
             
             //var _content = _content.slice(_content_hearder + _content_footer.length, _content.lastIndexOf(_content_footer));
-            var _content = _content.slice(200, 350);
+            var _content = _content.slice(200, _content.lastIndexOf(_content_footer));
             console.log("---------------------------------");
             console.log(_content);
             console.log("---------------------------------");
