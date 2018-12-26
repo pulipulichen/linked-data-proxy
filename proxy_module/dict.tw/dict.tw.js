@@ -47,8 +47,12 @@ var _options = {
      */
     process: function (_content) {
         try {
-            // var _d = $(_content).find(".db_info").find(".def");
-            //var _second = _content.lastIndexOf("<hr>", _content.lastIndexOf("<hr>")-1);
+            //抓音節.syllable
+            var _s = $(_content).find(".syllable");
+            var _syllable =_s[0].text;  
+            
+            //抓解釋.def
+            //var _second = _content.lastIndexOf("<hr>", _content.lastIndexOf("<hr>"));
             var _content_hearder = '</form>';
             var _content_footer = '<hr>';
             
@@ -67,12 +71,11 @@ var _options = {
             var _footer = '<br>'
            // _d = _d.slice(_d.lastIndexOf(_header) + _header.length, _d.lastIndexOf(_footer));
             
-            var _s = $(_content).find(".syllable");
-            var _syllable =_s[0].text;   
+ 
             
             //var _d = $(_content).find(".db_info").find(".def");
     
-            _content =_syllable + "def:";
+            _content =_syllable + "def:" + _content;
         }
          catch (e) {
              console.log(e)
