@@ -51,7 +51,10 @@ var _options = {
         var _s = $(_content).find(".syllable:first");
         var _syllable =_s[0].text;
         var _d = $(_content).find(".db_info").next(".def");
-        var _t = _d.find(".phone").text;
+        
+        var _removePhone = $(_d).find(".phone").remove();
+        var _removeSyllable = $(_removePhone).find(".syllable").remove();
+        var _t = _removeSyllable[0].text;
         //var _def = _d[0].text();
         _content =_syllable + "  def:"+ _d + " phone:" + _t;
         return _content;
