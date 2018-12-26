@@ -49,12 +49,11 @@ var _options = {
         try {
            // var _d = $(_content).find(".db_info").find(".def");
             var _second = _content.lastIndexOf("<hr>");
-            var _content_hearder = _content.lastIndexOf("<hr>", _second);//'</form>';
-            console.log(_content_hearder);
+            var _content_hearder = '</form>';
             var _content_footer = '<hr>';
             
             //var _content = _content.slice(_content_hearder + _content_footer.length, _content.lastIndexOf(_content_footer));
-            var _content = _content.slice(_content.lastIndexOf(_content_hearder) + _content_hearder.length, _content.lastIndexOf(_content_footer));
+            var _content = _content.slice(_content.lastIndexOf(_content_hearder) + _content_hearder.length + _content_footer.length, _content.lastIndexOf(_content_footer));
             console.log("---------------------------------");
             console.log(_content);
             console.log("---------------------------------");
