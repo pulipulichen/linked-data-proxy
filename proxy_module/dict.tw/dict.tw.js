@@ -48,8 +48,10 @@ var _options = {
     process: function (_content) {
         try {
            // var _d = $(_content).find(".db_info").find(".def");
-            var _d = $(_content).find(".db_info");
-            _d = _d[0].html;
+            console.log(_content);
+            
+            //var _d = $(_content).;
+            //_d = _d.html;
             
             var _header = '<br> &nbsp;'
             var _footer = '<br>'
@@ -60,7 +62,7 @@ var _options = {
             
             //var _d = $(_content).find(".db_info").find(".def");
     
-            _content =_syllable + "def:"+ _d;
+            _content =_syllable + "def:";
         }
          catch (e) {
              console.log(e)
