@@ -57,14 +57,15 @@ var _options = {
             //_content = _content.split('<br />')[0]
             
             var _content_hearder = '<br /> &nbsp;'; 
-            var _content_footer =  _content.indexOf("<br />",  _content.indexOf("<br />")+1 );//'<hr>';
+            var _firstBr = _content.indexOf("<br />")+1;
+            var _content_footer =  _content.indexOf("<br />", _firstBr);//'<hr>';
           
             //var _content = _content.slice(_content.lastIndexOf(_content_hearder) + _content_hearder.length, _content.lastIndexOf(_content_footer));
             var _content = _content.slice(_content.indexOf(_content_hearder) + _content_hearder.length, _content.indexOf(_content_footer));
             console.log("---------------------------------");
             console.log(_content);
    
-            _content =_syllable + "def:" + _content;
+            _content =_syllable + " def:" + _content;
         }
          catch (e) {
              console.log(e)
