@@ -50,14 +50,17 @@ var _options = {
         
         var _s = $(_content).find(".syllable:first");
         var _syllable =_s[0].text;
+        
         var _d = $(_content).find(".db_info").next(".def");
+        var _def = _d[0].find(".syllable").text;
         
         var _removePhone = $(_d[0]).find("a").remove();
         var _removeSyllable = $(_removePhone).find("span").remove();
         var _removeBr = $(_removeSyllable).find("br").remove();
         var _t = _removeBr.text;
-        //var _def = _d[0].text();
-        _content =_syllable + "  def:"+ _d + " phone:" + _t;
+        
+        
+        _content =_syllable + "  def:"+ _def + " phone:" + _t;
         return _content;
     },
         
