@@ -60,7 +60,7 @@ var _options = {
             console.log("---------------------------------");
             console.log(_content);
             
-            var _d = $(_content).find(".syllable");
+            var _d = $(_content).find(".phone");
             console.log("---------------------------------");
             console.log(_d);
             console.log(_d.length);
