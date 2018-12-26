@@ -55,13 +55,12 @@ var _options = {
             //var _second = _content.lastIndexOf("<hr>", _content.lastIndexOf("<hr>"));
             var _content_hearder = '</form>';
             var _content_footer = '<hr>';
-            
-            //var _content = _content.slice(_content_hearder + _content_footer.length, _content.lastIndexOf(_content_footer));
+          
             var _content = _content.slice(_content.lastIndexOf(_content_hearder) + _content_hearder.length, _content.lastIndexOf(_content_footer));
             console.log("---------------------------------");
             console.log(_content);
             
-            var _d = $(_content).find(".def");
+            var _d = _content.find(".def");
             console.log("---------------------------------");
             console.log(_d);
             console.log(_d.length);
