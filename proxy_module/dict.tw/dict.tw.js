@@ -48,11 +48,12 @@ var _options = {
     process: function (_content) {
         try {
            // var _d = $(_content).find(".db_info").find(".def");
-            var _second = _content.IndexOf("<hr>");
-            var _content_hearder = _content.IndexOf("<hr>", _second);
+            //var _second = _content.IndexOf("<hr>");
+            //var _content_hearder = _content.IndexOf("<hr>", _second);
             var _content_footer = '<hr>';
             
-            var _content = _content.slice(_content_hearder + _content_footer.length, _content.lastIndexOf(_content_footer));
+            //var _content = _content.slice(_content_hearder + _content_footer.length, _content.lastIndexOf(_content_footer));
+            var _content = _content.slice(10, 157);
             console.log("---------------------------------");
             console.log(_content);
             console.log("---------------------------------");
