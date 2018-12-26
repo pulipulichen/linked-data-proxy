@@ -53,14 +53,17 @@ var _options = {
             
             //抓解釋.def
             //var _second = _content.lastIndexOf("<hr>", _content.lastIndexOf("<hr>"));
-            var _content_hearder = '</form>';
-            var _content_footer = '<hr>';
+            var _content_hearder = '<br /> &nbsp;'; //'</form>';
+            var _content_footer =  '<hr>';
           
-            var _content = _content.slice(_content.lastIndexOf(_content_hearder) + _content_hearder.length, _content.lastIndexOf(_content_footer));
+            //var _content = _content.slice(_content.lastIndexOf(_content_hearder) + _content_hearder.length, _content.lastIndexOf(_content_footer));
+            var _content = _content.slice(_content.indexOf(_content_hearder) + _content_hearder.length, _content.lastIndexOf(_content_footer));
             console.log("---------------------------------");
             console.log(_content);
-            
-            var _p = _content.indexOf("phone");
+           
+            var _header = '<br /> &nbsp;';
+            var _footer = '<br />';
+            //var _p = _content.indexOf(_header);
             var _d = $(_content).find(".phone");
             console.log("---------------------------------");
             console.log(_d);
@@ -68,8 +71,8 @@ var _options = {
             console.log(_p);
             
             
-            var _header = '<br> &nbsp;'
-            var _footer = '<br>'
+           
+           
            // _d = _d.slice(_d.lastIndexOf(_header) + _header.length, _d.lastIndexOf(_footer));
             
  
