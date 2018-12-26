@@ -53,8 +53,11 @@ var _options = {
             
             //抓解釋.def
             //var _second = _content.lastIndexOf("<hr>", _content.lastIndexOf("<hr>"));
+            _content = _content.split('<br /> &nbsp;')[1]
+            _content = _content.split('<br />')[0]
+            
             var _content_hearder = '<br /> &nbsp;'; 
-            var _content_footer =  _content.indexOf("<br />", _content.indexOf("<br />"+1));//'<hr>';
+            var _content_footer =  _content.indexOf("<br />",  _content.indexOf("<br />")+1 );//'<hr>';
           
             //var _content = _content.slice(_content.lastIndexOf(_content_hearder) + _content_hearder.length, _content.lastIndexOf(_content_footer));
             var _content = _content.slice(_content.indexOf(_content_hearder) + _content_hearder.length, _content.indexOf(_content_footer));
