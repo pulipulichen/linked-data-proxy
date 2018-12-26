@@ -43,23 +43,28 @@ var _options = {
     //text_selector: ".syllable:first-of-type",
     
     /**
-     * 從字串前後抽取
-     */
-    extract_string: ["<br>", "<br>"],
-    
-    // ------------------------
-      
-    
-    
-    /**
      * 指定處理元素的方法
      */
     process: function (_content) {
-       // var _d = $(_content).find(".db_info").find(".def");
-        
-        var _s = $(_content).find(".syllable:first");
-        var _syllable =_s[0].text;      
-        _content =_syllable;
+        try {
+           // var _d = $(_content).find(".db_info").find(".def");
+            var _d = $(_content).find(".def");
+            _d = _d[2].html;
+            
+            var _header = '<br> &nbsp;'
+            var _footer = '<br>'
+            _d = _d.slice(_d.lastIndexOf(_header) + _header.length, _d.lastIndexOf(_footer));
+            
+            var _s = $(_content).find(".syllable");
+            var _syllable =_s[0].text;   
+            
+            //var _d = $(_content).find(".db_info").find(".def");
+    
+            _content =_syllable + "def:"+ _d;
+        }
+         catch (e) {
+             console.log(e)
+         }
         return _content;
     },
         
