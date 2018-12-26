@@ -34,7 +34,7 @@ var _options = {
     /**
      * 取出指定元素的HTML程式碼
      */
-    //html_selector: ".syllable:first-of-type",
+    html_selector: ".db_info .def:first-of-type",
     
     /**
      * 取出指定元素的純文字
@@ -45,7 +45,7 @@ var _options = {
     /**
      * 指定處理元素的方法
      */
-    process: function (_content) {
+    /*process: function (_content) {
        // var _d = $(_content).find(".db_info").find(".def");
         
         var _s = $(_content).find(".syllable:first");
@@ -62,7 +62,7 @@ var _options = {
         
         _content =_syllable + "  def:"+ _def + " phone:" + _t;
         return _content;
-    },
+    },*/
         
     // ------------------------
     
