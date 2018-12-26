@@ -55,7 +55,7 @@ var _options = {
             
             var _header = '<br> &nbsp;'
             var _footer = '<br>'
-            _d = _d.slice(_d.lastIndexOf(_header) + _header.length, _d.lastIndexOf(_footer));
+           // _d = _d.slice(_d.lastIndexOf(_header) + _header.length, _d.lastIndexOf(_footer));
             
             var _s = $(_content).find(".syllable");
             var _syllable =_s[0].text;   
