@@ -49,7 +49,9 @@ var _options = {
         try {
            // var _d = $(_content).find(".db_info").find(".def");
             //var _second = _content.IndexOf("<hr>");
-            //var _content_hearder = _content.IndexOf("<hr>", _second);
+            var _content_hearder = $(_content).IndexOf("<hr>");
+            console.log("----------content_hearder------------------");
+            console.log(_content_hearder);
             var _content_footer = '<hr>';
             
             //var _content = _content.slice(_content_hearder + _content_footer.length, _content.lastIndexOf(_content_footer));
@@ -58,10 +60,10 @@ var _options = {
             console.log(_content);
             console.log("---------------------------------");
             
-            //var _d = $(_content).find(".def");
-            //console.log(_d);
+            var _d = $(_content).find(".db_info");
+            console.log(_d);
             
-            //console.log(_d.length);
+            console.log(_d.length);
             
             
             var _header = '<br> &nbsp;'
