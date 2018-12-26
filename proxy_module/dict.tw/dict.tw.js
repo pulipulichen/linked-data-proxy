@@ -34,7 +34,7 @@ var _options = {
     /**
      * 取出指定元素的HTML程式碼
      */
-    html_selector: ".db_info .def:first-of-type",
+    //html_selector: ".db_info .def",
     
     /**
      * 取出指定元素的純文字
@@ -45,24 +45,15 @@ var _options = {
     /**
      * 指定處理元素的方法
      */
-    /*process: function (_content) {
+    process: function (_content) {
        // var _d = $(_content).find(".db_info").find(".def");
         
         var _s = $(_content).find(".syllable:first");
         var _syllable =_s[0].text;
         
-        var _d = $(_content).find(".db_info").next(".def").find(".syllable");
-        var _def = _d[0].value;
-        
-        var _removePhone = $(_d[0]).find("a").remove();
-        var _removeSyllable = $(_removePhone).find("span").remove();
-        var _removeBr = $(_removeSyllable).find("br").remove();
-        var _t = _removeBr.text;
-        
-        
-        _content =_syllable + "  def:"+ _def + " phone:" + _t;
+        _content =_syllable;
         return _content;
-    },*/
+    },
         
     // ------------------------
     
