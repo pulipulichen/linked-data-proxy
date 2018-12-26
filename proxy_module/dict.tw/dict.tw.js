@@ -62,7 +62,7 @@ var _options = {
             
             var _d = $(_content).find(".phone");
             console.log("---------------------------------");
-            console.log(_d);
+            console.log(_d[1].text);
             console.log(_d.length);
             
             
