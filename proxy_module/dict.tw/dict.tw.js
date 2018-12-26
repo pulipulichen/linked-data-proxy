@@ -56,12 +56,11 @@ var _options = {
             var _content = _content.slice(_content.lastIndexOf(_content_hearder) + _content_hearder.length, _content.lastIndexOf(_content_footer));
             console.log("---------------------------------");
             console.log(_content);
+            
+            var _d = $(_content).find(".def");
             console.log("---------------------------------");
-            
-            /*var _d = $(_content).find(".db_info");
             console.log(_d);
-            
-            console.log(_d.length);*/
+            console.log(_d.length);
             
             
             var _header = '<br> &nbsp;'
