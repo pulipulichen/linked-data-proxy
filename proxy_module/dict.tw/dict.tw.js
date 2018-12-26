@@ -50,8 +50,9 @@ var _options = {
            // var _d = $(_content).find(".db_info").find(".def");
             console.log(_content);
             
-            //var _d = $(_content).;
-            //_d = _d.html;
+            var _d = $(_content).find(".def");
+            console.log(_d);
+            
             
             var _header = '<br> &nbsp;'
             var _footer = '<br>'
