@@ -49,7 +49,7 @@ var _options = {
         try {
            // var _d = $(_content).find(".db_info").find(".def");
             var _d = $(_content).find(".def");
-            _d = _d[2].html;
+            _d = _d[1].html;
             
             var _header = '<br> &nbsp;'
             var _footer = '<br>'
