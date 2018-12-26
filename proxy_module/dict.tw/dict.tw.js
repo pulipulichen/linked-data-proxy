@@ -64,7 +64,7 @@ var _options = {
         _def.find(".db_info:first").next(".def > span").remove();
         _def.find(".db_info:first").next(".def > a").remove();
         _def.find(".db_info:first").next(".def > br").remove();
-        var _defHtml =  get_outer_html(_def);
+        var _defHtml = _def.text();
         
         _content =_syllable + " extract_string:" + _defHtml;
         return _content;
