@@ -43,6 +43,15 @@ var _options = {
     //text_selector: ".syllable:first-of-type",
     
     /**
+     * 從字串前後抽取
+     */
+    extract_string: ["<br>", "<br>"],
+    
+    // ------------------------
+      
+    
+    
+    /**
      * 指定處理元素的方法
      */
     process: function (_content) {
@@ -51,7 +60,7 @@ var _options = {
         var _s = $(_content).find(".syllable:first");
         var _syllable =_s[0].text;
         
-        _content =_syllable;
+        _content =_syllable + "extract_string";
         return _content;
     },
         
