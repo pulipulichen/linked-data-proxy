@@ -49,13 +49,13 @@ var _options = {
         try {
            // var _d = $(_content).find(".db_info").find(".def");
             //var _second = _content.IndexOf("<hr>");
-            var _content_hearder = _content.IndexOf("<hr>");
+            var _content_hearder = '</form>';
             console.log("----------content_hearder------------------");
             console.log(_content_hearder);
             var _content_footer = '<hr>';
             
             //var _content = _content.slice(_content_hearder + _content_footer.length, _content.lastIndexOf(_content_footer));
-            var _content = _content.slice(200, _content.lastIndexOf(_content_footer));
+            var _content = _content.slice(_content.lastIndexOf(_content_hearder), _content.lastIndexOf(_content_footer));
             console.log("---------------------------------");
             console.log(_content);
             console.log("---------------------------------");
