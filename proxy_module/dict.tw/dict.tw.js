@@ -48,17 +48,19 @@ var _options = {
     process: function (_content) {
         try {
            // var _d = $(_content).find(".db_info").find(".def");
-            var _content_hearder = '</form>';
-            var _content_footer = '<div id="foot">';
+            var _second = _content.IndexOf("<hr>");
+            var _content_hearder = _content.IndexOf("<hr>", _second);
+            var _content_footer = '<hr>';
             
-            var _content = _content.slice(_content.lastIndexOf(_content_hearder) + _content_hearder.length, _content_footer.lastIndexOf(_footer));
-   
+            var _content = _content.slice(_content_hearder + _content_footer.length, _content.lastIndexOf(_content_footer));
+            console.log("---------------------------------");
+            console.log(_content);
             console.log("---------------------------------");
             
-            var _d = $(_content).find(".def");
-            console.log(_d);
+            //var _d = $(_content).find(".def");
+            //console.log(_d);
             
-            console.log(_d.length);
+            //console.log(_d.length);
             
             
             var _header = '<br> &nbsp;'
